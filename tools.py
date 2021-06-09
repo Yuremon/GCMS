@@ -1,6 +1,8 @@
 from typing import Tuple
+from numpy.core.arrayprint import TimedeltaFormat
 import pandas as pd
 import numpy as np
+from pandas.core.indexes.timedeltas import timedelta_range
 from scipy.signal import butter, lfilter
 from sklearn.metrics import mean_squared_error
 
@@ -11,7 +13,7 @@ NOISE_FREQ = None #0.09
 BIAS_FREQ = 0.007
 THRESHOLD = 1.7
 SPIKES = [21.5,25.6, 30.2]
-SPIKES_EXPECTED_TIME = [10, 24, 38]
+SPIKES_EXPECTED_TIME = [10, 24, 26]
 
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
@@ -25,6 +27,8 @@ def readCSV(path : str)->pd.DataFrame:
 
 def adaptCurve(df : pd.DataFrame)->pd.DataFrame:
     """Passage en log, normalisation, conversion de l'indice en temps, et resample."""
+    # alignement des pics
+    df = alignSpikes(df)
     # réduction de l'intervalle
     df = df.drop(df[df.index > INTERVAL[1]].index)
     df = df.drop(df[df.index < INTERVAL[0]].index)
@@ -33,8 +37,7 @@ def adaptCurve(df : pd.DataFrame)->pd.DataFrame:
     # normalisation
     df = (df - df.mean())/df.std()
     # re-echantillonnage
-    df['time'] = pd.to_timedelta(df.index, 'min')  # conversion de la durée en timedelta pour pouvoir faire un resample
-    df.set_index('time', inplace=True) # met le temps en indice du DataFrame
+    df.index = pd.to_timedelta(df.index, 'min')  # conversion de la durée en timedelta pour pouvoir faire un resample
     df = df.resample(rule=RESAMPLE_MS).max().interpolate(method='polynomial', order=3) # on change l'échantillonage pour qu'il soit constant.
     df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
     return df
@@ -75,3 +78,40 @@ def compareCurves(oldDf : pd.DataFrame, newDf : pd.DataFrame) -> float:
     """Retourne la valeur de l'erreur quadratique moyenne entre oldDf et newDf"""
     value = mean_squared_error(oldDf, newDf)
     return value
+
+def alignSpikes(df : pd.DataFrame) -> pd.DataFrame:
+    """Aligne les pics détectés sur les références attention df sera modifié"""
+    time = df.index.copy().to_numpy() # pour ne pas modifier df
+    # recherche des indices des pics
+    firstSpikeIndex = getTimeIndex(time, SPIKES[0])
+    if SPIKES[1] is not None:
+        secondSpikeIndex = getTimeIndex(time, SPIKES[1])
+    thirdSpikeIndex = getTimeIndex(time, SPIKES[2])
+    # Alignement du premier pic
+    shiftValues(time[:firstSpikeIndex], time[0], SPIKES_EXPECTED_TIME[0])
+    # si présent alignement du second si présent et du troisième
+    if SPIKES[1] is not None:
+        shiftValues(time[firstSpikeIndex:secondSpikeIndex], SPIKES_EXPECTED_TIME[0], SPIKES_EXPECTED_TIME[1])
+        shiftValues(time[secondSpikeIndex:thirdSpikeIndex], SPIKES_EXPECTED_TIME[1], SPIKES_EXPECTED_TIME[2])
+    else :
+        shiftValues(time[firstSpikeIndex:thirdSpikeIndex], SPIKES_EXPECTED_TIME[0], SPIKES_EXPECTED_TIME[2])
+    # alignement du troisième pic à la fin
+    shiftValues(time[thirdSpikeIndex:], SPIKES_EXPECTED_TIME[2], time[-1])
+    df.index = time
+    return df
+
+def shiftValues(t : np.ndarray, start : int, end : int) -> None:
+    """Décale les valeurs pour que t ai des valeurs de temps entre start et end"""
+    #print('start : ', start, '  end : ', end)
+    oldStart = t[0]
+    oldEnd = t[-1]
+    #print('old start : ', oldStart, '  old end : ', oldEnd)
+    t -= (t[0] - start)
+    for i in range(len(t)):
+        t[i] = start + (end-start) * (t[i] - start)/(oldEnd-oldStart)
+
+
+def getTimeIndex(t : np.ndarray, timeValue) -> float:
+    """Donne l'indice de la première valeur dans t qui est supérieur ou égale à time"""
+    return np.argmax(t>=timeValue)
+

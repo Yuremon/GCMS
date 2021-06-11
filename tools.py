@@ -1,10 +1,10 @@
-from typing import Tuple
-from numpy.core.arrayprint import TimedeltaFormat
 import pandas as pd
 import numpy as np
-from pandas.core.indexes.timedeltas import timedelta_range
-from scipy.signal import butter, lfilter
+from scipy.signal import butter, filtfilt
 from sklearn.metrics import mean_squared_error
+from os import listdir
+from os.path import join
+from typing import Tuple
 
 PERIOD = 3000 
 RESAMPLE_MS = str(PERIOD) +'ms'
@@ -12,8 +12,8 @@ INTERVAL = [6.01,45.01]
 NOISE_FREQ = None #0.09
 BIAS_FREQ = 0.007
 THRESHOLD = 1.7
-SPIKES = [21.5,25.6, 30.2]
-SPIKES_EXPECTED_TIME = [10, 24, 26]
+SPIKES = [22, 25, 38]
+SPIKES_EXPECTED_TIME = [22, 25, 38]
 
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
@@ -50,20 +50,27 @@ def butter_lowpass(cutoff : float, fs : float, order=5)-> Tuple[np.ndarray, np.n
 def butter_lowpass_filter(data : pd.DataFrame, cutoff : float, fs : float, order=5) -> pd.DataFrame:
     """Application du filtre."""
     b, a = butter_lowpass(cutoff, fs, order=order)
-    y = lfilter(b, a, data)
+    y = filtfilt(b, a, data) # n'introduit de déphasage
     return y
 
 def substractBias(df : pd.DataFrame)->pd.DataFrame:
     """Filtrage et suppression du bias."""
-    bias = df['values'].rolling(10).min()
-    bias = bias.fillna(method='ffill')
+    LENGHT_ADDED = 45
+    bias = df['values'].rolling(15).min()
+    bias = pd.concat([pd.DataFrame([np.NaN] * LENGHT_ADDED), bias]) # pour compenser le padding du filtre à 0 et éliminer l'effet de bord
+    bias = pd.concat([bias, pd.DataFrame([np.NaN] * LENGHT_ADDED)])
+    bias = bias.fillna(method='ffill') # on retire les Nan en forward et backward (pour être sûr qu'il n'y en ai plus)
     bias = bias.fillna(method='bfill')
+    # filtrage
+    bias = bias.squeeze()
     bias = butter_lowpass_filter(bias, BIAS_FREQ, 1/PERIOD*1000)
+    bias = bias[LENGHT_ADDED : -LENGHT_ADDED]
     if (NOISE_FREQ is None):
         df['values'] -= bias
     else :
-        df = butter_lowpass_filter(df, NOISE_FREQ, 1/PERIOD*1000) # attention on perd la hauteur relative entre les pics parfois
+        df = butter_lowpass_filter(df['values'], NOISE_FREQ, 1/PERIOD*1000) # attention on perd la hauteur relative entre les pics parfois
         df -= bias
+    # seuillage
     df.loc[df["values"] < THRESHOLD, 'values'] = 0
     return df
 
@@ -115,3 +122,9 @@ def getTimeIndex(t : np.ndarray, timeValue) -> float:
     """Donne l'indice de la première valeur dans t qui est supérieur ou égale à time"""
     return np.argmax(t>=timeValue)
 
+def readAllData(path : str) -> list[pd.DataFrame]:
+    files = [f for f in listdir(path) if f.endswith(".csv") or f.endswith(".CSV")]
+    dataList = []
+    for file in files:
+        dataList.append(readAndAdaptDataFromCSV(join(path, file)))
+    return dataList

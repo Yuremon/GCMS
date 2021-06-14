@@ -6,12 +6,12 @@ from os import listdir
 from os.path import join
 from typing import Tuple
 
-PERIOD = 3000 
-RESAMPLE_MS = str(PERIOD) +'ms'
+PERIOD = [2, 6, 20] 
+RESAMPLE_MS = [str(p) +'s' for p in PERIOD]
 INTERVAL = [6.01,45.01]
 NOISE_FREQ = None #0.09
-BIAS_FREQ = 0.007
-THRESHOLD = 1.7
+BIAS_FREQ = 0.002
+THRESHOLD = 1.5
 SPIKES = [22, 25, 38]
 SPIKES_EXPECTED_TIME = [22, 25, 38]
 
@@ -29,18 +29,36 @@ def adaptCurve(df : pd.DataFrame)->pd.DataFrame:
     """Passage en log, normalisation, conversion de l'indice en temps, et resample."""
     # alignement des pics
     df = alignSpikes(df)
-    # réduction de l'intervalle
-    df = df.drop(df[df.index > INTERVAL[1]].index)
-    df = df.drop(df[df.index < INTERVAL[0]].index)
     # passage en log
     df = np.log(df)
     # normalisation
     df = (df - df.mean())/df.std()
     # re-echantillonnage
-    df.index = pd.to_timedelta(df.index, 'min')  # conversion de la durée en timedelta pour pouvoir faire un resample
-    df = df.resample(rule=RESAMPLE_MS).max().interpolate(method='polynomial', order=3) # on change l'échantillonage pour qu'il soit constant.
     df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
+    df = resampleByPart(df)    
     return df
+
+def resampleByPart(df : pd.DataFrame) -> pd.DataFrame:
+    """Fait un échantillonnage avec une période différente pour chaque partie de la courbe"""
+    times = [INTERVAL[0], 9, 10, 25, 27, 29, 30, 32, 38, INTERVAL[1]]
+    # sélection des intervalles
+    parts = [df[(df.index > times[i-1]) & (df.index <= times[i])] for i in range(1, len(times))] 
+     # conversion de la durée en timedelta pour pouvoir faire un resample
+    for p in range(len(parts)): 
+        parts[p].index = pd.to_timedelta(parts[p].index, 'min') 
+
+    for i in range(len(parts)):
+        # zones à fréquence d'échantilonnage élevée
+        if i in [1,3,5] : 
+            parts[i] = parts[i].resample(rule=RESAMPLE_MS[0]).max().interpolate(method='polynomial', order=3)
+        # zones à fréquence d'échantilonnage moyenne
+        if i in [0,2,4,6,8] : 
+            parts[i] = parts[i].resample(rule=RESAMPLE_MS[1]).max().interpolate(method='polynomial', order=3)
+        # zone à fréquence d'échantilonnage faible
+        if i == 7:
+            parts[i] = parts[i].resample(rule=RESAMPLE_MS[2]).max().interpolate(method='polynomial', order=3)
+    
+    return pd.concat(parts)
 
 def butter_lowpass(cutoff : float, fs : float, order=5)-> Tuple[np.ndarray, np.ndarray]:
     """Création du filtre."""
@@ -63,12 +81,13 @@ def substractBias(df : pd.DataFrame)->pd.DataFrame:
     bias = bias.fillna(method='bfill')
     # filtrage
     bias = bias.squeeze()
-    bias = butter_lowpass_filter(bias, BIAS_FREQ, 1/PERIOD*1000)
+    bias = butter_lowpass_filter(bias, BIAS_FREQ, 1/PERIOD[1])
     bias = bias[LENGHT_ADDED : -LENGHT_ADDED]
+    #df['bias'] = bias
     if (NOISE_FREQ is None):
         df['values'] -= bias
     else :
-        df = butter_lowpass_filter(df['values'], NOISE_FREQ, 1/PERIOD*1000) # attention on perd la hauteur relative entre les pics parfois
+        df = butter_lowpass_filter(df['values'], NOISE_FREQ, 1/PERIOD[1]) # attention on perd la hauteur relative entre les pics parfois
         df -= bias
     # seuillage
     df.loc[df["values"] < THRESHOLD, 'values'] = 0

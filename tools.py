@@ -14,6 +14,9 @@ BIAS_FREQ = 0.002
 THRESHOLD = 1.5
 SPIKES = [22, 25, 38]
 SPIKES_EXPECTED_TIME = [22, 25, 38]
+PADDING = 45 # attention la valeur doit être supérieur à 1
+TIMES = [INTERVAL[0], 9, 10, 25, 27, 29, 30, 32, 38, INTERVAL[1]] # dermines les zones sur les quelles il faut être plus ou moins précis
+SECTORS = [[1,3,5], [0,2,4,6,8], [7]] # indice des zones à échantillonage [[élevé], [moyen], [faible]]
 
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
@@ -27,35 +30,37 @@ def readCSV(path : str)->pd.DataFrame:
 
 def adaptCurve(df : pd.DataFrame)->pd.DataFrame:
     """Passage en log, normalisation, conversion de l'indice en temps, et resample."""
+    df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
+    df = df.drop(df[df.index >= INTERVAL[1]].index)
+    df = df.drop(df[df.index <= INTERVAL[0]].index)
     # alignement des pics
     df = alignSpikes(df)
     # passage en log
+    df[df['values'] == 0] = 0.01  # pour ne pas avoir de - inf
     df = np.log(df)
     # normalisation
     df = (df - df.mean())/df.std()
-    # re-echantillonnage
-    df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
-    df = resampleByPart(df)    
+    # re-echantillonnage    
+    df = resampleByPart(df)
     return df
 
 def resampleByPart(df : pd.DataFrame) -> pd.DataFrame:
     """Fait un échantillonnage avec une période différente pour chaque partie de la courbe"""
-    times = [INTERVAL[0], 9, 10, 25, 27, 29, 30, 32, 38, INTERVAL[1]]
     # sélection des intervalles
-    parts = [df[(df.index > times[i-1]) & (df.index <= times[i])] for i in range(1, len(times))] 
+    parts = [df[(df.index > TIMES[i-1]) & (df.index <= TIMES[i])] for i in range(1, len(TIMES))] 
      # conversion de la durée en timedelta pour pouvoir faire un resample
     for p in range(len(parts)): 
         parts[p].index = pd.to_timedelta(parts[p].index, 'min') 
 
     for i in range(len(parts)):
         # zones à fréquence d'échantilonnage élevée
-        if i in [1,3,5] : 
+        if i in SECTORS[0] : 
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[0]).max().interpolate(method='polynomial', order=3)
         # zones à fréquence d'échantilonnage moyenne
-        if i in [0,2,4,6,8] : 
+        if i in SECTORS[1] : 
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[1]).max().interpolate(method='polynomial', order=3)
         # zone à fréquence d'échantilonnage faible
-        if i == 7:
+        if i in SECTORS[2] :
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[2]).max().interpolate(method='polynomial', order=3)
     
     return pd.concat(parts)
@@ -73,17 +78,10 @@ def butter_lowpass_filter(data : pd.DataFrame, cutoff : float, fs : float, order
 
 def substractBias(df : pd.DataFrame)->pd.DataFrame:
     """Filtrage et suppression du bias."""
-    LENGHT_ADDED = 45
-    bias = df['values'].rolling(15).min()
-    bias = pd.concat([pd.DataFrame([np.NaN] * LENGHT_ADDED), bias]) # pour compenser le padding du filtre à 0 et éliminer l'effet de bord
-    bias = pd.concat([bias, pd.DataFrame([np.NaN] * LENGHT_ADDED)])
-    bias = bias.fillna(method='ffill') # on retire les Nan en forward et backward (pour être sûr qu'il n'y en ai plus)
-    bias = bias.fillna(method='bfill')
+    bias = df.rolling(15).min()
     # filtrage
-    bias = bias.squeeze()
-    bias = butter_lowpass_filter(bias, BIAS_FREQ, 1/PERIOD[1])
-    bias = bias[LENGHT_ADDED : -LENGHT_ADDED]
-    #df['bias'] = bias
+    bias = computeBiasByPart(bias)
+    df['bias'] = bias
     if (NOISE_FREQ is None):
         df['values'] -= bias
     else :
@@ -92,6 +90,37 @@ def substractBias(df : pd.DataFrame)->pd.DataFrame:
     # seuillage
     df.loc[df["values"] < THRESHOLD, 'values'] = 0
     return df
+
+def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
+    """calcul du bias pour chaque intervalle"""
+    padding = pd.DataFrame([np.NaN] * PADDING)
+    padding.index = pd.timedelta_range('1s', '5s', periods=PADDING)
+    temp = pd.concat([padding, values]) # pour compenser le padding du filtre butter à 0 et éliminer l'effet de bord
+    temp = pd.concat([temp, padding])
+    temp = temp.fillna(method='ffill') # on retire les Nan en forward et backward (pour être sûr qu'il n'y en ai plus)
+    temp = temp.fillna(method='bfill')
+    temp.index = temp.index.total_seconds()/60
+    indexes = [getTimeIndex(temp.index, i) for i in TIMES]
+    indexes[-1] = len(temp) - PADDING # on corrige la position du dernier point au cas où il n'est pas exactement à 45.01
+
+    # sélection des intervalles avec une marge de LENGTH_ADDED de chaque coté de l'intervalle pour éviter les problèmes de continuité
+    bias = temp['values'].to_numpy()
+    parts = [bias[indexes[i-1] - PADDING : indexes[i] + PADDING] for i in range(1, len(indexes))] 
+    result = [[]] * len(parts)
+    for i in range(len(parts)):  
+        #print('Taille de la partie ', i, ' : ', len(parts[i]) - 2 * PADDING)      
+        #print('partie : ', i, parts[i])
+        # zones à fréquence d'échantilonnage élevée
+        if i in SECTORS[0] : 
+            result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[0])[PADDING:-PADDING]
+        # zones à fréquence d'échantilonnage moyenne
+        if i in SECTORS[1] : 
+            result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[1])[PADDING:-PADDING]
+        # zone à fréquence d'échantilonnage faible
+        if i in SECTORS[2] :
+            result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[2])[PADDING:-PADDING]
+    
+    return np.concatenate(result)
 
 def readAndAdaptDataFromCSV(path : str) -> pd.DataFrame:
     """Lit le fichier et retourne le DataFrame après traitement."""

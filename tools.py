@@ -81,7 +81,7 @@ def substractBias(df : pd.DataFrame)->pd.DataFrame:
     bias = df.rolling(15).min()
     # filtrage
     bias = computeBiasByPart(bias)
-    df['bias'] = bias
+    #df['bias'] = bias
     if (NOISE_FREQ is None):
         df['values'] -= bias
     else :
@@ -175,4 +175,11 @@ def readAllData(path : str) -> list[pd.DataFrame]:
     dataList = []
     for file in files:
         dataList.append(readAndAdaptDataFromCSV(join(path, file)))
+    return dataList
+
+def readListOfData(db : np.ndarray, path : str):
+    files = [join(path, file + '.CSV') for file in db]
+    dataList = []
+    for file in files:
+        dataList.append(readAndAdaptDataFromCSV(file))
     return dataList

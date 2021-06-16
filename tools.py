@@ -6,17 +6,20 @@ from os import listdir
 from os.path import join
 from typing import Tuple
 
-PERIOD = [2, 6, 20] 
+PERIOD = [1, 2, 6, 20] 
 RESAMPLE_MS = [str(p) +'s' for p in PERIOD]
 INTERVAL = [6.01,45.01]
 NOISE_FREQ = None #0.09
 BIAS_FREQ = 0.002
 THRESHOLD = 1.5
-SPIKES = [22, 25, 38]
-SPIKES_EXPECTED_TIME = [22, 25, 38]
+SPIKES = [21.5, 22.5, 38]
+SPIKES_EXPECTED_TIME = [21.5, 22.5, 38]
 PADDING = 45 # attention la valeur doit être supérieur à 1
-TIMES = [INTERVAL[0], 9, 10, 25, 27, 29, 30, 32, 38, INTERVAL[1]] # dermines les zones sur les quelles il faut être plus ou moins précis
-SECTORS = [[1,3,5], [0,2,4,6,8], [7]] # indice des zones à échantillonage [[élevé], [moyen], [faible]]
+TIMES = [INTERVAL[0], 8, 10, 21.5, 22, 24.3, 26.5, 27.8, 30.5, 31.5, 32, 38, INTERVAL[1]] # dermines les zones sur les quelles il faut être plus ou moins précis
+SECTORS = [[3, 8], [1,5,7], [0,2,4,9, 11], [10, 6]] # indice des zones à échantillonage [[élevé], [moyen], [faible]]
+
+# 21.5 et 22 essayer de faire plus precis (1s) entre 30.5 et 31.5
+# faire en sorte de normaliser pour la taille du pic 1 soit tjr la meme
 
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
@@ -40,6 +43,10 @@ def adaptCurve(df : pd.DataFrame)->pd.DataFrame:
     df = np.log(df)
     # normalisation
     df = (df - df.mean())/df.std()
+    # Etalonner sur le premier pic ( taille de 10 celui-ci)
+    timeSpike1 = getTimeIndex(df.index, SPIKES_EXPECTED_TIME[0])
+    print(df.iloc[timeSpike1])
+    df = df / df.iloc[timeSpike1] * 10
     # re-echantillonnage    
     df = resampleByPart(df)
     return df
@@ -53,15 +60,18 @@ def resampleByPart(df : pd.DataFrame) -> pd.DataFrame:
         parts[p].index = pd.to_timedelta(parts[p].index, 'min') 
 
     for i in range(len(parts)):
-        # zones à fréquence d'échantilonnage élevée
+        # zones à fréquence d'échantilonnage très élevée
         if i in SECTORS[0] : 
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[0]).max().interpolate(method='polynomial', order=3)
-        # zones à fréquence d'échantilonnage moyenne
+        # zones à fréquence d'échantilonnage élevée
         if i in SECTORS[1] : 
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[1]).max().interpolate(method='polynomial', order=3)
-        # zone à fréquence d'échantilonnage faible
+        # zone à fréquence d'échantilonnage moyenne
         if i in SECTORS[2] :
             parts[i] = parts[i].resample(rule=RESAMPLE_MS[2]).max().interpolate(method='polynomial', order=3)
+        # zone à fréquence d'échantilonnage faible
+        if i in SECTORS[3] :
+            parts[i] = parts[i].resample(rule=RESAMPLE_MS[3]).max().interpolate(method='polynomial', order=3)
     
     return pd.concat(parts)
 
@@ -110,15 +120,18 @@ def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
     for i in range(len(parts)):  
         #print('Taille de la partie ', i, ' : ', len(parts[i]) - 2 * PADDING)      
         #print('partie : ', i, parts[i])
-        # zones à fréquence d'échantilonnage élevée
+        # zones à fréquence d'échantilonnage très élevée
         if i in SECTORS[0] : 
             result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[0])[PADDING:-PADDING]
-        # zones à fréquence d'échantilonnage moyenne
+        # zones à fréquence d'échantilonnage élevée
         if i in SECTORS[1] : 
             result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[1])[PADDING:-PADDING]
-        # zone à fréquence d'échantilonnage faible
-        if i in SECTORS[2] :
+        # zones à fréquence d'échantilonnage moyenne
+        if i in SECTORS[2] : 
             result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[2])[PADDING:-PADDING]
+        # zone à fréquence d'échantilonnage faible
+        if i in SECTORS[3] :
+            result[i] = butter_lowpass_filter(parts[i], BIAS_FREQ, 1/PERIOD[3])[PADDING:-PADDING]
     
     return np.concatenate(result)
 
@@ -167,7 +180,7 @@ def shiftValues(t : np.ndarray, start : int, end : int) -> None:
 
 
 def getTimeIndex(t : np.ndarray, timeValue) -> float:
-    """Donne l'indice de la première valeur dans t qui est supérieur ou égale à time"""
+    """Donne l'indice de la première valeur dans t qui est supérieur ou égale à timeValue"""
     return np.argmax(t>=timeValue)
 
 def readAllData(path : str) -> list[pd.DataFrame]:

@@ -7,6 +7,21 @@ from os import listdir
 from os.path import join
 from typing import Tuple
 
+class Data:
+    def __init__(self, name, df : pd.DataFrame = None, state : bool = None):
+        self.name = name
+        self.df = df
+        self.state = state
+        self.spikes = None
+    def readCSV(self, path):
+        self.df = readCSV(join(path, self.name))
+    def detectSpikes(self):
+        pass
+    def alignSpikes(self):
+        self.df = alignSpikes(self.df, self.spikes)
+    def ruleBasedCheck(self):
+        return ruleBasedCheck(self.df)
+        
 
 #######################################
 # Constantes                          #
@@ -35,42 +50,44 @@ def readCSV(path : str)->pd.DataFrame:
     return df
 
 
-def readAndAdaptDataFromCSV(path : str, spikes : list = None) -> pd.DataFrame:
+def readAndAdaptDataFromCSV(path, name, spikes : list = None) -> Data:
     """Lit le fichier et retourne le DataFrame après traitement."""
-    df = readCSV(path)
+    dt = Data(name)
+    dt.readCSV(path)
+    df = dt.df
     # si l'on ne connait pas les positions des pics de référence
     if spikes is None:
         df = adaptCurve(df, SPIKES)
     else: 
         df = adaptCurve(df, spikes)
-    df = substractBias(df)
-    return df
+    dt.df = substractBias(df)
+    return dt
 
-def readAllData(path : str) -> list[pd.DataFrame]:
+def readAllData(path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv présent dans path"""
     files = [f for f in listdir(path) if f.endswith(".csv") or f.endswith(".CSV")]
     dataList = []
     for file in range(len(files)):
         if (file < len(SPIKES_LIST)): # tant qu'on a pas la détermination de pics automatique
-            df = readAndAdaptDataFromCSV(join(path, files[file]), SPIKES_LIST[file]) # données traitées
+            dt = readAndAdaptDataFromCSV(path, files[file], SPIKES_LIST[file]) # données traitées
         else :
-            df = readAndAdaptDataFromCSV(join(path, files[file]))
-        dataList.append(df)
+            dt = readAndAdaptDataFromCSV(path, files[file])
+        dataList.append(dt)
     return dataList
 
-def readListOfData(db : np.ndarray, path : str):
+def readListOfData(db : np.ndarray, path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
-    files = [join(path, file + '.CSV') for file in db]
+    files = [file + '.CSV' for file in db]
     dataList = []
     for file in files:
-        dataList.append(readAndAdaptDataFromCSV(file))
+        dataList.append(readAndAdaptDataFromCSV(path, file))
     return dataList
 
 #######################################
 # Traitement des données              #
 #######################################
 
-SPIKES = [22.604, 23.821, 38.661]
+SPIKES = [22.528, 23.749, 38.614]
 SPIKES_EXPECTED_TIME = [21.5, 23, 38]
 #                   0    1    2   3     4     5     6   7     8   9     10  11  12
 TIMES = [INTERVAL[0], 8.7, 9.4, 21, 21.4, 24.5, 25.5, 28, 29.6, 30, 31.5, 32, 38, INTERVAL[1]] # dermines les zones sur les quelles il faut être plus ou moins précis
@@ -267,20 +284,21 @@ def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
 # Vérification des règles prédéfinies #
 #######################################
 
-PROBLEM_TIME = [10, 13, 17.25, 19.65, 20.1, 22.16, 24.3, 24.55] # en minutes
+PROBLEM_TIME = [10, 12, 17.25, 19.65, 20.1, 22.16, 24.3, 24.55] # en minutes
 PROBLEM_NAME = ["Acide 30H-Propionique", "Acide Méthylmalonique", "Acide Fumarique", "Acide Glutarique", "Acide 3CH3-Glutarique", "Acide Adipique", "Acide 20H-Glutarique", "Acide Homovanillic"]
-AREA_SIZE = 0.3 # en minute
+AREA_SIZE = 0.05 # en minute
 PROBLEM_THRESHOLD = 2 # hauteur à partir de laquelle on considère anormale à tester
 
 def ruleBasedCheck(df : DataFrame) -> str:
     """Vérification de la présence de pics évidents permettant de détecter un problème
-    retourne la liste des prblèmes et leur pourcentage d'augmentation"""
+    retourne la liste des prblèmes et leur pourcentage d'augmentation (en tuples) ou une liste vide"""
     # citer la liste avec le pourcentage d'augmentation
+    problems = []
     for i in range(len(PROBLEM_NAME)):
         spikeHeight = np.max(df['values'].loc[PROBLEM_TIME[i] - AREA_SIZE : PROBLEM_TIME[i] + AREA_SIZE])
         if (spikeHeight > PROBLEM_THRESHOLD):
-            return PROBLEM_NAME[i]
-    return ''
+            problems.append((spikeHeight, PROBLEM_NAME[i]))
+    return problems
 
 
 #######################################

@@ -1,4 +1,8 @@
-#vscode
+# not put the data on git
+data/*
+!data/example.csv
+
+# vscode
 .vscode/
 
 # Byte-compiled / optimized / DLL files

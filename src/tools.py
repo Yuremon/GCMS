@@ -6,20 +6,29 @@ from os import listdir
 from os.path import join
 from typing import Tuple
 
+
+MOLECULES = ["13C3-Lact", "Acide 4-Phenylbutyrique", "Acide O-OH-Phenylacetiqu", "C17-Heptadecanoique", "Acide 3OH-Propionique 20", "Acide Methylmalonique 20", "Acide Fumarique 20200722", "Acide Glutarique 2020072", "Acide 3CH3-Glutarique 20", "Acide Adipique 20200722", "Acide 2OH-Glutarique 202", "Acide Homovanillique"]
+RULE_THRESHOLD = 2
 class Data:
-    def __init__(self, name, df : pd.DataFrame = None, state : bool = None):
+    def __init__(self, name, df : pd.DataFrame = None, state : bool = None, molecules : list = MOLECULES):
         self.name = name
         self.df = df
         self.state = state
         self.spikes = None
+        self.molecules = molecules
     def readCSV(self, path):
-        self.df = readCSV(join(path, self.name))
+        self.df = readCSV(join(path, self.name + CHROM_EXT))
     def detectSpikes(self, path):
-        self.spikes = path
+        self.spikes = detectSpikes(join(path, self.name + MOL_EXT), MOLECULES) # on ne passe que les molecules de référence
     def alignSpikes(self):
         self.df = alignSpikes(self.df, self.spikes)
     def ruleBasedCheck(self):
-        return ruleBasedCheck(self.df)
+        problems = []
+        for i in range(4, len(self.spikes)):
+            value = self.df["values"].iloc[getTimeIndex(self.df, self.spikes[i])]
+            if value > RULE_THRESHOLD:
+                problems.append((self.spikes[i], value * 10, MOLECULES[i])) # abscisse et valuer en % du pic par rapport à la réference et nom de la molecule
+        return problems
         
 
 #######################################
@@ -39,6 +48,9 @@ ENTRY_SIZE = 492
 # Lecture des données                 #
 #######################################
 
+CHROM_EXT = '-CHROMATOGRAM.CSV'
+MOL_EXT = '-MS.csv'
+
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
     # lecture du fichier csv
@@ -50,35 +62,28 @@ def readCSV(path : str)->pd.DataFrame:
     return df
 
 
-def readAndAdaptDataFromCSV(path, name, spikes : list = None) -> Data:
+def readAndAdaptDataFromCSV(path, name) -> Data:
     """Lit le fichier et retourne le DataFrame après traitement."""
     dt = Data(name)
     dt.readCSV(path)
     df = dt.df
-    # si l'on ne connait pas les positions des pics de référence
-    if spikes is None:
-        dt.detectSpikes(SPIKES)
-    else:
-        dt.detectSpikes(spikes)
-    df = adaptCurve(df, dt.spikes)
+    dt.detectSpikes(path)
+    df = adaptCurve(df, dt.spikes[0:4])
     dt.df = substractBias(df)
     return dt
 
 def readAllData(path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv présent dans path"""
-    files = [f for f in listdir(path) if f.endswith(".csv") or f.endswith(".CSV")]
+    files = [f for f in listdir(path) if f.endswith(CHROM_EXT)]
     dataList = []
     for file in range(len(files)):
-        if (file < len(SPIKES_LIST)): # tant qu'on a pas la détermination de pics automatique
-            dt = readAndAdaptDataFromCSV(path, files[file], SPIKES_LIST[file]) # données traitées
-        else :
-            dt = readAndAdaptDataFromCSV(path, files[file])
+        dt = readAndAdaptDataFromCSV(path, files[file][:-17]) # données traitées
         dataList.append(dt)
     return dataList
 
 def readListOfData(db : np.ndarray, path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
-    files = [file + '.CSV' for file in db]
+    files = [file + CHROM_EXT for file in db]
     dataList = []
     for file in files:
         dataList.append(readAndAdaptDataFromCSV(path, file))
@@ -94,7 +99,7 @@ def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
     y = db['normal'].to_numpy()
 
     # lecture de tous les chromatogrammes listées
-    files = [file + '.CSV' for file in db['file']]
+    files = [file + CHROM_EXT for file in db['file']]
     n = len(files)
     # X représente toutes les entrées (une entrée par ligne)
     X = np.zeros((n, ENTRY_SIZE))
@@ -108,20 +113,19 @@ def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
 # Traitement des données              #
 #######################################
 
-SPIKES = [7, 21.978, 23.204, 38.005] # [22.528, 23.749, 38.614]
 SPIKES_EXPECTED_TIME = [7, 21.5, 23, 38]
 #                   0    1    2   3     4     5     6   7     8   9     10  11  12
 TIMES = [INTERVAL[0], 8.3, 9.6, 21, 21.4, 24.5, 25.5, 28, 29.6, 30, 31.5, 32, 38, INTERVAL[1]] # dermines les zones sur les quelles il faut être plus ou moins précis
 SECTORS = [[3, 9], [1,5,7], [0,2,4, 8,10, 12], [11, 6]] # indice des zones à échantillonage [[très élévé], [élevé], [moyen], [faible]]
-# pour calibrer correctement les pics sans avoir la détection automatique
-SPIKES_LIST = [[7, 21.978, 23.204, 38.005], [7, 22.604, 23.821, 38.661], [7, 21.421, 22.645, 37.468], [7, 21.949, 23.1666, 37.985], [7, 22.046, 23.265, 38.100],
-    [7, 21.415, 22.650, 37.459], [7, 22.527, 23.747, 38.605], [7, 22.586, 23.804, 38.655], [7, 22.586, 23.804, 38.655], [7, 22.528, 23.748, 38.611],
-    [7, 21.952, 23.181, 37.988], [7, 21.953, 23.181, 37.988]]
+
 
 def detectSpikes(path : str, molecules : list) -> list[str]:
     """Retourne la liste des temps de rétention des molecules d'après le fichier undiqué dans path"""
     # mise en place du DataFrame
-    df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2])
+    try:
+        df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2])
+    except FileNotFoundError:
+        return SPIKES_EXPECTED_TIME
     index_nan = df[df[1].isnull()].index[0]
     df = df.loc[0:index_nan - 1, :]
     # detection de chaque molecules
@@ -193,7 +197,7 @@ def alignSpikes(df : pd.DataFrame, spikes : list) -> pd.DataFrame:
     thirdSpikeIndex = getTimeIndex(time, spikes[3])
     shiftValues(time[:zeroSpikeIndex], time[0], SPIKES_EXPECTED_TIME[0])
     # Alignement du premier pic
-    shiftValues(time[zeroSpikeIndex:firstSpikeIndex], time[1], SPIKES_EXPECTED_TIME[1])
+    shiftValues(time[zeroSpikeIndex:firstSpikeIndex], SPIKES_EXPECTED_TIME[0], SPIKES_EXPECTED_TIME[1])
     # si présent alignement du second si présent et du troisième
     if spikes[1] is not None:
         shiftValues(time[firstSpikeIndex:secondSpikeIndex], SPIKES_EXPECTED_TIME[1], SPIKES_EXPECTED_TIME[2])
@@ -324,33 +328,10 @@ def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
     return np.concatenate(result)
 
 #######################################
-# Vérification des règles prédéfinies #
-#######################################
-
-PROBLEM_TIME = [10.03, 12.524, 16.69, 19.65, 20.1, 22.16, 24.3, 24.55] # en minutes
-PROBLEM_NAME = ["Acide 30H-Propionique", "Acide Méthylmalonique", "Acide Fumarique", "Acide Glutarique", "Acide 3CH3-Glutarique", "Acide Adipique", "Acide 20H-Glutarique", "Acide Homovanillic"]
-#fumaruque spectre à 245
-#urée spectre 189
-AREA_SIZE = 0.05 # en minute
-PROBLEM_THRESHOLD = 2 # hauteur à partir de laquelle on considère anormale à tester
-
-def ruleBasedCheck(df : DataFrame) -> str:
-    """Vérification de la présence de pics évidents permettant de détecter un problème
-    retourne la liste des prblèmes et leur pourcentage d'augmentation (en tuples) ou une liste vide"""
-    # citer la liste avec le pourcentage d'augmentation
-    problems = []
-    for i in range(len(PROBLEM_NAME)):
-        spikeHeight = np.max(df['values'].loc[PROBLEM_TIME[i] - AREA_SIZE : PROBLEM_TIME[i] + AREA_SIZE])
-        if (spikeHeight > PROBLEM_THRESHOLD):
-            problems.append((spikeHeight, PROBLEM_NAME[i]))
-    return problems
-
-
-#######################################
 # Autres                              #
 #######################################
 
-def getTimeIndex(t : np.ndarray, timeValue) -> float:
+def getTimeIndex(t : np.ndarray, timeValue) -> int:
     """Donne l'indice de la première valeur dans t qui est supérieur ou égale à timeValue"""
     return np.argmax(t>=timeValue)
 

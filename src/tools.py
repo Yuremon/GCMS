@@ -42,7 +42,7 @@ THRESHOLD = 3.2
 PADDING = 45 # attention la valeur doit être supérieur à 1
 PERIOD = [1, 2, 6, 20] 
 RESAMPLE_MS = [str(p) +'s' for p in PERIOD]
-ENTRY_SIZE = 492
+ENTRY_SIZE = 504
 
 #######################################
 # Lecture des données                 #
@@ -76,17 +76,17 @@ def readAllData(path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv présent dans path"""
     files = [f for f in listdir(path) if f.endswith(CHROM_EXT)]
     dataList = []
-    for file in range(len(files)):
-        dt = readAndAdaptDataFromCSV(path, files[file][:-17]) # données traitées
+    for file in files:
+        dt = readAndAdaptDataFromCSV(path, file[:-17]) # données traitées
         dataList.append(dt)
     return dataList
 
-def readListOfData(db : np.ndarray, path : str) -> list[Data]:
+def readListOfData(files : np.ndarray, path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
-    files = [file + CHROM_EXT for file in db]
     dataList = []
     for file in files:
-        dataList.append(readAndAdaptDataFromCSV(path, file))
+        dt = readAndAdaptDataFromCSV(path, file)
+        dataList.append(dt)
     return dataList
 
 def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
@@ -94,19 +94,19 @@ def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
     retourne un tableau numpy contenant les données d'entrées 
     ainsi qu'un second contenant les données de sortie pour l'entrainement (normale (1) /non normale (0))"""
     # lecture du fichier représentant la base de donnée
-    db = pd.read_csv(file_path, index_col=False, names=['file', 'normal', 'label'])
+    db = pd.read_csv(file_path)
     # y représente la sortie (normale ou non)
-    y = db['normal'].to_numpy()
+    y = db['status'].to_numpy()
 
     # lecture de tous les chromatogrammes listées
-    files = [file + CHROM_EXT for file in db['file']]
+    files = [file for file in db['file']]
     n = len(files)
     # X représente toutes les entrées (une entrée par ligne)
     X = np.zeros((n, ENTRY_SIZE))
     
     for i in range(n):
         # chaque ligne correspond aux valeurs au cours du temps du chromatogramme
-        X[i, :] = readAndAdaptDataFromCSV(db_path, files[i]).df['values'].to_numpy()
+        X[i, :] = readAndAdaptDataFromCSV(db_path, files[i]).df['values'].to_numpy()[:ENTRY_SIZE]
     return X, y
 
 #######################################

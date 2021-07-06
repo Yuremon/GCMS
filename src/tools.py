@@ -6,9 +6,47 @@ from os import listdir
 from os.path import join
 from typing import Tuple
 
+verbose = False
 
-MOLECULES = ["13C3-Lact", "Acide 4-Phenylbutyrique", "Acide O-OH-Phenylacetiqu", "C17-Heptadecanoique", "Acide 3OH-Propionique 20", "Acide Methylmalonique 20", "Acide Fumarique 20200722", "Acide Glutarique 2020072", "Acide 3CH3-Glutarique 20", "Acide Adipique 20200722", "Acide 2OH-Glutarique 202", "Acide Homovanillique"]
-RULE_THRESHOLD = 2
+# labels utilisés pour la seconde phase de l'IA
+labels = [
+    "normal",                          # 0
+    "cétose",                          # 1
+    "maladies métabolique connues",    # 2
+    "métaboliques bactériens",         # 3
+    "métabolique médicamenteux",       # 4
+    "autre"                            # 5
+]
+
+# molécules interessantes à récupérer
+MOLECULES = [
+    ["Acide Lactique", "ACIDE LACTIQUE", "13C3-Lact", "Krebs-Acide Lactique*", "Krebs-Acide Lactique", "01_LACTIC"], 
+    ["Acide 4-Phenylbutyrique", "4 phenylbutyrique", "Acide 4 phenylbutyrique"], 
+    ["Acide O-OH-Phenylacetiqu", "x o-OHphenylacetic", "o-OH-Phenyl acetique"], 
+    ["C17-Heptadecanoique", "68. ETALON INT 2"], 
+    ["Acide 3OH-Propionique", "Acide 3OH-Propionique 20", "Acide 3OH-Propionique*", "AC. 3OH PROPIONIQUE"], 
+    ["Acide Methylmalonique", "Acide Methylmalonique 20", "Acide Methylmalonique*", "AC. METHYLMALONIQUE"], 
+    ["Acide Fumarique", "Acide Fumarique 20200722", "ACIDE FUMARIQUE", "Acide Fumarique 20170708", "Acide Fumarique*", "Acide Fumarique 20190708"], 
+    ["Acide Glutarique", "Acide Glutarique 2020072", "Acide Glutarique 2019071", "Acide Glutarique*"], 
+    ["Acide 3CH3-Glutarique", "Acide 3CH3-Glutarique 20", "ACIDE 3CH3GLUTARIQUE"], 
+    ["3 methyl-glutaconique", "31_3-METHYLGLUT", "Acide 3CH3-Glutaconique"],
+    ["Acide Adipique", "Acide Adipique 20200722", "Acide Adipique 20190712", "Acide Adipique*"], 
+    ["Acide 3OH-Glutarique", "Acide 2OH-Glutarique 202", "Acide 3OH-Glutarique 201"], 
+    ["Acide Homovanillique", "X HOMOVANILLIC"],
+    ["Vanillyl propionique", "X Vanillilpropanoic chk"],
+    ["Vanillyl Lactique", "ac benzene propanoic 3 metho"],
+    ["Isovaleryl Glycine", "Isovalerylglycine"]
+]
+
+# 3 méthyl glutarique et glutaconique à partir de 15%
+# Homovanilic à partir de 25%
+# Adipique 25%
+# Acide lactique 300%
+RULE_THRESHOLD = [3, None, None, None, 0.2, 0.2, 0.25, 0.2, 0.15, 0.15, 0.25, 0.2, 0.25, 0.2, 0.2, 1]
+
+class ReadDataException(Exception):
+    """Exception levée en cas de problème de lecture de la base de donnée"""
+
 class Data:
     def __init__(self, name, df : pd.DataFrame = None, state : bool = None, molecules : list = MOLECULES):
         self.name = name
@@ -16,19 +54,39 @@ class Data:
         self.state = state
         self.spikes = None
         self.molecules = molecules
+        self.problems = []
+
     def readCSV(self, path):
         self.df = readCSV(join(path, self.name + CHROM_EXT))
+
     def detectSpikes(self, path):
         self.spikes = detectSpikes(join(path, self.name + MOL_EXT), MOLECULES) # on ne passe que les molecules de référence
+
     def alignSpikes(self):
         self.df = alignSpikes(self.df, self.spikes)
+
     def ruleBasedCheck(self):
-        problems = []
-        for i in range(4, len(self.spikes)):
-            value = self.df["values"].iloc[getTimeIndex(self.df, self.spikes[i])]
-            if value > RULE_THRESHOLD:
-                problems.append((self.spikes[i], value * 10, MOLECULES[i])) # abscisse et valuer en % du pic par rapport à la réference et nom de la molecule
-        return problems
+        df = self.df['values']-self.df['values'].min()
+        reference = df.iloc[getTimeIndex(self.df.index, self.spikes[1])]
+        if reference == 0:
+            raise ReadDataException("Erreur de détection du pic de référence")
+        if len(MOLECULES) != len(RULE_THRESHOLD):
+            raise ReadDataException('Problème de nombre de molécules')
+        for i in range(len(self.spikes)):
+            if self.spikes[i] == None :
+                if verbose:
+                    print(MOLECULES[i][0], ' non détectée')
+                continue
+            if RULE_THRESHOLD[i] == None: # si la molécule n'est pas intéressante (par ex les pics de référence) on ne prend pas en compte
+                continue
+            value = df.iloc[getTimeIndex(self.df.index, self.spikes[i])]
+            value = value / reference
+            if value > RULE_THRESHOLD[i]:
+                self.problems.append((self.spikes[i], value * 100, MOLECULES[i][0])) # abscisse, valeur en % du pic par rapport à la réference et nom de la molecule
+    
+    def printProblems(self):
+        for pb in self.problems:
+            print(f"La molécule {pb[2]} est présente à {int(pb[1])} % du pic de référence à {pb[0]} minutes")
         
 
 #######################################
@@ -48,8 +106,8 @@ ENTRY_SIZE = 504
 # Lecture des données                 #
 #######################################
 
-CHROM_EXT = '-CHROMATOGRAM.CSV'
-MOL_EXT = '-MS.csv'
+CHROM_EXT = '-chromatogram.csv'
+MOL_EXT = '-ms.csv'
 
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
@@ -66,10 +124,13 @@ def readAndAdaptDataFromCSV(path, name) -> Data:
     """Lit le fichier et retourne le DataFrame après traitement."""
     dt = Data(name)
     dt.readCSV(path)
-    df = dt.df
     dt.detectSpikes(path)
-    df = adaptCurve(df, dt.spikes[0:4])
+    dt.ruleBasedCheck()
+    dt.df = normalise(dt.df,dt.spikes)
+    df = adaptCurve(dt.df, dt.spikes)
     dt.df = substractBias(df)
+    if len(dt.df) != ENTRY_SIZE and len(dt.df) != ENTRY_SIZE+1:
+        raise ReadDataException("Problème de taille sur le chromatogramme")
     return dt
 
 def readAllData(path : str) -> list[Data]:
@@ -85,8 +146,13 @@ def readListOfData(files : np.ndarray, path : str) -> list[Data]:
     """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
     dataList = []
     for file in files:
-        dt = readAndAdaptDataFromCSV(path, file)
-        dataList.append(dt)
+        try:
+            dt = readAndAdaptDataFromCSV(path, file)
+        except ReadDataException as e :
+            print(e)
+        finally:
+            dataList.append(dt)
+        
     return dataList
 
 def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
@@ -99,14 +165,22 @@ def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
     y = db['status'].to_numpy()
 
     # lecture de tous les chromatogrammes listées
-    files = [file for file in db['file']]
+    files = db['file'].to_numpy()
     n = len(files)
     # X représente toutes les entrées (une entrée par ligne)
     X = np.zeros((n, ENTRY_SIZE))
-    
+    lostFiles = 0
     for i in range(n):
         # chaque ligne correspond aux valeurs au cours du temps du chromatogramme
-        X[i, :] = readAndAdaptDataFromCSV(db_path, files[i]).df['values'].to_numpy()[:ENTRY_SIZE]
+        try:
+            result = readAndAdaptDataFromCSV(db_path, files[i]).df['values'].to_numpy()
+            X[i, :] = result[:ENTRY_SIZE]
+        except ReadDataException as e:
+            if verbose :
+                print("Erreur sur le fichier : ", files[i], "message : ", e)
+            lostFiles += 1
+    if verbose :
+        print('Nombre de fichiers perdus : ', lostFiles)
     return X, y
 
 #######################################
@@ -125,37 +199,41 @@ def detectSpikes(path : str, molecules : list) -> list[str]:
     try:
         df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2])
     except FileNotFoundError:
-        return SPIKES_EXPECTED_TIME
+        raise ReadDataException("Impossible de lire le fichier : " + path)
+    
     index_nan = df[df[1].isnull()].index[0]
-    df = df.loc[0:index_nan - 1, :]
+    df = df.drop(df.index[index_nan-1 : index_nan+7])
     # detection de chaque molecules
     times = []
     for molecule in molecules:
-        time = df[df[2] == molecule][1].values # liste des temps correspondant
-        if (len(time)<1):
-            time = None
+        time = df[df[2].isin(molecule)][1].values # liste des temps correspondant
+        if len(time)>0:
+            times.append(float(time[0])) # on prend le premier trouvé (en général c'est le plus précis)
         else:
-            time = float(time[0]) # normalement de taille 1 donc on prend le premier
-        times.append(time)
+            times.append(None)
     return times
 
 
-def adaptCurve(df : pd.DataFrame, spikes : list)->pd.DataFrame:
+def normalise(df : pd.DataFrame, spikes : list)->pd.DataFrame:
     """Passage en log, normalisation, conversion de l'indice en temps, et resample."""
     df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
     df = df.drop(df[df.index >= INTERVAL[1]].index)
     df = df.drop(df[df.index <= INTERVAL[0]].index)
-    # alignement des pics
-    df = alignSpikes(df, spikes)
     # passage en log
-    df[df['values'] == 0] = 0.01  # pour ne pas avoir de - inf
+    df[df['values'] == 0] = 0.1  # pour ne pas avoir de - inf
     df = np.log(df)
     # normalisation
     df = (df - df.mean())/df.std()
     # Etalonner sur le premier pic (taille de 10 pour celui-ci) 
     # remarque : attention si la valeur n'est pas précise les pics seront plus grand que prévu
-    timeSpike1 = getTimeIndex(df.index, SPIKES_EXPECTED_TIME[0])
+    timeSpike1 = getTimeIndex(df.index, spikes[1])
     df = df / df.iloc[timeSpike1] * 10
+    return df
+    
+    
+def adaptCurve(df : pd.DataFrame, spikes : list)->pd.DataFrame:
+    # alignement des pics
+    df = alignSpikes(df, spikes)
     # re-echantillonnage    
     df = resampleByPart(df)
     df.index = df.index.total_seconds()/60 # on remet le temps de manière plus exploitable
@@ -190,11 +268,20 @@ def alignSpikes(df : pd.DataFrame, spikes : list) -> pd.DataFrame:
     """Aligne les pics détectés sur les références attention df sera modifié"""
     time = df.index.copy().to_numpy() # pour ne pas modifier df
     # recherche des indices des pics (second pic pas toujours présent)
-    zeroSpikeIndex = getTimeIndex(time, spikes[0])
-    firstSpikeIndex = getTimeIndex(time, spikes[1])
-    if spikes[1] is not None:
+    if spikes[0] != None:
+        zeroSpikeIndex = getTimeIndex(time, spikes[0])
+    else :
+        zeroSpikeIndex = getTimeIndex(time, SPIKES_EXPECTED_TIME[0])
+    if spikes[1] != None:
+        firstSpikeIndex = getTimeIndex(time, spikes[1])
+    else :
+        firstSpikeIndex = getTimeIndex(time, SPIKES_EXPECTED_TIME[1])
+    if spikes[2] is not None:
         secondSpikeIndex = getTimeIndex(time, spikes[2])
-    thirdSpikeIndex = getTimeIndex(time, spikes[3])
+    if spikes[3] != None:
+        thirdSpikeIndex = getTimeIndex(time, spikes[3])
+    else :
+        thirdSpikeIndex = getTimeIndex(time, SPIKES_EXPECTED_TIME[3])
     shiftValues(time[:zeroSpikeIndex], time[0], SPIKES_EXPECTED_TIME[0])
     # Alignement du premier pic
     shiftValues(time[zeroSpikeIndex:firstSpikeIndex], SPIKES_EXPECTED_TIME[0], SPIKES_EXPECTED_TIME[1])

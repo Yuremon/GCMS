@@ -61,6 +61,8 @@ class Data:
 
     def detectSpikes(self, path):
         self.spikes = detectSpikes(join(path, self.name + MOL_EXT), MOLECULES) # on ne passe que les molecules de référence
+        if None in self.spikes[0:4]:
+            raise ReadDataException("Un des pics de référence n'est pas détecté")
 
     def alignSpikes(self):
         self.df = alignSpikes(self.df, self.spikes)
@@ -84,9 +86,14 @@ class Data:
             if value > RULE_THRESHOLD[i]:
                 self.problems.append((self.spikes[i], value * 100, MOLECULES[i][0])) # abscisse, valeur en % du pic par rapport à la réference et nom de la molecule
     
-    def printProblems(self):
+    def problemsDescription(self):
+        string = ''
         for pb in self.problems:
-            print(f"La molécule {pb[2]} est présente à {int(pb[1])} % du pic de référence à {pb[0]} minutes")
+            string += f"La molécule {pb[2]} est présente à {int(pb[1])} % du pic de référence à {pb[0]} minutes\n"
+        return string
+        
+    def printProblems(self):
+        print(self.problemsDescription())
         
 
 #######################################
@@ -96,7 +103,7 @@ class Data:
 INTERVAL = [6.01,45.01]
 NOISE_FREQ = None #0.09
 BIAS_FREQ = 0.002
-THRESHOLD = 3.2
+THRESHOLD = 1.6
 PADDING = 45 # attention la valeur doit être supérieur à 1
 PERIOD = [1, 2, 6, 20] 
 RESAMPLE_MS = [str(p) +'s' for p in PERIOD]
@@ -112,7 +119,10 @@ MOL_EXT = '-ms.csv'
 def readCSV(path : str)->pd.DataFrame:
     """Création du DataFrame a partir d'un csv."""
     # lecture du fichier csv
-    df = pd.read_csv(path, header=None, skiprows=[0,1,2,3,4,5], index_col=0)
+    try:
+        df = pd.read_csv(path, header=None, skiprows=[0,1,2,3,4,5], index_col=0)
+    except FileNotFoundError :
+        raise ReadDataException("Le fichier chromatogramme n'a pas pu être trouvé")
     #suppression de la colonne vide
     df.drop(df.columns[1], axis=1, inplace=True)
     df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
@@ -129,6 +139,13 @@ def readAndAdaptDataFromCSV(path, name) -> Data:
     dt.df = normalise(dt.df,dt.spikes)
     df = adaptCurve(dt.df, dt.spikes)
     dt.df = substractBias(df)
+    # Etalonner sur le premier pic (taille de 10 pour celui-ci) 
+    # remarque : attention si la valeur n'est pas précise les pics seront plus grand que prévu
+    timeSpike1 = getTimeIndex(dt.df.index, SPIKES_EXPECTED_TIME[1])
+    reference = dt.df.iloc[timeSpike1]['values'] / 10
+    if reference == 0:
+        raise ReadDataException("Valeur au pic de rérence de 0")
+    dt.df = dt.df / reference
     if len(dt.df) != ENTRY_SIZE and len(dt.df) != ENTRY_SIZE+1:
         raise ReadDataException("Problème de taille sur le chromatogramme")
     return dt
@@ -224,10 +241,6 @@ def normalise(df : pd.DataFrame, spikes : list)->pd.DataFrame:
     df = np.log(df)
     # normalisation
     df = (df - df.mean())/df.std()
-    # Etalonner sur le premier pic (taille de 10 pour celui-ci) 
-    # remarque : attention si la valeur n'est pas précise les pics seront plus grand que prévu
-    timeSpike1 = getTimeIndex(df.index, spikes[1])
-    df = df / df.iloc[timeSpike1] * 10
     return df
     
     

@@ -2,6 +2,9 @@
 data/*
 !data/example.csv
 
+# auto-py-to-exe
+output/*
+
 # vscode
 .vscode/
 

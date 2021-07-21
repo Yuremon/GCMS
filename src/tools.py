@@ -63,6 +63,9 @@ class Data:
         self.spikes = detectSpikes(join(path, self.name + MOL_EXT), MOLECULES) # on ne passe que les molecules de référence
         if None in self.spikes[0:4]:
             raise ReadDataException("Un des pics de référence n'est pas détecté")
+        for time in self.spikes:
+            if time != None and (self.df.index[0] > time or self.df.index[-1] < time):
+                raise ReadDataException("Une des molécules est détectée en dehors de l'intervalle de temps de la mesure")
 
     def alignSpikes(self):
         self.df = alignSpikes(self.df, self.spikes)
@@ -87,6 +90,7 @@ class Data:
                 self.problems.append((self.spikes[i], value * 100, MOLECULES[i][0])) # abscisse, valeur en % du pic par rapport à la réference et nom de la molecule
     
     def problemsDescription(self):
+        # mettre dans l'ordre d'importance
         string = ''
         for pb in self.problems:
             string += f"La molécule {pb[2]} est présente à {int(pb[1])} % du pic de référence à {pb[0]} minutes\n"
@@ -144,13 +148,13 @@ def readAndAdaptDataFromCSV(path, name) -> Data:
     timeSpike1 = getTimeIndex(dt.df.index, SPIKES_EXPECTED_TIME[1])
     reference = dt.df.iloc[timeSpike1]['values'] / 10
     if reference == 0:
-        raise ReadDataException("Valeur au pic de rérence de 0")
+        raise ReadDataException("Valeur au pic de référence de 0")
     dt.df = dt.df / reference
     if len(dt.df) != ENTRY_SIZE and len(dt.df) != ENTRY_SIZE+1:
-        raise ReadDataException("Problème de taille sur le chromatogramme")
+        raise ReadDataException("Problème de taille sur le chromatogramme : ", len(dt.df))
     return dt
 
-def readAllData(path : str) -> list[Data]:
+def readAllData(path : str):
     """retourne la liste de DataFrame correspondant à tous les fichiers csv présent dans path"""
     files = [f for f in listdir(path) if f.endswith(CHROM_EXT)]
     dataList = []
@@ -159,7 +163,7 @@ def readAllData(path : str) -> list[Data]:
         dataList.append(dt)
     return dataList
 
-def readListOfData(files : np.ndarray, path : str) -> list[Data]:
+def readListOfData(files : np.ndarray, path : str):
     """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
     dataList = []
     for file in files:
@@ -172,14 +176,19 @@ def readListOfData(files : np.ndarray, path : str) -> list[Data]:
         
     return dataList
 
-def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
-    """en connaissant le fichier où sont stockées les informations sur les données et le chemin jusqu'aux chromatogrammes
+def getData(file_path : str, db_path : str, binary : bool = True):
+    """en connaissant le fichier où sont stockées les informations brutes sur les données et le chemin jusqu'aux chromatogrammes
     retourne un tableau numpy contenant les données d'entrées 
-    ainsi qu'un second contenant les données de sortie pour l'entrainement (normale (1) /non normale (0))"""
+    ainsi qu'un second contenant les données de sortie pour l'entrainement
+    Les labels sont 1 ou 0 (normal / non normal) si binary est à True
+    entre 0 et 5 sinon"""
     # lecture du fichier représentant la base de donnée
     db = pd.read_csv(file_path)
     # y représente la sortie (normale ou non)
-    y = db['status'].to_numpy()
+    if binary:
+        y = db['status'].to_numpy()
+    else :
+        y = db['label_num'].to_numpy()
 
     # lecture de tous les chromatogrammes listées
     files = db['file'].to_numpy()
@@ -200,6 +209,38 @@ def getData(file_path : str, db_path : str) -> Tuple[np.ndarray, np.ndarray]:
         print('Nombre de fichiers perdus : ', lostFiles)
     return X, y
 
+def getDataTransformed(file_path : str, db_path : str, binary : bool = True):
+    """en connaissant le fichier où sont stockées les informations sur les données et le chemin jusqu'aux chromatogrammes transformés
+    retourne un tableau numpy contenant les données d'entrées 
+    ainsi qu'un second contenant les données de sortie pour l'entrainement
+    Les labels sont 1 ou 0 (normal / non normal) si binary est à True
+    entre 0 et 5 sinon"""
+    db = pd.read_csv(file_path)
+    # y représente la sortie (normale ou non)
+    if binary:
+        y = db['status'].to_numpy()
+    else :
+        y = db['label_num'].to_numpy()
+
+    # lecture de tous les chromatogrammes listées
+    files = db['file'].to_numpy()
+    n = len(files)
+    # X représente toutes les entrées (une entrée par ligne)
+    X = np.zeros((n, ENTRY_SIZE))
+    lostFiles = 0
+    for i in range(n):
+        # chaque ligne correspond aux valeurs au cours du temps du chromatogramme
+        try:
+            result = pd.read_csv(join(db_path,files[i] + '.csv'))['values'].to_numpy()
+            X[i, :] = result[:ENTRY_SIZE]
+        except FileNotFoundError as e:
+            if verbose :
+                print("Erreur sur le fichier : ", files[i], "message : ", e)
+            lostFiles += 1
+    if verbose :
+        print('Nombre de fichiers perdus : ', lostFiles)
+    return X, y
+
 #######################################
 # Traitement des données              #
 #######################################
@@ -210,7 +251,7 @@ TIMES = [INTERVAL[0], 8.3, 9.6, 21, 21.4, 24.5, 25.5, 28, 29.6, 30, 31.5, 32, 38
 SECTORS = [[3, 9], [1,5,7], [0,2,4, 8,10, 12], [11, 6]] # indice des zones à échantillonage [[très élévé], [élevé], [moyen], [faible]]
 
 
-def detectSpikes(path : str, molecules : list) -> list[str]:
+def detectSpikes(path : str, molecules : list):
     """Retourne la liste des temps de rétention des molecules d'après le fichier undiqué dans path"""
     # mise en place du DataFrame
     try:
@@ -234,6 +275,9 @@ def detectSpikes(path : str, molecules : list) -> list[str]:
 def normalise(df : pd.DataFrame, spikes : list)->pd.DataFrame:
     """Passage en log, normalisation, conversion de l'indice en temps, et resample."""
     df.rename(columns = {df.columns[0]: 'values'}, inplace=True)
+    # alignement des pics
+    df = alignSpikes(df, spikes)
+    # selection de l'intervalle
     df = df.drop(df[df.index >= INTERVAL[1]].index)
     df = df.drop(df[df.index <= INTERVAL[0]].index)
     # passage en log
@@ -245,8 +289,6 @@ def normalise(df : pd.DataFrame, spikes : list)->pd.DataFrame:
     
     
 def adaptCurve(df : pd.DataFrame, spikes : list)->pd.DataFrame:
-    # alignement des pics
-    df = alignSpikes(df, spikes)
     # re-echantillonnage    
     df = resampleByPart(df)
     df.index = df.index.total_seconds()/60 # on remet le temps de manière plus exploitable
@@ -324,7 +366,7 @@ def shiftValues(t : np.ndarray, start : int, end : int) -> None:
 # Compensation du biais               #
 #######################################
 
-def butter_lowpass(cutoff : float, fs : float, order=5)-> Tuple[np.ndarray, np.ndarray]:
+def butter_lowpass(cutoff : float, fs : float, order=5):
     """Création du filtre."""
     b, a = butter(order, cutoff, btype='lowpass', analog=False, fs=fs)
     return b, a

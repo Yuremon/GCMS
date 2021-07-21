@@ -1,0 +1,11 @@
+scipy
+sklearn
+pysimplegui
+plotly
+pandas
+joblib
+# images generation for pdf
+fpdf
+psutil
+requests
+-c plotly plotly-orca

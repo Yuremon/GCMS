@@ -2,22 +2,14 @@ import tools
 # gestion de fichiers
 import os
 from os.path import split, join
-from shutil import copyfile
 # gestion de fenetres
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # creation des pdf
 from fpdf import FPDF
-import plotly.express as px
-import plotly
 
-"""pyinstaller --noconfirm --onedir --console --icon "C:/Users/jleva/Downloads/chromato_final.ico" --name "IA-GCMS" --debug "all" --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/temp;temp/" --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/data/example.csv;."  "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/src/main.py\""""
-#https://nitratine.net/blog/post/issues-when-using-auto-py-to-exe/?utm_source=auto_py_to_exe&utm_medium=application_link&utm_campaign=auto_py_to_exe_help&utm_content=bottom
-#pyinstaller --noconfirm --onefile --console --icon "C:/Users/jleva/Downloads/chromato_final.ico" --name "IA-GCMS" --debug "all"  "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/src/main.py"
-
-# idée utiliser Onefile en mettant un fichier et un dossier de donnée avec leur chemin absolu, comme ça tout ce qui est temporaire sera effacé et
-# l'executable sera directement en un fichier
+#pyinstaller --noconfirm --onefile --console --icon "C:/Users/jleva/Downloads/chromato_final.ico" --name "IA-GCMS" --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/model.sav;." --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/reduction.sav;."  "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/src/main.py"
 
 def draw_figure(canvas, figure):
     """Integration de matplotlib dans la fenetre de PySimpleGUI"""
@@ -48,7 +40,7 @@ def read(path, name):
     return df,data
 
 def plot(df, data):
-    """Creation du graphique pour affichage dans la fenetre"""
+    """Creation du graphique pour affichage dans la fenetre et enregistrement pour l'utiliser dans le pdf"""
     fig = plt.figure()
     plt.subplot(2,1,1)
     df['values'].plot()
@@ -57,6 +49,7 @@ def plot(df, data):
     data.df['values'].plot()
     plt.title('Après traitement')
     fig.tight_layout(pad=1.0)
+    plt.savefig(fname=TEMP_PATH+'plotdf.png')
     fig_canvas_agg = draw_figure(window['figCanvas'].TKCanvas, fig)
     problems = data.problemsDescription()
     if problems != '':
@@ -88,27 +81,18 @@ def checkEntries(values):
     return line
 
 def predict(df):
+    """Fait la prediction à partir de l'algo d'IA entrainé"""
     entry = df['values'].to_numpy()[0:tools.ENTRY_SIZE]
-    #print(entry)
-    return "pas de résultat pour le moment"
+    result = ia.predict([entry])[0]
+    return "normal" if result==1 else "non-normal"
 
 def createPdf(pdf_name,name, df, data, ruleBasedText, IaText):
     """Creation du pdf"""
-    # création des images temporaires pour intégrer les graphiques au pdf
-    df.head()
-    #input()
-    plt= px.line(df, title="Avant traitement", )
-    plotly.io.write_image(plt,file='plotdf.png',format='png')
-    #input()
-    plt= px.line(data.df, title="Après traitement")
-    plotly.io.write_image(plt,file='plotdata.png',format='png')
-    #input()
     # cration remplissage du pdf
     pdf = PDF()
     pdf.add_page()
     pdf.insert_title(name)
-    pdf.insert_charts('plotdf.png',0)
-    pdf.insert_charts('plotdata.png',1)
+    pdf.insert_charts(TEMP_PATH+'plotdf.png',0)
     pdf.insert_text("Résultat de l'intelligence artificielle : \n" + IaText,0)
     pdf.insert_text("Détection de pics : \n" + ruleBasedText,1)
     # export du pdf
@@ -130,13 +114,16 @@ class PDF(FPDF):
 
     def insert_charts(self, plot, number):
         self.set_xy(30.0, 20.0 + 90.0 * number)
-        self.image(plot,  link='', type='', w=150, h=80)
+        self.image(plot,  link='', type='', w=150, h=160)
 
 # chemins utiles
 cwd = os.getcwd()
 print('Chemin courant : ',cwd)
-DATABASE_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\example.csv' #C:/Users/x007jle/Desktop/data/example.csv'
-DATA_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data' #'C:/Users/x007jle/Desktop/data/'
+DATABASE_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\data_final\\database.csv' #C:/Users/x007jle/Desktop/data/example.csv' # 'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\data_final\\database.csv'
+DATA_PATH ='C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\data_final\\' #'C:/Users/x007jle/Desktop/data/' #'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\data_final\\'
+TEMP_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\temp\\' #'C:/Users/x007jle/Desktop/data/temp/' # 'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\temp\\'
+ia = tools.MachineLearningTechnique()
+ia.load(DATA_PATH)
 
 # structure de la fenetre
 layout = [
@@ -164,6 +151,7 @@ if __name__ == '__main__':
         if event == 'Ok':
             # récupération du nom des fichiers
             path,name = split(values['chromatogram'])
+            print(path)
             name = name[:-len(tools.CHROM_EXT)]
             if fig_canvas_agg is not None:
                 # si on a déjà un graphique d'affiché on le retire

@@ -4,7 +4,9 @@ from pandas.core.frame import DataFrame
 from scipy.signal import butter, filtfilt
 from os import listdir
 from os.path import join
-from typing import Tuple
+from sklearn.metrics import plot_roc_curve, classification_report
+from confusion_matrix.confusion_matrix import plot_confusion_matrix_from_data
+import joblib
 
 verbose = False
 
@@ -45,21 +47,135 @@ MOLECULES = [
 RULE_THRESHOLD = [3, None, None, None, 0.2, 0.2, 0.25, 0.2, 0.15, 0.15, 0.25, 0.2, 0.25, 0.2, 0.2, 1]
 
 class ReadDataException(Exception):
-    """Exception levée en cas de problème de lecture de la base de donnée"""
+    """Exception levée en cas de problème de lecture de la base de donnée.
+    """
+    
+
+class MachineLearningTechnique():
+    """Classe permettant d'utiliser un modèle de machine learning associé avec un algorithme de réduction de dimension.
+    """
+
+    def __init__(self, model=None, reduction=None):
+        """Création d'un nouvel objet `MachineLearningTechnique` à partir des modeles de machine learning entrainés auparavant.
+
+        Args:
+            model (optional): classifieur utilisé (tiré de sklearn ou xgboost) par exemple RandomForestClassifier(). Defaults to None.
+            reduction (optional): reduction de dimension utilisé (). Defaults to None.
+        """
+        self.model = model
+        self.reduction = reduction
+
+    def score(self, X_test:np.ndarray, y_test:np.ndarray) -> float: 
+        """Calcul du score obtenu sur les échantillons de test.
+
+        Args:
+            X_test (np.ndarray): échantillons d'entrée.
+            y_test (np.ndarray): labels associés.
+
+        Returns:
+            float: La valeur du score obtenu sur la base de donnée de test.
+        """
+        self.var_score = self.model.score(X_test, y_test) # changer par la fonction qui permet de discriminer les models
+        return self.var_score 
+
+    def predict(self, X:np.ndarray)->np.ndarray:
+        """Prediction de la classe pour un ou plusieurs chromatogramme.
+
+        Args:
+            X (np.ndarray): matrice de taille n * 505 avec n le nombre d'entrées, chaque ligne représentant un chromatogramme.
+
+        Returns:
+            np.ndarray: vecteur de taille n, chaque valeur du vecteur est le numéro de la classe prédite.
+        """
+        if self.reduction is not None:
+            X = self.reduction.transform(X)
+        return self.model.predict(X)        
+
+    def save(self, path:str=''):
+        """Enregistre le model dans deux fichiers : model.sav et reduction.sav.
+
+        Args:
+            path (str, optional): chemin du dossier dans lequel seront enregistrés les fichiers. Defaults to ''.
+        """
+        joblib.dump(self.model, path + 'model.sav')
+        joblib.dump(self.reduction, path + 'reduction.sav')
+
+    def load(self, path:str=''):
+        """Charge dans l'instance courante le model enregistré avec la focntion save, à partir des fichiers model.sav et reduction.sav.
+
+        Args:
+            path (str, optional): chemin du dossier dans lequel à été enregistré le model. Defaults to ''.
+        """
+        self.model = joblib.load(path + 'model.sav')
+        self.reduction = joblib.load(path + 'reduction.sav')
+
+    def displayMetrics(self, X_test:np.ndarray, y_test:np.ndarray):
+        """Affiche dans le terminal les métriques utilisées pour déterminer si le model est performant sur des données de test.
+            - caractérisques du model (type de réduction, taille de l'entrée, type de model)
+            - justesse
+            - classification_report
+            - matrice de confusion
+            - ROC curve
+
+        Args:
+            X_test (np.ndarray): échantillons d'entrée.
+            y_test (np.ndarray): labels associés.
+        """
+        if self.reduction is not None:
+            print('Best reduction', self.reduction)
+            print('Best size : ', self.reduction.n_components)
+            X_test = self.reduction.transform(X_test)
+                   
+        predictions = self.model.predict(X_test)
+        print('Model : ', self.model)
+        print('Best score : ', self.score(X_test, y_test))
+        sk_report = classification_report(
+            digits=6,
+            y_true=y_test, 
+            y_pred=predictions
+        )
+        print(sk_report)
+        plot_confusion_matrix_from_data(y_test, predictions,columns=['non normal','normal'])
+        plot_roc_curve(self.model, X_test, y_test)
 
 class Data:
+    """Classe utilisée pour facilité le taitement et la lecture des données.
+    La structure des données est basée sur les DataFrame de Pandas.
+    """
+
     def __init__(self, name, df : pd.DataFrame = None, state : bool = None, molecules : list = MOLECULES):
+        """Création d'une instance de la classe data, aucune lecture ni traitement n'est fait à cette étape.
+
+        Args:
+            name (str): nom du fichier sans extension (-chromatogram.csv ni -ms.csv)
+            df (pd.DataFrame, optional): valeurs de l'intensité mesurés au cours du temps pour un chromatogramme. Defaults to None.
+            molecules (list, optional): liste de liste contenant les molecules à détecter, chaque élément de la liste étant une liste des noms possibles, lu dans les fichier -ms.csv. Defaults to MOLECULES.
+        """
         self.name = name
         self.df = df
-        self.state = state
+        #self.state = state
         self.spikes = None
         self.molecules = molecules
         self.problems = []
 
     def readCSV(self, path):
+        """Lecture du fichier [name]-chromatogram.csv, stockage des valeurs dans le DataFrame self.df.
+
+        Args:
+            path (str): chemin du dossier dans lequel se trouve les fichiers [name]-chromatogram.csv et [name]-ms.csv.
+        """
         self.df = readCSV(join(path, self.name + CHROM_EXT))
 
     def detectSpikes(self, path):
+        """Détection des pics dont le nom se trouve dans self.molecules. Leur temps de rétention est stocké dans self.spikes.
+
+        Args:
+            path (str): chemin du dossier dans lequel se trouve les fichiers [name]-chromatogram.csv et [name]-ms.csv.
+
+        Raises:
+            ReadDataException: Si les pics de référence ne sont pas trouvés (les 4 premieres molécules dans self.molecules).
+            ReadDataException: Si un des temps de rétention est en dehors de l'intervalle mesuré.
+        """
         self.spikes = detectSpikes(join(path, self.name + MOL_EXT), MOLECULES) # on ne passe que les molecules de référence
         if None in self.spikes[0:4]:
             raise ReadDataException("Un des pics de référence n'est pas détecté")
@@ -68,9 +184,18 @@ class Data:
                 raise ReadDataException("Une des molécules est détectée en dehors de l'intervalle de temps de la mesure")
 
     def alignSpikes(self):
+        """Ajuste les valeurs du chromatogramme de façon linéaire pour faire correspondre les pics à leurs valeurs de référence.
+        """
         self.df = alignSpikes(self.df, self.spikes)
 
     def ruleBasedCheck(self):
+        """Vérification que les intensités mesurées pour les molécules ne dépasse leur seuil de tolérance.
+        Nom, temps de rétention et valeurs sont stokées dans une liste : self.problems.
+
+        Raises:
+            ReadDataException: Erreur de valeur sur le pic de référence 1.
+            ReadDataException: Erreur sur le nombre de molécules à parcourir.
+        """
         df = self.df['values']-self.df['values'].min()
         reference = df.iloc[getTimeIndex(self.df.index, self.spikes[1])]
         if reference == 0:
@@ -90,16 +215,30 @@ class Data:
                 self.problems.append((self.spikes[i], value * 100, MOLECULES[i][0])) # abscisse, valeur en % du pic par rapport à la réference et nom de la molecule
     
     def problemsDescription(self):
+        """Description des problèmes détectés lors du ruleBasedCheck.
+        Les problèmes sont triés par valeur d'intensité.
+
+        Returns:
+            str: chaine de caractère décrivant les problèmes rencontrés, chaine vide si il n'y a eu aucun problèmes.
+        """
         # mettre dans l'ordre d'importance
         string = ''
+        if len(self.problems)<1:
+            return string
+        self.problems.sort(reverse=True, key=getValue) 
         for pb in self.problems:
             string += f"La molécule {pb[2]} est présente à {int(pb[1])} % du pic de référence à {pb[0]} minutes\n"
         return string
         
     def printProblems(self):
+        """Affiche dans le terminal les problèmes détectés lors du ruleBasedCheck.
+        """
         print(self.problemsDescription())
         
-
+def getValue(x):
+    """Fonction utilisée pour trier la liste des problèmes par valeur d'intensité mesurée, dans Data.problemsDescription
+    """
+    return x[1]
 #######################################
 # Constantes                          #
 #######################################

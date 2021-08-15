@@ -4,7 +4,7 @@ pysimplegui
 plotly
 pandas
 joblib
-# images generation for pdf
+auto-py-to-exe
 fpdf
 psutil
 requests

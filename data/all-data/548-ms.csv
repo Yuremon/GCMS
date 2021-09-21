@@ -1,0 +1,91 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\WeinsbergE-21090110_extracted.mth",
+Inj. Sample Notes:,"33517764 Weinsberg Eden",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.864,"Acide 4 phenylbutyrique",Id.,221.0,5.882e+6,1.000,"",
+2,24.110,"o-OH-Phenyl acetique",Id.,253.0,7.666e+6,1.000,"",
+3,38.905,"C17-Heptadecanoique",Id.,327.0,9.215e+6,1.000,"",
+4,7.262,"Acide Lactique",Id.,191.0,2.426e+6,69.403,"µmol/mmol",
+5,10.442,"Acide Pyruvique",Id.,204.0,1.952e+6,29.352,"µmol/mmol",
+6,16.292,"Acide Succinique",Fail,247.0,349363,8.598,"µmol/mmol",
+7,17.547,"Acide Fumarique",Id.,245.0,786737,2.760,"µmol/mmol",
+8,22.000,"Acide Malique",Fail,335.0,6288,3.854,"µmol/mmol",
+9,26.073,"Acide CetoGlutarique",Id.,260.0,802849,31.749,"µmol/mmol",
+10,29.416,"Acide CisAconitique",Id.,375.0,936490,16.468,"µmol/mmol",
+11,31.292,"Acide Citrique",Fail,257.0,34461,51.520,"µmol/mmol",
+12,31.387,"Acide Isocitrique",Id.,245.0,176428,55.836,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,7.377,"No Match",Unk.,1.706e+6,1705733,----,
+14,7.828,"ACIDE GLYCOLIQUE",TIC,1.873e+7,18729760,848,
+15,9.714,"ACIDE GLYOXYLIQUE",TIC,1.391e+7,13912123,812,
+16,9.863,"X OXALIC",TIC,9.106e+6,9105516,861,
+17,10.857,"No Match",Unk.,4.604e+6,4603840,----,
+18,11.830,"No Match",Unk.,2.450e+6,2450349,----,
+19,12.854,"ACETO ACETATE pic 2",TIC,1.544e+7,15443761,740,
+20,12.935,"ACETO ACETATE pic 2",TIC,4.365e+7,43647488,779,
+21,13.332,"ERYTHRONOLACTONE",TIC,4.438e+6,4437792,744,
+22,13.802,"BENZOIQUE",TIC,8.319e+6,8318558,748,
+23,13.870,"No Match",Unk.,5.211e+6,5211140,----,
+24,13.937,"No Match",Unk.,2.577e+6,2576663,----,
+25,15.041,"17. GLYCEROL",TIC,3.455e+6,3454679,867,
+26,15.098,"18_ETHYLMALONIC",TIC,3.507e+6,3507247,894,
+27,16.695,"No Match",Unk.,3.640e+6,3639684,----,
+28,17.716,"ACIDE 5 OH n CAPROIQUE",TIC,1.654e+6,1653608,736,
+29,20.288,"No Match",Unk.,2.195e+6,2195229,----,
+30,21.458,"No Match",Unk.,1.268e+7,12683172,----,
+31,21.773,"ACIDE 3CH3 GLUTACONIQUE PIC",TIC,2.857e+6,2857453,719,
+32,22.290,"STABILISANT",TIC,5.629e+7,56293752,850,
+33,22.462,"2 methylbutyrylglycine ditms",TIC,4.908e+7,49080904,790,
+34,22.755,"39. PYROGLUTAMIC",TIC,3.441e+6,3440965,827,
+35,23.383,"X 3-methyl-adipic",TIC,1.509e+7,15087449,853,
+36,24.617,"ACIDE 2OH GLUTARIQUE",TIC,3.933e+6,3933055,812,
+37,24.762,"No Match",Unk.,7.453e+6,7452737,----,
+38,25.375,"No Match",Unk.,4.097e+6,4097321,----,
+39,26.266,"52_4OHPHENYLACE",TIC,1.169e+7,11693119,771,
+40,26.479,"METHYL PIMELIQUE",TIC,5.922e+6,5921601,798,
+41,26.688,"No Match",Unk.,6.190e+6,6190262,----,
+42,27.171,"No Match",Unk.,1.663e+6,1663236,----,
+43,27.487,"No Match",Unk.,1.172e+7,11723663,----,
+44,27.615,"X 3OH-ADIPIC",TIC,3.464e+6,3464323,839,
+45,27.750,"No Match",Unk.,8.215e+6,8214938,----,
+46,27.990,"57_SUBERIC",TIC,1.455e+7,14549066,906,
+47,28.956,"No Match",Unk.,2.929e+6,2928767,----,
+48,29.699,"No Match",Unk.,4.136e+6,4135854,----,
+49,29.815,"X HOMOVANILLIC",TIC,1.309e+7,13094302,803,
+50,29.887,"No Match",Unk.,5.031e+6,5031091,----,
+51,31.266,"X CITRIC",TIC,7.240e+6,7239893,885,
+52,31.610,"X HIPPURIC 2",TIC,5.525e+8,552452544,900,
+53,32.234,"No Match",Unk.,9.107e+6,9107025,----,
+54,33.078,"sebacique",TIC,2.800e+6,2799998,709,
+55,33.223,"No Match",Unk.,8.551e+6,8551004,----,
+56,34.915,"No Match",Unk.,2.566e+6,2565666,----,
+57,36.020,"Hexanoylglycine monoTMS",TIC,2.076e+6,2076006,749,
+58,36.681,"ACIDE PALMITIQUE",TIC,3.450e+6,3450310,738,
+59,37.193,"No Match",Unk.,4.372e+6,4372415,----,
+60,40.624,"ACIDE pOH HIPPURIQUE diTMS",TIC,4.357e+6,4356583,803,
+61,42.772,"No Match",Unk.,3.221e+6,3221160,----,
+62,47.207,"No Match",Unk.,2.047e+6,2047222,----,

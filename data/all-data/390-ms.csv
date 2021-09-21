@@ -1,0 +1,91 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\MonzainL-20190227_extracted.mth",
+Inj. Sample Notes:,"33037614 Monzain Lizea",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.848,"Acide 4 phenylbutyrique",Id.,221.0,5.654e+6,1.000,"",
+2,24.098,"o-OH-Phenyl acetique",Id.,253.0,8.885e+6,1.000,"",
+3,38.880,"C17-Heptadecanoique",Id.,327.0,8.937e+6,1.000,"",
+4,7.238,"Acide Lactique",Id.,191.0,1.504e+6,44.684,"µmol/mmol",
+5,10.425,"Acide Pyruvique",Id.,204.0,2.637e+6,41.289,"µmol/mmol",
+6,16.271,"Acide Succinique",Id.,247.0,668136,17.129,"µmol/mmol",
+7,17.547,"Acide Fumarique",Fail,245.0,408892,1.493,"µmol/mmol",
+8,21.996,"Acide Malique",Fail,335.0,7023,4.963,"µmol/mmol",
+9,26.069,"Acide CetoGlutarique",Id.,260.0,1.678e+6,69.048,"µmol/mmol",
+10,29.424,"Acide CisAconitique",Id.,375.0,1.351e+6,24.720,"µmol/mmol",
+11,31.225,"Acide Citrique",Fail,257.0,375374,488.463,"µmol/mmol",
+12,31.408,"Acide Isocitrique",Fail,245.0,83963,28.393,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,6.289,"2 AMINOETHANOL",TIC,3.323e+6,3322530,763,
+14,7.017,"PHENOL",TIC,7.316e+6,7315915,891,
+15,7.166,"01_LACTIC",TIC,6.220e+6,6219871,857,
+16,7.345,"X 2OH-BUTYRIC",TIC,1.727e+7,17268158,913,
+17,7.805,"ACIDE GLYCOLIQUE",TIC,1.122e+7,11223942,902,
+18,9.689,"ACIDE GLYOXYLIQUE",TIC,1.421e+7,14206394,817,
+19,9.833,"ACIDE OXALIQUE",TIC,1.009e+8,100905912,884,
+20,10.852,"ACIDE 3OH ISOBUTYRIQUE",TIC,2.138e+7,21375800,843,
+21,11.665,"No Match",Unk.,1.254e+7,12542703,----,
+22,11.781,"No Match",Unk.,4.084e+6,4084307,----,
+23,12.671,"2 ceto isovalerique ox",TIC,4.379e+6,4378997,765,
+24,12.833,"AC. METHYLMALONIQUE",TIC,5.855e+6,5855376,755,
+25,12.911,"ACETO ACETATE pic 2",TIC,2.100e+7,20999762,871,
+26,13.843,"UREE DI TMS",TIC,1.700e+8,170022320,798,
+27,14.658,"No Match",Unk.,5.501e+6,5501371,----,
+28,15.041,"AC. METHYLMALONIQUE",TIC,7.055e+6,7054955,749,
+29,15.241,"ACIDE 2 CETOISOCAPROIQUE",TIC,8.299e+6,8299444,754,
+30,15.322,"ACIDE 2 CETOISOCAPROIQUE",TIC,4.748e+6,4747795,749,
+31,16.702,"18_ETHYLMALONIC",TIC,4.749e+6,4748911,865,
+32,19.327,"ACIDE GLUTARIQUE",TIC,5.278e+6,5277683,790,
+33,21.211,"Acide Itaconique",TIC,1.162e+7,11623523,781,
+34,21.333,"acide malonique",TIC,3.927e+6,3926806,759,
+35,21.455,"No Match",Unk.,7.061e+6,7060962,----,
+36,22.267,"STABILISANT",TIC,4.311e+7,43107140,863,
+37,22.463,"2 methylbutyrylglycine ditms",TIC,7.065e+6,7064701,800,
+38,22.746,"39. PYROGLUTAMIC",TIC,3.767e+6,3767425,877,
+39,23.395,"No Match",Unk.,6.866e+6,6866107,----,
+40,23.785,"FURAN 2OH CH3 5 CARBOXYLIQUE",TIC,5.132e+6,5131594,825,
+41,24.605,"ACIDE 2OH GLUTARIQUE",TIC,6.440e+6,6440378,836,
+42,24.752,"No Match",Unk.,3.971e+6,3971169,----,
+43,25.371,"No Match",Unk.,4.158e+6,4158474,----,
+44,26.067,"ACIDE 2 CETOGLUTARIQUE",TIC,1.860e+8,186049696,788,
+45,26.258,"ACIDE pOH PHENYLACETIQUE",TIC,4.104e+7,41037292,749,
+46,26.693,"ACIDE 2 CETOGLUTARIQUE",TIC,3.823e+7,38226884,810,
+47,27.755,"No Match",Unk.,3.393e+6,3393151,----,
+48,27.997,"No Match",Unk.,4.147e+6,4147134,----,
+49,28.966,"X tricarballilic",TIC,1.122e+7,11222117,787,
+50,29.829,"X HOMOVANILLIC",TIC,1.862e+7,18619986,827,
+51,30.613,"AZELAIC",TIC,6.371e+6,6370659,849,
+52,31.094,"No Match",Unk.,3.693e+6,3693101,----,
+53,31.325,"X ISOCITRIC ACID",TIC,2.511e+7,25110936,835,
+54,31.666,"X HIPPURIC 2",TIC,7.458e+6,7457688,850,
+55,31.691,"X HIPPURIC 2",TIC,5.186e+6,5186154,871,
+56,32.689,"X VANILMANDELIC",TIC,6.863e+6,6862647,871,
+57,33.027,"No Match",Unk.,5.083e+6,5082503,----,
+58,33.145,"No Match",Unk.,2.767e+7,27673262,----,
+59,36.656,"X PALMITIC",TIC,7.315e+6,7315401,905,
+60,41.037,"ACIDE STEARIQUE",TIC,9.647e+6,9646641,779,
+61,42.315,"No Match",Unk.,9.591e+6,9590965,----,
+62,42.754,"No Match",Unk.,8.395e+6,8394624,----,

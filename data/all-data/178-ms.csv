@@ -1,0 +1,91 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\DoletC-20190314_extracted.mth",
+Inj. Sample Notes:,"33038259 Dolet Collen DE:20/03/2019",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.777,"Acide 4 phenylbutyrique",Fail,221.0,1.610e+7,1.000,"",
+2,24.022,"o-OH-Phenyl acetique",Id.,253.0,2.843e+7,1,"Counts",
+3,38.809,"C17-Heptadecanoique",Id.,327.0,4.901e+7,1,"Counts",
+4,7.175,"Acide Lactique",Id.,191.0,4.385e+6,71.558,"µmol/mmol",
+5,10.353,"Acide Pyruvique",Id.,204.0,4.104e+6,22.530,"µmol/mmol",
+6,16.184,"Acide Succinique",Id.,247.0,682828,6.136,"µmol/mmol",
+7,17.502,"Acide Fumarique",Miss.,245.0,0,0.000,"µmol/mmol",
+8,21.908,"Acide Malique",Fail,335.0,36705,11.604,"µmol/mmol",
+9,25.997,"Acide CetoGlutarique",Id.,260.0,1.764e+6,25.484,"µmol/mmol",
+10,29.341,"Acide CisAconitique",Id.,375.0,3.410e+6,21.905,"µmol/mmol",
+11,31.159,"Acide Citrique",Id.,257.0,1.348e+6,1348135,"Counts",
+12,31.269,"Acide Isocitrique",Id.,245.0,911830,54.364,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,6.209,"No Match",Unk.,5.447e+6,5446546,----,
+14,6.961,"PHENOL",TIC,1.896e+7,18964782,822,
+15,7.011,"TMS Artifact 2",TIC,1.286e+7,12855041,878,
+16,7.279,"X 2OH-BUTYRIC",TIC,2.694e+7,26940988,877,
+17,7.740,"ACIDE GLYCOLIQUE",TIC,3.914e+7,39139820,906,
+18,9.432,"ACIDE 2OH 2CH3 BUTENOIQUE",TIC,6.323e+6,6323017,789,
+19,9.628,"ACIDE GLYOXYLIQUE",TIC,2.563e+7,25630864,876,
+20,9.671,"No Match",Unk.,1.383e+7,13828866,----,
+21,9.780,"X OXALIC",TIC,2.063e+7,20627428,874,
+22,10.181,"AC. 3OH PROPIONIQUE",TIC,4.645e+6,4644551,765,
+23,10.769,"ACIDE 3OH ISOBUTYRIQUE",TIC,3.684e+7,36841708,885,
+24,11.678,"No Match",Unk.,1.147e+7,11474380,----,
+25,12.053,"ACIDE 3OH 2CH3 BUTYRIQUE",TIC,4.969e+6,4969153,788,
+26,12.335,"acide malonique",TIC,4.179e+6,4179217,806,
+27,12.521,"X ion 243",TIC,6.346e+6,6345839,896,
+28,12.708,"No Match",Unk.,3.973e+6,3973191,----,
+29,12.762,"ACETO ACETATE pic 2",TIC,1.885e+7,18849630,815,
+30,12.837,"ACETO ACETATE pic 2",TIC,5.952e+7,59519064,882,
+31,13.213,"ERYTHRONOLACTONE",TIC,6.655e+6,6654684,860,
+32,13.767,"UREE DI TMS",TIC,2.636e+8,263625168,736,
+33,14.171,"No Match",Unk.,1.485e+6,1485376,----,
+34,16.043,"X 1,2-phenylenebis(oxy)",TIC,1.809e+7,18086530,869,
+35,17.473,"No Match",Unk.,2.429e+6,2429056,----,
+36,19.254,"No Match",Unk.,4.287e+6,4286845,----,
+37,20.209,"ACIDE 2 DEOXYTETRONIQUE TMS",TIC,5.289e+6,5288697,739,
+38,22.202,"STABILISANT",TIC,3.635e+7,36352120,876,
+39,22.383,"2 methylbutyrylglycine ditms",TIC,2.050e+7,20504452,843,
+40,23.314,"No Match",Unk.,6.815e+6,6815491,----,
+41,24.542,"ACIDE 2OH GLUTARIQUE",TIC,9.138e+6,9137899,788,
+42,24.683,"No Match",Unk.,1.403e+7,14030995,----,
+43,25.313,"X 3OH-PHENYLACETIC",TIC,1.809e+7,18088550,800,
+44,25.847,"ACIDE OH BENZOIQUE",TIC,1.101e+7,11007337,876,
+45,26.187,"52_4OHPHENYLACE",TIC,4.175e+7,41753940,873,
+46,26.604,"ACIDE 2 CETOGLUTARIQUE",TIC,3.623e+7,36227724,849,
+47,28.604,"META HYDROXY PHENYLPROPIONIQ",TIC,6.705e+6,6704693,809,
+48,29.573,"ACIDE VANILLIQUE",TIC,9.051e+7,90512464,924,
+49,29.746,"X HOMOVANILLIC",TIC,2.473e+7,24728842,853,
+50,31.545,"X HIPPURIC 2",TIC,6.280e+8,628037504,931,
+51,31.892,"x 3OHphenyl-3OHpropionic 3TM",TIC,5.568e+7,55675748,926,
+52,32.613,"X VANILMANDELIC",TIC,8.887e+6,8887241,906,
+53,34.023,"No Match",Unk.,5.386e+6,5385597,----,
+54,34.139,"No Match",Unk.,2.732e+6,2731810,----,
+55,36.578,"ACIDE PALMITIQUE",TIC,5.592e+6,5591868,797,
+56,40.522,"ACIDE pOH HIPPURIQUE diTMS",TIC,1.876e+7,18758992,901,
+57,40.950,"ACIDE STEARIQUE",TIC,5.250e+6,5249552,855,
+58,42.665,"No Match",Unk.,1.577e+8,157691616,----,
+59,43.370,"Vanillylglycine-di TMS",TIC,1.564e+7,15635246,754,
+60,50.867,"No Match",Unk.,2.556e+6,2555745,----,
+61,54.360,"No Match",Unk.,580262,580262,----,
+62,54.697,"No Match",Unk.,451861,451861,----,

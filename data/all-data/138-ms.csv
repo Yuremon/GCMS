@@ -1,0 +1,76 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\ColletN-20190104_extracted.mth",
+Inj. Sample Notes:,"33035020 Collet Nathalie",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.882,"Acide 4 phenylbutyrique",Id.,221.0,5.386e+6,1.000,"",
+2,24.126,"o-OH-Phenyl acetique",Id.,253.0,7.899e+6,1.000,"",
+3,38.907,"C17-Heptadecanoique",Id.,327.0,8.727e+6,1.000,"",
+4,7.264,"Acide Lactique",Id.,191.0,681645,21.217,"µmol/mmol",
+5,10.453,"Acide Pyruvique",Id.,204.0,1.105e+6,18.139,"µmol/mmol",
+6,16.332,"Acide Succinique",Fail,247.0,35986,0.966,"µmol/mmol",
+7,17.575,"Acide Fumarique",Fail,245.0,84857,0.325,"µmol/mmol",
+8,21.935,"Acide Malique",Miss.,335.0,0,0.000,"µmol/mmol",
+9,26.117,"Acide CetoGlutarique",Id.,260.0,143686,6.206,"µmol/mmol",
+10,29.427,"Acide CisAconitique",Id.,375.0,331352,6.364,"µmol/mmol",
+11,31.313,"Acide Citrique",Fail,257.0,25621,12.300,"µmol/mmol",
+12,31.413,"Acide Isocitrique",Id.,245.0,63109,22.039,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 35("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,6.686,"No Match",Unk.,310458,310458,----,
+14,7.368,"X 2OH-BUTYRIC",TIC,5.384e+6,5383697,810,
+15,7.824,"02_GLYCOLIC",TIC,9.345e+6,9344807,869,
+16,9.728,"ACIDE GLYOXYLIQUE",TIC,9.603e+6,9603205,811,
+17,9.874,"X OXALIC",TIC,3.037e+6,3036700,827,
+18,10.432,"CRESOL",TIC,1.382e+8,138240768,841,
+19,10.873,"ACIDE 3OH ISOBUTYRIQUE",TIC,8.168e+6,8167552,796,
+20,12.148,"No Match",Unk.,1.222e+6,1221812,----,
+21,12.860,"No Match",Unk.,2.719e+6,2718886,----,
+22,12.936,"ACETO ACETATE pic 2",TIC,1.101e+7,11014224,792,
+23,13.850,"No Match",Unk.,1.135e+8,113485192,----,
+24,15.083,"No Match",Unk.,3.292e+6,3291665,----,
+25,15.552,"No Match",Unk.,1.217e+6,1217467,----,
+26,16.145,"No Match",Unk.,3.243e+6,3243204,----,
+27,16.323,"ACIDE SUCCINIQUE",TIC,2.448e+6,2447546,791,
+28,21.479,"No Match",Unk.,4.884e+6,4883621,----,
+29,22.305,"STABILISANT",TIC,4.411e+7,44112980,845,
+30,24.414,"No Match",Unk.,2.036e+6,2036401,----,
+31,24.780,"No Match",Unk.,1.650e+6,1649708,----,
+32,25.417,"X 3OH-PHENYLACETIC",TIC,9.269e+6,9268691,764,
+33,25.952,"ACIDE OH BENZOIQUE",TIC,3.462e+6,3462387,813,
+34,26.304,"52_4OHPHENYLACE",TIC,1.427e+7,14274560,784,
+35,26.586,"X 2,5-Furandicarboxylic",TIC,2.815e+6,2814976,916,
+36,26.716,"No Match",Unk.,2.030e+6,2029793,----,
+37,27.752,"No Match",Unk.,3.286e+6,3285844,----,
+38,29.260,"X PARACETAMOL",TIC,2.785e+7,27853812,918,
+39,29.827,"No Match",Unk.,2.483e+6,2483046,----,
+40,30.474,"No Match",Unk.,1.501e+6,1500912,----,
+41,31.294,"X CITRIC",TIC,5.115e+6,5114761,918,
+42,31.616,"X HIPPURIC 2",TIC,4.714e+8,471394944,905,
+43,31.904,"No Match",Unk.,49064,49064,----,
+44,32.018,"No Match",Unk.,4.032e+6,4031640,----,
+45,36.020,"Hexanoylglycine monoTMS",TIC,1.704e+6,1703808,737,
+46,36.685,"ACIDE PALMITIQUE",TIC,1.752e+6,1751522,769,
+47,42.739,"No Match",Unk.,1.185e+8,118524416,----,

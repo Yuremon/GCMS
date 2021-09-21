@@ -1,0 +1,91 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\FerberH-20190312_extracted.mth",
+Inj. Sample Notes:,"33038173 Ferber Hailey",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.798,"Acide 4 phenylbutyrique",Id.,221.0,3.443e+6,1.000,"",
+2,24.035,"o-OH-Phenyl acetique",Id.,253.0,5.244e+6,1.000,"",
+3,38.843,"C17-Heptadecanoique",Id.,327.0,5.150e+6,1.000,"",
+4,7.183,"Acide Lactique",Id.,191.0,9.766e+6,494.972,"µmol/mmol",
+5,10.365,"Acide Pyruvique",Id.,204.0,4.527e+6,117.081,"µmol/mmol",
+6,16.205,"Acide Succinique",Id.,247.0,298903,17.564,"µmol/mmol",
+7,17.495,"Acide Fumarique",Id.,245.0,3.101e+6,25.068,"µmol/mmol",
+8,21.925,"Acide Malique",Id.,335.0,20189,48.757,"µmol/mmol",
+9,26.010,"Acide CetoGlutarique",Id.,260.0,1.006e+6,90.899,"µmol/mmol",
+10,29.363,"Acide CisAconitique",Id.,375.0,5.748e+6,217.934,"µmol/mmol",
+11,31.149,"Acide Citrique",Id.,257.0,1.103e+6,1727.237,"µmol/mmol",
+12,31.268,"Acide Isocitrique",Id.,245.0,798781,334.050,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,6.212,"2 AMINOETHANOL",TIC,5.741e+6,5741230,726,
+14,6.974,"PHENOL",TIC,4.882e+6,4881773,851,
+15,7.013,"TMS Artifact 2",TIC,3.348e+6,3348003,910,
+16,7.759,"ACIDE GLYCOLIQUE",TIC,1.236e+7,12364443,894,
+17,9.523,"X 2OH-BUTYRIC",TIC,7.520e+6,7520474,901,
+18,9.636,"ACIDE GLYOXYLIQUE",TIC,1.903e+7,19031012,834,
+19,9.785,"ACIDE OXALIQUE",TIC,7.721e+7,77210944,900,
+20,10.191,"AC. 3OH PROPIONIQUE",TIC,8.692e+6,8691714,854,
+21,10.780,"ACIDE 3OH ISOBUTYRIQUE",TIC,1.438e+8,143764080,855,
+22,11.616,"No Match",Unk.,6.376e+6,6375975,----,
+23,11.718,"No Match",Unk.,6.022e+6,6021692,----,
+24,12.071,"AC. 3OH 2CH3 BUTYRIQUE",TIC,2.586e+7,25860490,915,
+25,12.545,"X ion 243",TIC,3.542e+6,3541657,786,
+26,12.782,"ACETO ACETATE pic 2",TIC,9.485e+6,9485446,772,
+27,12.859,"ACETO ACETATE pic 2",TIC,3.810e+7,38101236,875,
+28,13.238,"ERYTHRONOLACTONE",TIC,3.615e+7,36150872,938,
+29,13.805,"UREE DI TMS",TIC,2.353e+8,235335504,791,
+30,14.052,"No Match",Unk.,3.510e+6,3510081,----,
+31,14.913,"glycerol tri tms",TIC,3.420e+6,3419600,858,
+32,14.997,"18_ETHYLMALONIC",TIC,6.683e+6,6682505,877,
+33,21.151,"No Match",Unk.,9.181e+6,9180609,----,
+34,21.259,"ACIDE SUCCINIQUE",TIC,5.337e+6,5337028,738,
+35,21.414,"No Match",Unk.,5.671e+6,5670883,----,
+36,21.564,"LACTONE DE L'ACIDE 4-6 DIHYD",TIC,9.674e+6,9674240,797,
+37,21.709,"ACIDE 3CH3 GLUTACONIQUE PIC",TIC,3.641e+6,3640535,820,
+38,22.227,"STABILISANT",TIC,4.613e+7,46133892,901,
+39,22.398,"2 methylbutyrylglycine ditms",TIC,2.152e+7,21518902,887,
+40,23.325,"No Match",Unk.,5.317e+6,5316659,----,
+41,23.702,"FURAN 2OH CH3 5 CARBOXYLIQUE",TIC,9.903e+7,99025248,899,
+42,24.692,"No Match",Unk.,6.895e+6,6895167,----,
+43,26.196,"52_4OHPHENYLACE",TIC,4.680e+7,46796976,867,
+44,26.493,"X 2,5-Furandicarboxylic",TIC,2.024e+7,20238730,932,
+45,26.620,"ACIDE 2 CETOGLUTARIQUE",TIC,1.385e+7,13854867,792,
+46,27.158,"No Match",Unk.,3.555e+6,3555291,----,
+47,27.552,"3 HYDROXY ADIPIC",TIC,4.807e+6,4806555,747,
+48,27.704,"No Match",Unk.,1.068e+7,10675205,----,
+49,27.926,"ACIDE SUBERIQUE",TIC,1.500e+7,15003798,783,
+50,28.495,"No Match",Unk.,5.534e+6,5534205,----,
+51,29.594,"ACIDE VANILLIQUE",TIC,3.722e+6,3722164,921,
+52,29.663,"X Ion 201 oxapoxyC8 TCM",TIC,4.213e+7,42132668,898,
+53,29.782,"X HOMOVANILLIC",TIC,1.964e+7,19642194,850,
+54,31.613,"X HIPPURIC 2",TIC,3.255e+7,32546808,891,
+55,32.574,"VMA",TIC,5.794e+6,5793698,749,
+56,33.049,"64_4OHPHENYLLAC",TIC,1.691e+7,16911656,907,
+57,33.151,"No Match",Unk.,3.720e+6,3719564,----,
+58,34.173,"PARA OH PHENYL PYRUVIQUE",TIC,1.529e+8,152934976,913,
+59,36.616,"PARA OH PHENYL PYRUVIQUE non",TIC,4.267e+6,4267418,771,
+60,37.118,"ACIDE 3OH SEBACIQUE",TIC,1.371e+7,13711303,745,
+61,39.111,"No Match",Unk.,3.933e+7,39325940,----,
+62,42.722,"No Match",Unk.,1.367e+7,13665598,----,

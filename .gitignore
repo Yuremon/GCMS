@@ -1,6 +1,9 @@
 # not put the data on git
 data/*
 !data/example.csv
+!data/all-data/
+!data/test/
+!data/train/
 *.sav
 
 # auto-py-to-exe

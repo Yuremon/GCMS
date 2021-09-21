@@ -1,0 +1,109 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"y:\Data\patients_2020\AO\BeauquelL-20200630_extracted.mth",
+Inj. Sample Notes:,"200043405802 Beauquel Louna DE:15/07/2020",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 42("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,7.414,"13C3-Lact",Fail,120.0,3.780e+6,1.000,"",
+2,23.085,"Acide 4-Phenylbutyrique",Fail,221.0,1.533e+7,1.000,"",
+3,24.295,"Acide O-OH-Phenylacetiqu",Id.,253.0,2.313e+7,1.000,"",
+4,39.117,"C17-Heptadecanoique",Fail,327.0,2.920e+7,1.000,"",
+5,7.417,"Acide Lactique 20200226",Id.,191.0,1.153e+7,105.317,"µmol/mmol",
+6,7.993,"Acide Glycolique 2019071",Id.,177.0,2.864e+6,124.923,"µmol/mmol",
+7,10.428,"Acide 3OH-Propionique 20",Fail,177.1,459648,9.978,"µmol/mmol",
+8,11.013,"Acide 3OH-Butyrique 2019",Fail,233.0,2.419e+6,103.931,"µmol/mmol",
+9,11.025,"Acide 2OH-Isovalerique",Fail,219.0,49819,49819,"Counts",
+10,11.013,"Acide Malonique 20190718",Fail,233.0,2.419e+6,174.659,"µmol/mmol",
+11,12.771,"Acide 3OH-Isovalerique 2",Fail,247.0,189011,44.644,"µmol/mmol",
+12,12.941,"Acide Methylmalonique 20",Fail,218.0,183666,9.004,"µmol/mmol",
+13,13.510,"Acide 2Ceto-Isovalerique",Fail,232.0,5976,5976,"Counts",
+14,13.761,"Acide 4OH-Butyrique",Miss.,233.0,0,0.000,"µmol/mmol",
+15,15.245,"Acide Ethylmalonique 201",Id.,261.0,682535,27.734,"µmol/mmol",
+16,15.436,"Acide 2Ceto-3CH3-Valeriq",Miss.,200.0,0,0,"",
+17,16.456,"Acide Succinique 2019071",Fail,247.0,1.654e+6,25.284,"µmol/mmol",
+18,16.845,"Acide CH3-Succinique 201",Fail,261.0,225242,2.388,"µmol/mmol",
+19,17.720,"Acide Fumarique 20190708",Fail,245.0,669841,2.339,"µmol/mmol",
+20,18.508,"Propionylglycine 2019071",Miss.,188.0,0,0.000,"µmol/mmol",
+21,19.505,"Acide Glutarique 2019071",Fail,261.0,149573,1.882,"µmol/mmol",
+22,20.141,"Acide 3CH3-Glutarique 20",Miss.,172.0,0,0.000,"µmol/mmol",
+23,20.836,"Butyrylglycine 20200206",Miss.,158.0,0,0.000,"µmol/mmol",
+24,20.552,"Acide 3CH3-Glutaconique",Fail,198.0,145236,1.693,"µmol/mmol",
+25,22.096,"Isovalerylglycine 202002",Miss.,116.0,0,0.000,"µmol/mmol",
+26,22.154,"2CH3-Butyrylglycine",Miss.,203.0,0,0.000,"µmol/mmol",
+27,22.641,"Acide Adipique 20190712",Fail,275.0,73786,1.751,"µmol/mmol",
+28,23.512,"Acide 3CH3-Adipique",Fail,289.0,73874,73874,"Counts",
+29,24.501,"Tiglylglycine 20200206",Miss.,214.0,0,0.000,"µmol/mmol",
+30,24.743,"Acide 2OH-Glutarique 201",Fail,247.0,432946,10.774,"µmol/mmol",
+31,24.787,"Acide 3OH-Glutarique 201",Miss.,259.0,0,0.000,"µmol/mmol",
+32,25.466,"Acide 3OH-3CH3-Glutariqu",Miss.,231.0,0,0.000,"µmol/mmol",
+33,26.221,"Acide 2-Cetoglutarique",Id.,260.0,1.683e+6,26.254,"µmol/mmol",
+34,26.224,"Acide pOH-phenylacetique",Fail,170.0,2.358e+6,2357995,"Counts",
+35,28.166,"Acide Suberique 20190904",Fail,303.0,60650,0.767,"µmol/mmol",
+36,30.011,"Acide Homovanillique",Fail,326.0,1.681e+6,1680636,"Counts",
+37,32.835,"Acide Vanillylmandelique",Id.,297.0,4.948e+6,4948147,"Counts",
+38,33.258,"Acide Sebacique 20190704",Miss.,331.0,0,0.000,"µmol/mmol",
+39,33.289,"Acide pOH-Phenyllactique",Fail,179.0,698269,698269,"Counts",
+40,34.407,"Acide pOH-Phenylpyruviqu",Fail,277.0,267272,267272,"Counts",
+41,34.701,"Acide Indole-3-Acetique",Fail,202.0,312599,312599,"Counts",
+42,41.992,"Suberylglycine 20190904",Miss.,158.0,0,0.000,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 38("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+43,6.142,"No Match",Unk.,4.578e+6,4577958,----,
+44,6.417,"2 AMINOETHANOL",TIC,5.353e+6,5352513,732,
+45,7.029,"No Match",Unk.,9.286e+6,9286469,----,
+46,7.249,"No Match",Unk.,1.834e+7,18340902,----,
+47,7.519,"ACIDE 2 OH BUTYRIQUE",TIC,1.363e+7,13631219,868,
+48,9.882,"ACIDE GLYOXYLIQUE",TIC,7.505e+7,75048280,893,
+49,10.029,"AC. METHYLMALONIQUE",TIC,5.840e+7,58398480,873,
+50,10.627,"X 2OH-TOLUENE",TIC,1.949e+8,194912240,920,
+51,11.861,"No Match",Unk.,1.451e+7,14514642,----,
+52,13.030,"ACETO ACETATE pic 2",TIC,2.057e+7,20570918,836,
+53,13.104,"ACETO ACETATE pic 2",TIC,8.953e+7,89534792,888,
+54,13.467,"ERYTHRONOLACTONE",TIC,1.166e+7,11660748,877,
+55,14.085,"UREE DI TMS",TIC,1.481e+9,1481284224,890,
+56,14.938,"X PHOSPHATE",TIC,2.952e+7,29518442,957,
+57,16.576,"No Match",Unk.,1.928e+7,19276992,----,
+58,22.529,"STABILISANT",TIC,6.890e+7,68899304,860,
+59,22.931,"39. PYROGLUTAMIC",TIC,2.434e+7,24342094,945,
+60,24.917,"No Match",Unk.,3.201e+7,32007708,----,
+61,25.554,"No Match",Unk.,1.149e+7,11489353,----,
+62,26.123,"No Match",Unk.,5.722e+6,5721956,----,
+63,26.445,"ACIDE pOH PHENYLACETIQUE",TIC,7.514e+7,75139272,880,
+64,26.829,"ACIDE 2 CETOGLUTARIQUE",TIC,7.106e+6,7105617,739,
+65,27.909,"No Match",Unk.,1.805e+7,18048826,----,
+66,29.608,"ACIDE CISACONITIQUE",TIC,1.247e+8,124687440,929,
+67,29.883,"No Match",Unk.,1.199e+7,11992849,----,
+68,30.083,"No Match",Unk.,5.827e+6,5827088,----,
+69,30.326,"X p-OH-MANDELIC",TIC,8.344e+6,8343624,847,
+70,31.368,"X CITRIC",TIC,1.048e+8,104782848,950,
+71,31.476,"ACIDE CITRIQUE",TIC,2.817e+7,28168252,773,
+72,31.827,"HIPPURIQUE MONO TMS",TIC,5.337e+8,533674400,932,
+73,32.138,"ACIDE di OH PHENYL OH PROPIO",TIC,2.312e+7,23121194,793,
+74,36.879,"ACIDE PALMITIQUE",TIC,6.781e+6,6781163,807,
+75,40.805,"ACIDE pOH HIPPURIQUE diTMS",TIC,6.776e+6,6775862,840,
+76,42.942,"No Match",Unk.,1.302e+8,130213656,----,
+77,53.632,"No Match",Unk.,4.514e+6,4513923,----,
+78,55.274,"No Match",Unk.,1.001e+7,10011624,----,
+79,55.308,"No Match",Unk.,5.155e+6,5154848,----,
+80,56.591,"No Match",Unk.,516984,516984,----,

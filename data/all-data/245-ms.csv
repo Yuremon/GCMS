@@ -1,0 +1,88 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\GolobWag-20190628_extracted.mth",
+Inj. Sample Notes:,"1900036793 Golob Wagner Almenzo DE:04/07/2019",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 13("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,6.628,"13C3-Lact",Fail,120.0,2.100e+6,1.000,"",
+2,22.202,"Acide 4 phenylbutyrique",Fail,221.0,1.290e+7,1.000,"",
+3,23.429,"o-OH-Phenyl acetique",Id.,253.0,2.516e+7,1.000,"",
+4,38.246,"C17-Heptadecanoique",Id.,327.0,2.659e+7,1.000,"",
+5,6.629,"Acide Lactique 20190704",Fail,191.0,6.534e+6,153.764,"µmol/mmol",
+6,9.793,"Acide Pyruvique",Id.,204.0,972582,6.658,"µmol/mmol",
+7,15.612,"Acide Succinique",Id.,247.0,215295,3.389,"µmol/mmol",
+8,16.885,"Acide Fumarique 20190708",Fail,245.0,88968,0.160,"µmol/mmol",
+9,21.324,"Acide Malique",Fail,335.0,13816,N/A,"µmol/mmol",
+10,25.406,"Acide CetoGlutarique",Id.,260.0,149427,3.629,"µmol/mmol",
+11,28.773,"Acide CisAconitique",Id.,375.0,688772,7.542,"µmol/mmol",
+12,30.532,"Acide Citrique",Id.,257.0,60160,31.437,"µmol/mmol",
+13,30.645,"Acide Isocitrique",Id.,245.0,416845,46.282,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 46("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+14,6.432,"PHENOL",TIC,3.582e+7,35818692,921,
+15,6.472,"TMS Artifact 2",TIC,1.619e+7,16191827,870,
+16,6.734,"X 2OH-BUTYRIC",TIC,3.151e+7,31505862,889,
+17,6.908,"No Match",Unk.,8.345e+6,8344912,----,
+18,7.197,"ACIDE GLYCOLIQUE",TIC,2.488e+7,24878072,889,
+19,9.109,"No Match",Unk.,1.396e+7,13959010,----,
+20,9.223,"X OXALIC",TIC,2.187e+7,21872802,897,
+21,9.784,"X 2OH-TOLUENE",TIC,1.021e+8,102067320,934,
+22,10.194,"ACIDE 3OH ISOBUTYRIQUE",TIC,3.254e+7,32540380,900,
+23,10.548,"No Match",Unk.,6.361e+6,6361192,----,
+24,10.922,"No Match",Unk.,4.332e+6,4331977,----,
+25,11.081,"No Match",Unk.,2.133e+7,21328380,----,
+26,11.468,"ACIDE 3OH 2CH3 BUTYRIQUE",TIC,5.825e+6,5825342,712,
+27,11.990,"No Match",Unk.,5.736e+7,57361200,----,
+28,12.114,"AC. METHYLMALONIQUE",TIC,1.474e+7,14741736,891,
+29,13.187,"UREE DI TMS",TIC,2.261e+8,226108080,762,
+30,14.330,"17. GLYCEROL",TIC,3.009e+7,30086426,889,
+31,14.412,"18_ETHYLMALONIC",TIC,6.555e+6,6555442,962,
+32,15.475,"X 1,2-phenylenebis(oxy)",TIC,4.993e+6,4992911,924,
+33,15.618,"AC. METHYLMALONIQUE",TIC,6.659e+6,6658763,867,
+34,19.296,"ACIDE 3CH3GLUTARIQUE",TIC,7.718e+6,7718323,791,
+35,19.719,"31_3-METHYLGLUT",TIC,2.096e+7,20962032,944,
+36,21.125,"ACIDE 3CH3 GLUTACONIQUE PIC",TIC,1.115e+7,11147105,851,
+37,21.686,"3,6,9,12-tetraoxa-2,13-disil",TIC,8.593e+6,8592526,857,
+38,21.802,"No Match",Unk.,3.594e+6,3594038,----,
+39,22.202,"4 phenylbutyrique",TIC,2.704e+8,270373312,951,
+40,23.430,"x o-OHphenylacetic",TIC,4.905e+8,490514912,907,
+41,23.647,"No Match",Unk.,4.359e+6,4359334,----,
+42,24.072,"No Match",Unk.,1.857e+7,18569602,----,
+43,24.692,"X 3OH-PHENYLACETIC",TIC,4.145e+6,4144821,846,
+44,25.246,"ACIDE OH BENZOIQUE",TIC,8.764e+6,8764087,842,
+45,25.401,"ACIDE 2 CETOGLUTARIQUE",TIC,1.402e+7,14015832,766,
+46,25.583,"ACIDE pOH PHENYLACETIQUE",TIC,8.122e+8,812165568,879,
+47,27.437,"No Match",Unk.,6.423e+6,6423349,----,
+48,28.776,"ACIDE CISACONITIQUE",TIC,2.456e+7,24555476,865,
+49,29.146,"X HOMOVANILLIC",TIC,1.227e+7,12270003,845,
+50,29.486,"X p-OH-MANDELIC",TIC,4.495e+6,4494629,866,
+51,30.534,"No Match",Unk.,6.260e+6,6259960,----,
+52,30.647,"No Match",Unk.,1.182e+7,11815129,----,
+53,30.915,"HIPPURIQUE MONO TMS",TIC,3.459e+8,345923232,928,
+54,31.288,"ACIDE di OH PHENYL OH PROPIO",TIC,5.803e+6,5803227,791,
+55,36.008,"ACIDE PALMITIQUE",TIC,7.593e+6,7593026,769,
+56,38.248,"68. ETALON INT 2",TIC,3.706e+8,370567488,831,
+57,44.718,"No Match",Unk.,4.118e+6,4118202,----,
+58,57.409,"No Match",Unk.,334274,334274,----,
+59,58.153,"No Match",Unk.,480803,480803,----,

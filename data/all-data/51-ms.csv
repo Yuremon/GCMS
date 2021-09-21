@@ -1,0 +1,91 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"e:\2019\BattagliaN-20190102_extracted.mth",
+Inj. Sample Notes:,"33034957 Battaglia Nina",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.881,"Acide 4 phenylbutyrique",Id.,221.0,5.326e+6,1.000,"",
+2,24.139,"o-OH-Phenyl acetique",Id.,253.0,6.948e+6,1.000,"",
+3,38.912,"C17-Heptadecanoique",Id.,327.0,9.316e+6,1.000,"",
+4,7.262,"Acide Lactique",Id.,191.0,667505,21.008,"µmol/mmol",
+5,10.445,"Acide Pyruvique",Id.,204.0,1.004e+6,16.659,"µmol/mmol",
+6,16.320,"Acide Succinique",Fail,247.0,118250,3.212,"µmol/mmol",
+7,17.576,"Acide Fumarique",Fail,245.0,69942,0.271,"µmol/mmol",
+8,22.045,"Acide Malique",Fail,335.0,1318,N/A,"µmol/mmol",
+9,26.128,"Acide CetoGlutarique",Id.,260.0,150188,6.559,"µmol/mmol",
+10,29.433,"Acide CisAconitique",Id.,375.0,358717,6.966,"µmol/mmol",
+11,31.290,"Acide Citrique",Id.,257.0,151526,69.476,"µmol/mmol",
+12,31.330,"Acide Isocitrique",Fail,245.0,1204,0.405,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,6.210,"No Match",Unk.,384774,384774,----,
+14,6.310,"No Match",Unk.,2.245e+6,2244670,----,
+15,7.039,"PHENOL",TIC,3.994e+6,3993561,783,
+16,7.092,"No Match",Unk.,620768,620768,----,
+17,7.201,"ACIDE LACTIQUE",TIC,3.201e+6,3201279,832,
+18,7.366,"X 2OH-BUTYRIC",TIC,6.053e+6,6053187,826,
+19,7.826,"ACIDE GLYCOLIQUE",TIC,1.028e+7,10279892,826,
+20,9.714,"ACIDE GLYOXYLIQUE",TIC,8.461e+6,8460712,836,
+21,9.862,"X sulfate TMS2",TIC,9.789e+6,9788884,837,
+22,10.273,"AC. 3OH PROPIONIQUE",TIC,2.199e+6,2199466,806,
+23,10.864,"ACIDE 3OH ISOBUTYRIQUE",TIC,1.565e+7,15646343,815,
+24,11.771,"No Match",Unk.,2.303e+6,2302802,----,
+25,12.147,"AC. 3OH 2CH3 BUTYRIQUE",TIC,1.188e+6,1188437,737,
+26,12.423,"No Match",Unk.,933976,933976,----,
+27,12.787,"No Match",Unk.,949272,949272,----,
+28,12.851,"No Match",Unk.,3.130e+6,3129914,----,
+29,12.932,"ACETO ACETATE pic 2",TIC,1.284e+7,12835918,760,
+30,13.306,"ERYTHRONOLACTONE",TIC,2.363e+6,2363462,763,
+31,13.848,"UREE DI TMS",TIC,8.906e+7,89063904,728,
+32,14.187,"No Match",Unk.,371864,371864,----,
+33,16.729,"No Match",Unk.,1.745e+6,1745009,----,
+34,21.258,"No Match",Unk.,1.354e+6,1353981,----,
+35,22.305,"STABILISANT",TIC,3.091e+7,30905172,876,
+36,23.831,"FURAN 2OH CH3 5 CARBOXYLIQUE",TIC,3.100e+6,3099688,792,
+37,24.698,"No Match",Unk.,1.845e+6,1844907,----,
+38,24.816,"No Match",Unk.,1.391e+6,1390943,----,
+39,25.439,"X 3OH-PHENYLACETIC",TIC,8.053e+6,8052505,787,
+40,25.970,"ACIDE OH BENZOIQUE",TIC,2.928e+6,2928467,844,
+41,26.313,"52_4OHPHENYLACE",TIC,1.656e+7,16562761,804,
+42,26.592,"X 2,5-Furandicarboxylic",TIC,2.771e+6,2771113,928,
+43,26.727,"No Match",Unk.,1.955e+6,1955423,----,
+44,30.173,"X p-OH-MANDELIC",TIC,3.611e+6,3611375,869,
+45,30.487,"No Match",Unk.,3.554e+6,3554456,----,
+46,30.603,"No Match",Unk.,1.544e+6,1543728,----,
+47,31.100,"No Match",Unk.,8.493e+6,8493118,----,
+48,31.446,"No Match",Unk.,2.925e+6,2925323,----,
+49,31.624,"X HIPPURIC 2",TIC,3.150e+8,314989632,929,
+50,31.914,"X HIPPURIC 2",TIC,199489,199489,849,
+51,32.022,"No Match",Unk.,3.008e+6,3007823,----,
+52,32.729,"No Match",Unk.,789355,789355,----,
+53,36.685,"No Match",Unk.,1.726e+6,1726140,----,
+54,40.634,"ACIDE pOH HIPPURIQUE diTMS",TIC,1.834e+6,1833705,756,
+55,42.760,"No Match",Unk.,1.489e+7,14887270,----,
+56,52.432,"No Match",Unk.,134470,134470,----,
+57,55.193,"No Match",Unk.,201779,201779,----,
+58,55.292,"No Match",Unk.,361641,361641,----,
+59,55.611,"No Match",Unk.,197173,197173,----,
+60,56.101,"No Match",Unk.,430646,430646,----,
+61,56.209,"No Match",Unk.,544364,544364,----,
+62,56.351,"No Match",Unk.,1.457e+6,1456629,----,

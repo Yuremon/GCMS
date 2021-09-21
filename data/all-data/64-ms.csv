@@ -1,0 +1,64 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\BenyahiaK-20190228_extracted.mth",
+Inj. Sample Notes:,"33037692 Benyahia Kally",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 12("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,22.935,"Acide 4 phenylbutyrique",Id.,221.0,517313,1.000,"",
+2,24.222,"o-OH-Phenyl acetique",Id.,253.0,814289,1.000,"",
+3,38.881,"C17-Heptadecanoique",Id.,327.0,825716,1.000,"",
+4,7.231,"Acide Lactique",Id.,191.0,265659,86.554,"µmol/mmol",
+5,10.431,"Acide Pyruvique",Id.,204.0,398816,68.395,"µmol/mmol",
+6,16.251,"Acide Succinique",Id.,247.0,3.545e+6,1187.841,"µmol/mmol",
+7,17.705,"Acide Fumarique",Fail,245.0,53685,2.142,"µmol/mmol",
+8,21.909,"Acide Malique",Miss.,335.0,0,0.000,"µmol/mmol",
+9,26.186,"Acide CetoGlutarique",Id.,260.0,55167,24.807,"µmol/mmol",
+10,29.491,"Acide CisAconitique",Id.,375.0,106882,21.372,"µmol/mmol",
+11,31.310,"Acide Citrique",Id.,257.0,18444,280.573,"µmol/mmol",
+12,31.399,"Acide Isocitrique",Fail,245.0,11030,39.771,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 23("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+13,7.045,"TMS Artifact 2",TIC,2.554e+6,2553955,878,
+14,7.101,"01_LACTIC",TIC,806516,806516,893,
+15,7.782,"ACIDE GLYCOLIQUE",TIC,2.765e+6,2764805,839,
+16,9.689,"ACIDE GLYOXYLIQUE",TIC,1.546e+7,15459516,789,
+17,9.830,"ACIDE OXALIQUE",TIC,6.933e+6,6933449,845,
+18,10.373,"CRESOL",TIC,2.652e+6,2651979,801,
+19,10.861,"04_3OH-N-BUTYRI",TIC,3.028e+6,3027575,889,
+20,12.627,"No Match",Unk.,705631,705631,----,
+21,12.836,"No Match",Unk.,2.266e+6,2266211,----,
+22,12.909,"ACETO ACETATE pic 2",TIC,8.754e+6,8754228,884,
+23,15.040,"AC. METHYLMALONIQUE",TIC,2.638e+6,2638288,746,
+24,22.339,"STABILISANT",TIC,1.008e+7,10080403,890,
+25,22.650,"ACIDE 4 OH CYCLOHEXANE CARBO",TIC,2.145e+7,21447586,808,
+26,26.206,"ACIDE 2 CETOGLUTARIQUE",TIC,5.906e+6,5905978,759,
+27,26.358,"52_4OHPHENYLACE",TIC,7.019e+6,7019063,862,
+28,28.068,"No Match",Unk.,1.711e+6,1710597,----,
+29,29.486,"59_CISACONITIC",TIC,1.978e+7,19782628,858,
+30,29.701,"ACIDE VANILLIQUE",TIC,2.391e+6,2390609,778,
+31,29.875,"No Match",Unk.,2.673e+6,2673474,----,
+32,31.697,"X HIPPURIC 2",TIC,3.935e+6,3935453,887,
+33,32.037,"ACIDE di OH PHENYL OH PROPIO",TIC,3.557e+6,3557415,823,
+34,42.771,"No Match",Unk.,909541,909541,----,
+35,53.634,"No Match",Unk.,592891,592891,----,

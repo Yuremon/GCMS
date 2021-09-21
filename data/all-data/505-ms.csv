@@ -1,0 +1,120 @@
+Sample Report (Standard),,,,,,,Créatinine ,14.54,mmol/l ,,,,
+
+---------------------------------------,,,,,,,,,,,,,
+
+MS Data File Information,,,,,,,Prise d'essai théorique ,69,µl,,,,
+
+---------------------------------------,,,,,,,,,,,,,
+
+
+
+
+
+
+
+
+Method:,D:\Methods\456_CHU Nancy_AO-20180730.mth,,,,,,,,,,,,
+Inj. Sample Notes:,1900096958 Stauffer Leonore DE:26/07/2019,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+Target Compounds,,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+"Peaks: 41(""#""",RT,Peak Name,Res Type,Quan Ions,Area,Amount/RF,Amount Units,),,,,,
+1,6.669,13C3-Lact,Id.,120,3.81E+06,1,,,,,,,
+2,22.241,Acide 4-Phenylbutyrique,Id.,221,2.67E+07,1,,,,,,,
+3,23.469,Acide O-OH-Phenylacetiqu,Fail,253,3.61E+07,1,,,,,,,
+4,38.285,C17-Heptadecanoique,Fail,327,4.03E+07,1,,,,,,,
+5,6.672,Acide Lactique 20190704,Id.,191,2.30E+07,302.931,µmol/mmol,,104.17,µmol/mmol Crea,,1514.66,µmol/l
+6,7.236,Acide Glycolique 2019071,Id.,177,3.10E+06,236.915,µmol/mmol,,81.47,µmol/mmol Crea,,1184.58,µmol/l
+7,10.233,Acide 3OH-Butyrique 2019,Fail,233,2.75E+06,47.44,µmol/mmol,,16.31,µmol/mmol Crea,,237.20,µmol/l
+8,9.662,Acide 3OH-Propionique 20,Fail,177.1,874875,34.788,µmol/mmol,,11.96,µmol/mmol Crea,,173.94,µmol/l
+9,10.307,Acide 2OH-Isovalerique,Miss.,219,0,0,,,0.00,µmol/mmol Crea,,0.00,µmol/l
+10,11.801,Acide Malonique 20190718,Fail,233,86465,3.567,µmol/mmol,,1.23,µmol/mmol Crea,,17.84,µmol/l
+11,11.978,Acide 3OH-Isovalerique,Fail,247,470253,470253,Counts,,161710.11,µmol/mmol Crea,,2351265.00,µmol/l
+12,11.501,Acide Methylmalonique 20,Fail,218,304177,3.991,µmol/mmol,,1.37,µmol/mmol Crea,,19.96,µmol/l
+13,12.322,Acide 4OH-Butyrique,Miss.,233,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+14,12.326,Acide 2Ceto-Isovalerique,Fail,232,1.69E+06,1690510,Counts,,581330.81,µmol/mmol Crea,,8452550.00,µmol/l
+15,14.646,Acide 2Ceto-3CH3-Valeriq,Fail,200,153223,153223,Counts,,52690.17,µmol/mmol Crea,,766115.00,µmol/l
+16,14.45,Acide Ethylmalonique 201,Id.,261,282410,5.159,µmol/mmol,,1.77,µmol/mmol Crea,,25.80,µmol/l
+17,15.661,Acide Succinique 2019071,Fail,247,3.85E+06,27.533,µmol/mmol,,9.47,µmol/mmol Crea,,137.67,µmol/l
+18,16.045,Acide 3CH3-Succinique,Id.,261,1.36E+06,1358920,Counts,,467303.99,µmol/mmol Crea,,6794600.00,µmol/l
+19,16.927,Acide Fumarique 20170708,Fail,245,1.18E+06,1.095,µmol/mmol,,0.38,µmol/mmol Crea,,5.48,µmol/l
+20,17.5,Propionylglycine 2019071,Fail,188,9898,0.892,µmol/mmol,,0.31,µmol/mmol Crea,,4.46,µmol/l
+21,18.713,Acide Glutarique 2019071,Id.,261,531287,2.735,µmol/mmol,,0.94,µmol/mmol Crea,,13.68,µmol/l
+22,19.344,Acide 3CH3-Glutarique 20,Id.,172,271430,1.372,µmol/mmol,,0.47,µmol/mmol Crea,,6.86,µmol/l
+23,21.194,2CH3-Butyrylglycine,Miss.,203,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+24,21.156,Acide 3CH3-Glutaconique,Miss.,198,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+25,21.85,Acide Adipique 20190712,Id.,275,542416,4.885,µmol/mmol,,1.68,µmol/mmol Crea,,24.43,µmol/l
+26,21.845,Isovalerylglycine,Fail,116,176637,1.631,µmol/mmol,,0.56,µmol/mmol Crea,,8.16,µmol/l
+27,22.712,Acide 3CH3-Adipique,Miss.,289,0,0,,,0.00,µmol/mmol Crea,,0.00,µmol/l
+28,23.963,Acide 2OH-Glutarique 201,Id.,247,1.88E+06,27.08,µmol/mmol,,9.31,µmol/mmol Crea,,135.40,µmol/l
+29,23.337,Tiglylglycine,Miss.,214,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+30,24.011,Acide 3OH-Glutarique 201,Miss.,259,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+31,24.504,Acide 3OH-3CH3-Glutariqu,Fail,231,81499,81499,Counts,,28025.79,µmol/mmol Crea,,407495.00,µmol/l
+32,25.446,Acide 2-Cetoglutarique,Id.,260,7.22E+06,64.706,µmol/mmol,,22.25,µmol/mmol Crea,,323.53,µmol/l
+33,25.446,Acide pOH-phenylacetique,Id.,170,8.88E+06,8880164,Counts,,3053701.51,µmol/mmol Crea,,44400820.00,µmol/l
+34,27.358,Acide Suberique,Id.,303,166492,1.407,µmol/mmol,,0.48,µmol/mmol Crea,,7.04,µmol/l
+35,29.187,Acide Homovanillique,Id.,326,3.83E+06,3825748,Counts,,1315594.22,µmol/mmol Crea,,19128740.00,µmol/l
+36,32.034,Acide Vanillylmandelique,Id.,297,6.85E+06,6853635,Counts,,2356820.84,µmol/mmol Crea,,34268175.00,µmol/l
+37,32.581,Acide Sebacique 20190704,Fail,331,7746,0.024,µmol/mmol,,0.01,µmol/mmol Crea,,0.12,µmol/l
+38,32.471,Acide pOH-Phenyllactique,Fail,179,1.10E+06,1101271,Counts,,378703.92,µmol/mmol Crea,,5506355.00,µmol/l
+39,33.59,Acide pOH-Phenylpyruviqu,Fail,277,278227,278227,Counts,,95676.41,µmol/mmol Crea,,1391135.00,µmol/l
+40,33.846,Acide Indole-3-Acetique,Fail,202,2.34E+06,2337168,Counts,,803702.89,µmol/mmol Crea,,11685840.00,µmol/l
+41,41.28,Suberylglycine,Miss.,158,0,0,µmol/mmol,,0.00,µmol/mmol Crea,,0.00,µmol/l
+---------------------------------------,,,,,,,,,,,,,
+Unidentified Peaks,,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+Quan Ions:,RIC,,,,,,,,,,,,
+Spectrum Match Type:,Normal-Forward,,,,,,,,,,,,
+RF Used:,1,,,,,,,,,,,,
+Match Thresh:,700,,,,,,,,,,,,
+"Peaks: 50(""#""",RT,Peak Name,Res Type,Area,Amount,R.Match,),,,,,,
+42,6.475,PHENOL,TIC,5.72E+07,57201540,938,,,,,,,
+43,6.772,ACIDE 2 OH BUTYRIQUE,TIC,1.20E+08,119706448,927,,,,,,,
+44,7.236,ACIDE GLYCOLIQUE,TIC,8.52E+07,85230952,895,,,,,,,
+45,9.112,ACIDE GLYOXYLIQUE,TIC,1.02E+08,102397264,898,,,,,,,
+46,9.263,ACIDE OXALIQUE,TIC,1.34E+08,134037376,883,,,,,,,
+47,9.827,No Match,Unk.,5.16E+08,516083904,----,,,,,,,
+48,10.233,ACIDE 3OH ISOBUTYRIQUE,TIC,7.68E+07,76775600,783,,,,,,,
+49,12.257,ACETO ACETATE pic 2,TIC,3.74E+07,37421372,830,,,,,,,
+50,13.3,UREE DI TMS,TIC,2.47E+09,2465293056,885,,,,,,,
+51,14.735,X ZARONTIN ethosuximide 13.7,TIC,3.83E+08,383178752,916,,,,,,,
+52,15.662,ACIDE SUCCINIQUE,TIC,1.27E+08,127140552,920,,,,,,,
+53,15.743,No Match,Unk.,3.69E+07,36857120,----,,,,,,,
+54,17.943,2 CETO ISOCAPROIQUE 1 TMS,TIC,4.68E+08,467517696,787,,,,,,,
+55,18.317,No Match,Unk.,4.91E+08,490773600,----,,,,,,,
+56,19.757,ACIDE 3CH3 GLUTACONIQUE PIC,TIC,3.75E+07,37460916,887,,,,,,,
+57,19.875,X ZARONTIN 17.95,TIC,3.62E+07,36204764,912,,,,,,,
+58,20.049,No Match,Unk.,2.27E+08,226886096,----,,,,,,,
+59,20.839,No Match,Unk.,5.75E+07,57517376,----,,,,,,,
+60,21.221,No Match,Unk.,5.72E+08,571582528,----,,,,,,,
+61,21.728,"3,6,9,12-tetraoxa-2,13-disil",TIC,3.90E+07,38967996,870,,,,,,,
+62,22.411,X ZARONTIN ethyldihydro,TIC,2.62E+08,261997392,943,,,,,,,
+63,22.684,No Match,Unk.,2.97E+08,296709408,----,,,,,,,
+64,22.828,X ZARONTIN ethyldihydro2,TIC,9.47E+08,947042496,945,,,,,,,
+65,22.975,No Match,Unk.,2.05E+08,205187952,----,,,,,,,
+66,23.345,No Match,Unk.,8.80E+08,879744896,----,,,,,,,
+67,23.47,x o-OHphenylacetic,TIC,7.47E+08,746788480,907,,,,,,,
+68,23.705,No Match,Unk.,3.86E+07,38642612,----,,,,,,,
+69,23.968,ACIDE 2OH GLUTARIQUE,TIC,4.67E+07,46671252,856,,,,,,,
+70,24.115,No Match,Unk.,2.08E+08,208355136,----,,,,,,,
+71,24.349,No Match,Unk.,9.77E+07,97702400,----,,,,,,,
+72,24.736,ACIDE PIMELIQUE,TIC,2.97E+07,29649152,747,,,,,,,
+73,25.446,ACIDE 2 CETOGLUTARIQUE,TIC,5.42E+08,542178240,929,,,,,,,
+74,25.619,ACIDE pOH PHENYLACETIQUE,TIC,1.79E+08,178639744,890,,,,,,,
+75,25.845,X ion 300,TIC,1.08E+08,108144744,881,,,,,,,
+76,26.05,ACIDE 2 CETOGLUTARIQUE,TIC,2.63E+08,263432448,922,,,,,,,
+77,26.758,No Match,Unk.,3.57E+07,35704720,----,,,,,,,
+78,26.828,No Match,Unk.,2.70E+08,269530304,----,,,,,,,
+79,26.924,No Match,Unk.,8.52E+07,85202232,----,,,,,,,
+80,27.029,"Silanol, trimoxathyl-, 2-ami",TIC,7.00E+07,70026656,761,,,,,,,
+81,28.819,ACIDE CISACONITIQUE,TIC,2.80E+08,280300512,927,,,,,,,
+82,29.079,non identifie,TIC,5.87E+07,58719160,780,,,,,,,
+83,29.187,X HOMOVANILLIC,TIC,6.26E+07,62603640,840,,,,,,,
+84,30.581,X CITRIC,TIC,2.25E+08,225320896,933,,,,,,,
+85,30.695,X ISOCITRIC ACID,TIC,5.42E+07,54191112,897,,,,,,,
+86,30.985,X HIPPURIC 2,TIC,3.18E+09,3179117568,946,,,,,,,
+87,31.334,ACIDE di OH PHENYL OH PROPIO,TIC,3.22E+08,321483392,933,,,,,,,
+88,33.353,No Match,Unk.,3.55E+08,354788096,----,,,,,,,
+89,38.285,68. ETALON INT 2,TIC,7.29E+08,728534848,837,,,,,,,
+90,39.946,ACIDE pOH HIPPURIQUE diTMS,TIC,6.41E+07,64087676,949,,,,,,,
+91,42.095,No Match,Unk.,2.30E+08,229482448,----,,,,,,,

@@ -1,0 +1,126 @@
+Sample Report (Standard),,,,,,,,,Créatinine ,9.31,mmol/l ,,
+
+---------------------------------------,,,,,,,,,,,,,
+
+MS Data File Information,,,,,,,,,Prise d'essai théorique ,107,µl,,
+
+---------------------------------------,,,,,,,,,,,,,
+
+
+
+
+
+
+
+
+Method:,D:\METABO\Methods\456_CHU Nancy_AO-20200722.mth,,,,,,,,,,,,
+Inj. Sample Notes:,210009384301 GOMBERT ZAN Elie DE:4/02/2021,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+Target Compounds,,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+"Peaks: 47(""#""",RT,Peak Name,Res Type,Quan Ions,Area,Amount/RF,Amount Units,),,,,,
+1,6.945,13C3-Lact,Fail,120,2.47E+06,1,,,,,,,
+2,22.527,Acide 4-Phenylbutyrique,Id.,221,1.14E+07,1,,,,,,,
+3,23.747,Acide O-OH-Phenylacetiqu,Fail,253,1.55E+07,1,,,,,,,
+4,38.598,C17-Heptadecanoique,Fail,327,1.95E+07,1,,,,,,,
+5,6.947,Acide Lactique 20200722,Fail,191,1.18E+07,273.687,µmol/mmol,,146.99,µmol/mmol,,1368.44,µmol/l
+6,7.514,Acide Glycolique 2020072,Id.,177,901819,116.961,µmol/mmol,,62.81,µmol/mmol,,584.81,µmol/l
+7,9.925,Acide 3OH-Propionique 20,Fail,177.1,267094,8.817,µmol/mmol,,4.74,µmol/mmol,,44.09,µmol/l
+8,12.053,Acide Malonique 20200722,Fail,233,92306,6.737,µmol/mmol,,3.62,µmol/mmol,,33.69,µmol/l
+9,10.497,Acide 3OH-Butyrique 2020,Fail,233,1.36E+06,66.243,µmol/mmol,,35.58,µmol/mmol,,331.22,µmol/l
+10,10.651,Acide 2OH-Isovalerique,Miss.,219,0,0,,,0.00,µmol/mmol,,0.00,µmol/l
+11,12.245,Acide 3OH-Isovalerique 2,Fail,247,51939,0.548,µmol/mmol,,0.29,µmol/mmol,,2.74,µmol/l
+12,12.415,Acide Methylmalonique 20,Fail,218,32073,3.726,µmol/mmol,,2.00,µmol/mmol,,18.63,µmol/l
+13,12.582,Acide 2Ceto-Isovalerique,Fail,232,950730,950730,Counts,,510596.13,µmol/mmol,,4753650.00,µmol/l
+14,13.23,Acide 4OH-Butyrique 2020,Fail,233,60655,15.255,µmol/mmol,,8.19,µmol/mmol,,76.28,µmol/l
+15,14.716,Acide Ethylmalonique 202,Id.,261,53401,2.133,µmol/mmol,,1.15,µmol/mmol,,10.67,µmol/l
+16,14.338,Acide 2Ceto-3CH3-Valeriq,Fail,200,14024,14024,Counts,,7531.69,µmol/mmol,,70120.00,µmol/l
+17,15.921,Acide Succinique 2019071,Id.,247,1.91E+06,38.722,µmol/mmol,,20.80,µmol/mmol,,193.61,µmol/l
+18,16.311,Acide CH3-Succinique 201,Fail,261,135092,1.925,µmol/mmol,,1.03,µmol/mmol,,9.63,µmol/l
+19,17.192,Acide Fumarique 20200722,Fail,245,777477,1.705,µmol/mmol,,0.92,µmol/mmol,,8.53,µmol/l
+20,18.754,Thymine 20200722,Fail,255,11970,0.317,µmol/mmol,,0.17,µmol/mmol,,1.59,µmol/l
+21,18.98,Acide Glutarique 2020072,Fail,261,129846,1.61,µmol/mmol,,0.86,µmol/mmol,,8.05,µmol/l
+22,19.578,Propionylglycine 2020072,Miss.,260,0,0,µmol/mmol,,0.00,µmol/mmol,,0.00,µmol/l
+23,19.595,Acide 3CH3-Glutarique 20,Fail,172,24539,0.26,µmol/mmol,,0.14,µmol/mmol,,1.30,µmol/l
+24,20.042,Butyrylglycine 20200722,Fail,274,4331,0.15,µmol/mmol,,0.08,µmol/mmol,,0.75,µmol/l
+25,20.023,Acide 3CH3-Glutaconique,Fail,198,59664,1.467,µmol/mmol,,0.79,µmol/mmol,,7.34,µmol/l
+26,22.131,2CH3-Butyrylglycine 2020,Fail,203,29085,2.93,µmol/mmol,,1.57,µmol/mmol,,14.65,µmol/l
+27,21.64,Isovalerylglycine 202007,Miss.,172,0,0,µmol/mmol,,0.00,µmol/mmol,,0.00,µmol/l
+28,22.117,Acide Adipique 20200722,Fail,275,74514,1.649,µmol/mmol,,0.89,µmol/mmol,,8.25,µmol/l
+29,22.385,Acide Pyroglutamique 202,Fail,258,211472,90.205,µmol/mmol,,48.45,µmol/mmol,,451.03,µmol/l
+30,22.925,Acide 3CH3-Adipique,Fail,289,2412,2412,Counts,,1295.38,µmol/mmol,,12060.00,µmol/l
+31,23.404,Tiglylglycine 20200722,Fail,286,14381,4.071,µmol/mmol,,2.19,µmol/mmol,,20.36,µmol/l
+32,24.076,3CH3-Crotonylglycine 202,Fail,170,26241,0.288,µmol/mmol,,0.15,µmol/mmol,,1.44,µmol/l
+33,24.234,Acide 2OH-Glutarique 202,Fail,247,354939,18.659,µmol/mmol,,10.02,µmol/mmol,,93.30,µmol/l
+34,24.378,Acide 3OH-Glutarique 202,Fail,259,48861,14.343,µmol/mmol,,7.70,µmol/mmol,,71.72,µmol/l
+35,25.028,Acide 3OH-3CH3-Glutariqu,Miss.,231,0,0,µmol/mmol,,0.00,µmol/mmol,,0.00,µmol/l
+36,25.712,Acide 2-Cetoglutarique 2,Id.,260,952462,82.079,µmol/mmol,,44.08,µmol/mmol,,410.40,µmol/l
+37,25.903,Acide pOH-phenylacetique,Fail,296,1.99E+06,1988752,Counts,,1068073.04,µmol/mmol,,9943760.00,µmol/l
+38,26.4,Hexanoylglycine 20200722,Fail,230,7305,0.217,µmol/mmol,,0.12,µmol/mmol,,1.09,µmol/l
+39,26.863,Acide N-Acetylaspartique,Fail,274,2284,1.049,µmol/mmol,,0.56,µmol/mmol,,5.25,µmol/l
+40,27.654,Acide Suberique 20200722,Fail,303,160585,4.661,µmol/mmol,,2.50,µmol/mmol,,23.31,µmol/l
+41,29.479,Acide Homovanillique,Id.,326,1.44E+06,1438722,Counts,,772675.62,µmol/mmol,,7193610.00,µmol/l
+42,32.325,Acide Vanillylmandelique,Fail,297,2.97E+06,2968920,Counts,,1594479.05,µmol/mmol,,14844600.00,µmol/l
+43,32.876,Acide Sebacique 20200722,Fail,331,5224,0.089,µmol/mmol,,0.05,µmol/mmol,,0.45,µmol/l
+44,32.764,Acide pOH-Phenyllactique,Fail,179,575702,1.015,µmol/mmol,,0.55,µmol/mmol,,5.08,µmol/l
+45,33.898,Acide pOH-Phenylpyruviqu,Fail,277,24058,24058,Counts,,12920.52,µmol/mmol,,120290.00,µmol/l
+46,34.154,Acide Indole-3-Acetique,Fail,202,162476,162476,Counts,,87258.86,µmol/mmol,,812380.00,µmol/l
+47,41,Suberylglycine 20200722,Miss.,158,0,0,µmol/mmol,,0.00,µmol/mmol,,0.00,µmol/l
+---------------------------------------,,,,,,,,,,,,,
+Unidentified Peaks,,,,,,,,,,,,,
+---------------------------------------,,,,,,,,,,,,,
+Quan Ions:,RIC,,,,,,,,,,,,
+Spectrum Match Type:,Normal-Forward,,,,,,,,,,,,
+RF Used:,1,,,,,,,,,,,,
+Match Thresh:,700,,,,,,,,,,,,
+"Peaks: 50(""#""",RT,Peak Name,Res Type,Area,Amount,R.Match,),,,,,,
+48,6.238,No Match,Unk.,4.11E+06,4106671,----,,,,,,,
+49,6.761,PHENOL,TIC,2.54E+07,25402146,934,,,,,,,
+50,7.047,ACIDE 2 OH BUTYRIQUE,TIC,1.03E+07,10259454,852,,,,,,,
+51,8.307,X !!!! 3-methyl-2-oxovaleric,TIC,6.67E+06,6670145,809,,,,,,,
+52,9.377,ACIDE GLYOXYLIQUE,TIC,3.49E+07,34860416,877,,,,,,,
+53,9.528,ACIDE OXALIQUE,TIC,1.02E+08,101861992,886,,,,,,,
+54,10.103,CRESOL,TIC,1.54E+09,1538703872,919,,,,,,,
+55,12.512,ACETO ACETATE pic 2,TIC,1.99E+07,19906050,819,,,,,,,
+56,12.939,ERYTHRONOLACTONE,TIC,6.58E+06,6583865,817,,,,,,,
+57,13.515,UREE DI TMS,TIC,7.15E+08,714714944,771,,,,,,,
+58,14.701,No Match,Unk.,1.65E+07,16506113,----,,,,,,,
+59,15.209,PHENYLACETIQUE 1 TMS,TIC,8.05E+06,8048910,839,,,,,,,
+60,15.409,No Match,Unk.,2.39E+07,23882168,----,,,,,,,
+61,15.615,ERYTHRO 4.5-DIHYDROHEXANOIC,TIC,4.43E+06,4431340,807,,,,,,,
+62,15.789,"X 1,2-phenylenebis(oxy)",TIC,5.56E+06,5556846,806,,,,,,,
+63,16.034,No Match,Unk.,1.00E+07,10041307,----,,,,,,,
+64,18.257,X 4-Methylcatechol,TIC,1.86E+07,18627244,848,,,,,,,
+65,20.946,No Match,Unk.,4.30E+06,4296374,----,,,,,,,
+66,21.119,No Match,Unk.,1.67E+07,16691242,----,,,,,,,
+67,21.953,STABILISANT,TIC,1.20E+08,120005480,917,,,,,,,
+68,23,No Match,Unk.,1.21E+07,12046936,----,,,,,,,
+69,25.016,X 3OH-PHENYLACETIC,TIC,3.90E+07,38954284,817,,,,,,,
+70,25.573,ACIDE OH BENZOIQUE,TIC,7.42E+07,74193568,946,,,,,,,
+71,25.663,X Paracetamol di-TMS,TIC,3.92E+08,392130624,964,,,,,,,
+72,26.204,"FURAN 2,5 DICARBOXYLIQUE",TIC,6.28E+06,6278172,800,,,,,,,
+73,26.32,ACIDE 2 CETOGLUTARIQUE,TIC,5.54E+06,5539804,734,,,,,,,
+74,27.364,"Silanol, trimoxathyl-, 2-ami",TIC,1.89E+07,18944316,789,,,,,,,
+75,27.646,ACIDE SUBERIQUE,TIC,1.32E+07,13165038,740,,,,,,,
+76,28.06,No Match,Unk.,4.71E+06,4713928,----,,,,,,,
+77,28.635,X tricarballilic,TIC,1.18E+07,11753036,960,,,,,,,
+78,29.099,ACIDE CISACONITIQUE,TIC,1.34E+08,133981856,918,,,,,,,
+79,29.325,ACIDE VANILLIQUE,TIC,6.54E+07,65409912,916,,,,,,,
+80,29.557,No Match,Unk.,5.58E+06,5584021,----,,,,,,,
+81,30.266,AZELAIC,TIC,2.82E+07,28243430,861,,,,,,,
+82,30.866,ACIDE CITRIQUE,TIC,1.03E+08,102995432,868,,,,,,,
+83,30.982,X ISOCITRIC ACID,TIC,2.46E+07,24561772,898,,,,,,,
+84,31.285,X HIPPURIC 2,TIC,1.34E+09,1338607232,938,,,,,,,
+85,31.628,x 3OHphenyl-3OHpropionic 3TM,TIC,7.26E+07,72622040,960,,,,,,,
+86,34.052,No Match,Unk.,4.66E+06,4661012,----,,,,,,,
+87,35.67,Hexanoylglycine monoTMS,TIC,6.57E+06,6568377,806,,,,,,,
+88,36.367,X PALMITIC,TIC,6.17E+06,6165956,919,,,,,,,
+89,36.683,AC. SALICYLURIQUE diTMS,TIC,9.60E+06,9601581,848,,,,,,,
+90,37.839,No Match,Unk.,6.65E+06,6646691,----,,,,,,,
+91,39.488,No Match,Unk.,7.96E+06,7962010,----,,,,,,,
+92,40.273,ACIDE pOH HIPPURIQUE diTMS,TIC,2.21E+08,220911904,961,,,,,,,
+93,42.448,No Match,Unk.,1.80E+09,1799884544,----,,,,,,,
+94,43.089,Vanillylglycine-di TMS,TIC,1.42E+07,14217215,772,,,,,,,
+95,44.578,PHENYLACETYL GLUTAMINE,TIC,6.52E+07,65170224,851,,,,,,,
+96,45.157,No Match,Unk.,1.02E+07,10183501,----,,,,,,,
+97,45.669,No Match,Unk.,2.73E+07,27251728,----,,,,,,,

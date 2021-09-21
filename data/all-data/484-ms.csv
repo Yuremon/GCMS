@@ -1,0 +1,92 @@
+Sample Report (Standard)
+
+---------------------------------------
+
+MS Data File Information
+
+---------------------------------------
+
+
+
+
+
+
+
+
+Method:,"d:\METABO\Data\patients_2020\patients_2019\AO\SaulnierF-20190703001_extracted.mth",
+Inj. Sample Notes:,"1900041968 Saulnier Flavio Apres effort DE:09/07/2019",
+---------------------------------------
+Target Compounds
+---------------------------------------
+Peaks: 13("#","RT","Peak Name","Res Type","Quan Ions","Area","Amount/RF","Amount Units",),
+1,6.671,"13C3-Lact",Fail,120.0,3.136e+6,1.000,"",
+2,22.246,"Acide 4 phenylbutyrique",Fail,221.0,1.895e+7,1.000,"",
+3,23.474,"o-OH-Phenyl acetique",Id.,253.0,2.862e+7,1.000,"",
+4,38.289,"C17-Heptadecanoique",Id.,327.0,4.414e+7,1.000,"",
+5,6.675,"Acide Lactique 20190704",Fail,191.0,3.217e+7,529.730,"µmol/mmol",
+6,9.837,"Acide Pyruvique",Id.,204.0,4.131e+6,19.267,"µmol/mmol",
+7,15.664,"Acide Succinique",Fail,247.0,737581,7.892,"µmol/mmol",
+8,16.935,"Acide Fumarique 20190708",Fail,245.0,1.091e+6,1.332,"µmol/mmol",
+9,21.372,"Acide Malique",Fail,335.0,50646,15.943,"µmol/mmol",
+10,25.448,"Acide CetoGlutarique",Id.,260.0,947688,15.649,"µmol/mmol",
+11,28.825,"Acide CisAconitique",Id.,375.0,3.367e+6,24.923,"µmol/mmol",
+12,30.584,"Acide Citrique",Id.,257.0,1.129e+6,316.800,"µmol/mmol",
+13,30.704,"Acide Isocitrique",Id.,245.0,614179,41.340,"µmol/mmol",
+---------------------------------------
+Unidentified Peaks
+---------------------------------------
+Quan Ions:,RIC,
+Spectrum Match Type:,Normal-Forward,
+RF Used:,1.000,
+Match Thresh:,700,
+Peaks: 50("#","RT","Peak Name","Res Type","Area","Amount","R.Match",),
+14,6.519,"TMS Artifact 2",TIC,2.241e+7,22408668,933,
+15,6.777,"X 2OH-BUTYRIC",TIC,3.757e+7,37571440,922,
+16,6.952,"No Match",Unk.,1.909e+8,190930160,----,
+17,7.239,"ACIDE GLYCOLIQUE",TIC,4.645e+7,46450692,899,
+18,8.993,"X 2OH-ISOBUTYRIC",TIC,6.104e+6,6103779,865,
+19,9.148,"No Match",Unk.,3.170e+7,31698966,----,
+20,9.268,"ACIDE OXALIQUE",TIC,3.330e+7,33297490,922,
+21,10.235,"No Match",Unk.,6.464e+7,64638580,----,
+22,10.524,"No Match",Unk.,2.646e+7,26462198,----,
+23,10.587,"No Match",Unk.,1.900e+7,19002262,----,
+24,10.966,"No Match",Unk.,1.102e+7,11018254,----,
+25,11.037,"No Match",Unk.,3.753e+6,3753405,----,
+26,11.126,"No Match",Unk.,2.291e+7,22906106,----,
+27,11.508,"No Match",Unk.,3.915e+6,3914504,----,
+28,11.982,"X ion 243",TIC,1.278e+7,12777245,842,
+29,12.034,"No Match",Unk.,1.056e+7,10561164,----,
+30,12.258,"ACETO ACETATE pic 2",TIC,1.103e+7,11029721,829,
+31,12.331,"ACETO ACETATE pic 2",TIC,4.989e+7,49891912,894,
+32,12.420,"No Match",Unk.,5.619e+6,5618825,----,
+33,12.684,"ERYTHRONOLACTONE",TIC,5.810e+6,5809683,817,
+34,13.187,"ACIDE BENZOIQUE",TIC,1.110e+8,110964800,835,
+35,13.821,"No Match",Unk.,4.601e+6,4600683,----,
+36,14.178,"No Match",Unk.,7.094e+6,7093770,----,
+37,14.375,"No Match",Unk.,2.093e+7,20925830,----,
+38,14.456,"No Match",Unk.,4.253e+6,4253444,----,
+39,15.345,"No Match",Unk.,2.504e+6,2504207,----,
+40,15.518,"X 1,2-phenylenebis(oxy)",TIC,4.494e+6,4494479,867,
+41,15.747,"No Match",Unk.,1.067e+7,10674921,----,
+42,15.945,"No Match",Unk.,6.687e+6,6687063,----,
+43,17.505,"No Match",Unk.,1.718e+6,1718001,----,
+44,20.681,"X D-(-)-Citramalic",TIC,1.589e+7,15892092,871,
+45,20.841,"No Match",Unk.,1.674e+7,16744400,----,
+46,21.733,"3,6,9,12-tetraoxa-2,13-disil",TIC,9.461e+6,9461025,789,
+47,23.133,"FURAN 2OH CH3 5 CARBOXYLIQUE",TIC,8.353e+6,8353241,775,
+48,24.114,"No Match",Unk.,9.090e+6,9090450,----,
+49,24.740,"X 3OH-PHENYLACETIC",TIC,1.258e+7,12582618,843,
+50,25.625,"ACIDE pOH PHENYLACETIQUE",TIC,5.918e+7,59177584,895,
+51,26.054,"ACIDE 2 CETOGLUTARIQUE",TIC,7.221e+6,7221342,786,
+52,27.039,"No Match",Unk.,1.521e+7,15207784,----,
+53,28.050,"META HYDROXY PHENYLPROPIONIQ",TIC,8.538e+6,8538236,823,
+54,29.091,"No Match",Unk.,7.323e+6,7322977,----,
+55,29.191,"HVA",TIC,7.031e+6,7030972,705,
+56,29.821,"No Match",Unk.,6.920e+6,6919913,----,
+57,30.451,"No Match",Unk.,7.443e+6,7442924,----,
+58,31.005,"HIPPURIQUE MONO TMS",TIC,4.682e+9,4681654272,934,
+59,31.340,"ACIDE di OH PHENYL OH PROPIO",TIC,3.568e+8,356827136,939,
+60,36.055,"X PALMITIC",TIC,1.041e+7,10413645,899,
+61,39.947,"ACIDE pOH HIPPURIQUE diTMS",TIC,1.664e+7,16643166,904,
+62,40.422,"ACIDE STEARIQUE",TIC,5.356e+6,5356227,810,
+63,42.100,"No Match",Unk.,1.752e+8,175246944,----,

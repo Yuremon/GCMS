@@ -260,7 +260,17 @@ CHROM_EXT = '-chromatogram.csv'
 MOL_EXT = '-ms.csv'
 
 def readCSV(path : str)->pd.DataFrame:
-    """Création du DataFrame a partir d'un csv."""
+    """Lecture du fichier contenant le chromatogrammme.
+
+    Args:
+        path (str): chemin du fichier contenant le chromatogramme (terminant par -chromatogram.csv).
+
+    Raises:
+        ReadDataException: En cas de fichier inexistant.
+
+    Returns:
+        pd.DataFrame: valeurs du chromatogramme au cours du temps d'indice le temps en minutes et d'une colonne ("values") contenant les valeurs.
+    """
     # lecture du fichier csv
     try:
         df = pd.read_csv(path, header=None, skiprows=[0,1,2,3,4,5], index_col=0)
@@ -274,7 +284,18 @@ def readCSV(path : str)->pd.DataFrame:
 
 
 def readAndAdaptDataFromCSV(path, name) -> Data:
-    """Lit le fichier et retourne le DataFrame après traitement."""
+    """Lecture d'un chromatogramme (fichiers [name]-chromatogram.csv et [name]-ms.csv) et traitement de celui-ci.
+
+    Args:
+        path (str): chemin du dossier contenant les deux fichiers décrivant le chromatogramme.
+        name (str): nom des fichiers sans l'extension.
+
+    Raises:
+        ReadDataException: En cas de problème au cours de la lecture.
+
+    Returns:
+        Data: L'instance décrivant le chromatogramme après traitement.
+    """
     dt = Data(name)
     dt.readCSV(path)
     dt.detectSpikes(path)
@@ -293,8 +314,15 @@ def readAndAdaptDataFromCSV(path, name) -> Data:
         raise ReadDataException("Problème de taille sur le chromatogramme : ", len(dt.df))
     return dt
 
-def readAllData(path : str):
-    """retourne la liste de DataFrame correspondant à tous les fichiers csv présent dans path"""
+def readAllData(path : str)->list[Data]:
+    """Lecture et traitement de l'ensemble des chromatogrammes presents dans un dossier.
+
+    Args:
+        path (str): Chemin du dossier contenant les chromatogrammes
+
+    Returns:
+        list[Data]: Liste des instances correspondant à chaques chromatogrammes dont le traitement est possible.
+    """
     files = [f for f in listdir(path) if f.endswith(CHROM_EXT)]
     dataList = []
     for file in files:
@@ -302,8 +330,17 @@ def readAllData(path : str):
         dataList.append(dt)
     return dataList
 
-def readListOfData(files : np.ndarray, path : str):
-    """retourne la liste de DataFrame correspondant à tous les fichiers csv de db au chemin path"""
+def readListOfData(files : np.ndarray, path : str)->list[Data]:
+    """Lecture et traitement de l'ensemble des chromatogrammes presents dans une liste de noms.
+    Remarque : les fichiers doivent se trouver dans un même dossier
+
+    Args:
+        files (np.ndarray): array contenant une liste de noms de fichier (sans extension -chromatogram.csv ni -ms.csv) à lire
+        path (str): dossier contenant l'ensemble des fichiers de la liste
+
+    Returns:
+        list[Data]: Liste des instances correspondant à chaques chromatogrammes dont le traitement est possible.
+    """
     dataList = []
     for file in files:
         try:
@@ -316,11 +353,19 @@ def readListOfData(files : np.ndarray, path : str):
     return dataList
 
 def getData(file_path : str, db_path : str, binary : bool = True):
-    """en connaissant le fichier où sont stockées les informations brutes sur les données et le chemin jusqu'aux chromatogrammes
-    retourne un tableau numpy contenant les données d'entrées 
-    ainsi qu'un second contenant les données de sortie pour l'entrainement
-    Les labels sont 1 ou 0 (normal / non normal) si binary est à True
-    entre 0 et 5 sinon"""
+    """Lecture des données d'une base de donnée de chromatogrammes brutes
+
+    Args:
+        file_path (str): chemin du fichier contenant la base de donnée (fichier csv contenant la liste des fichiers et leur diagnostique)
+        db_path (str): chemin du dossier contenant tout les fichier auquel la base de donnée fait référence.
+        binary (bool, optional): si vrai, la classification est binaire (normal = 1, non normal = 0).
+        Sinon la classification est faite selonn les 5 classes possibles Defaults to True.
+
+    Returns:
+        np.ndarray, np.ndarray: Tuple contenant les données des chromatogrammes en position 0 et la classe correspondante en position 1.
+        Les chromatogrammes sont décrit par une matrice contenant pour chaques lignes les valeurs d'un chromatogramme au cours du temps.
+        La classe correspondante est donnée dans un vecteur contenant l'indice de la classe de chaque chromatogrammes
+    """
     # lecture du fichier représentant la base de donnée
     db = pd.read_csv(file_path)
     # y représente la sortie (normale ou non)
@@ -349,11 +394,19 @@ def getData(file_path : str, db_path : str, binary : bool = True):
     return X, y
 
 def getDataTransformed(file_path : str, db_path : str, binary : bool = True):
-    """en connaissant le fichier où sont stockées les informations sur les données et le chemin jusqu'aux chromatogrammes transformés
-    retourne un tableau numpy contenant les données d'entrées 
-    ainsi qu'un second contenant les données de sortie pour l'entrainement
-    Les labels sont 1 ou 0 (normal / non normal) si binary est à True
-    entre 0 et 5 sinon"""
+    """Lecture des données d'une base de donnée de chromatogrammes préalablement traités
+
+    Args:
+        file_path (str): chemin du fichier contenant la base de donnée (fichier csv contenant la liste des fichiers et leur diagnostique)
+        db_path (str): chemin du dossier contenant tout les fichier auquel la base de donnée fait référence.
+        binary (bool, optional): si vrai, la classification est binaire (normal = 1, non normal = 0).
+        Sinon la classification est faite selonn les 5 classes possibles Defaults to True.
+
+    Returns:
+        np.ndarray, np.ndarray: Tuple contenant les données des chromatogrammes en position 0 et la classe correspondante en position 1.
+        Les chromatogrammes sont décrit par une matrice contenant pour chaques lignes les valeurs d'un chromatogramme au cours du temps.
+        La classe correspondante est donnée dans un vecteur contenant l'indice de la classe de chaque chromatogrammes
+    """
     db = pd.read_csv(file_path)
     # y représente la sortie (normale ou non)
     if binary:
@@ -390,8 +443,19 @@ TIMES = [INTERVAL[0], 8.3, 9.6, 21, 21.4, 24.5, 25.5, 28, 29.6, 30, 31.5, 32, 38
 SECTORS = [[3, 9], [1,5,7], [0,2,4, 8,10, 12], [11, 6]] # indice des zones à échantillonage [[très élévé], [élevé], [moyen], [faible]]
 
 
-def detectSpikes(path : str, molecules : list):
-    """Retourne la liste des temps de rétention des molecules d'après le fichier undiqué dans path"""
+def detectSpikes(path : str, molecules : list)->list[float]:
+    """Détecte les temps de rétention pour chaque molécules.
+
+    Args:
+        path (str): chemin du fichier -ms.csv
+        molecules (list): liste des molécules dont on souhaite connaitre le temps de rétention
+
+    Raises:
+        ReadDataException: en cas de d'inpossibilité d'ouvrir le fichier
+
+    Returns:
+        list[float]: La liste des temps de rétention trouvés (la valeur du temps est None si un des pics n'est pas présent)
+    """
     # mise en place du DataFrame
     try:
         df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2])
@@ -428,13 +492,30 @@ def normalise(df : pd.DataFrame, spikes : list)->pd.DataFrame:
     
     
 def adaptCurve(df : pd.DataFrame, spikes : list)->pd.DataFrame:
+    """Ré-échantillonnage du chromatogramme pour avoir des écart de temps constant et réduire le nombre de points.
+
+    Args:
+        df (pd.DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention .
+        spikes (list): [n'est plus utilisé].
+
+    Returns:
+        pd.DataFrame: dataframe de départ après ré-échantillonnage.
+    """
     # re-echantillonnage    
     df = resampleByPart(df)
     df.index = df.index.total_seconds()/60 # on remet le temps de manière plus exploitable
     return df
 
 def resampleByPart(df : pd.DataFrame) -> pd.DataFrame:
-    """Fait un échantillonnage avec une période différente pour chaque partie de la courbe"""
+    """Echantillonage du chromatogramme en appliquant la bonne fréquence pour chaque zones de temps.
+
+    Args:
+        df (pd.DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention. 
+
+    Returns:
+        pd.DataFrame: chromatogramme ré-échantilloné par zones.
+        Remarque : l'indice est maintenant en TimeDelta et plus en minutes.
+    """
     # sélection des intervalles
     parts = [df[(df.index > TIMES[i-1]) & (df.index <= TIMES[i])] for i in range(1, len(TIMES))] 
     # conversion de la durée en timedelta pour pouvoir faire un resample
@@ -459,7 +540,16 @@ def resampleByPart(df : pd.DataFrame) -> pd.DataFrame:
 
 #ajouter un pic de référence à acide lactique 
 def alignSpikes(df : pd.DataFrame, spikes : list) -> pd.DataFrame:
-    """Aligne les pics détectés sur les références attention df sera modifié"""
+    """Aligne les pics détectés avec leurs référence en faisant un décalage temporel
+    Remarque : l'argument df peut être modifié dans cette fonction.
+
+    Args:
+        df (pd.DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention.
+        spikes (list): les temps de rétention de chaque pics (l'indice devant correspondre à la liste MOLECULE).
+
+    Returns:
+        pd.DataFrame: le chromatogramme dont les temps de rétention ont été ajustés.
+    """
     time = df.index.copy().to_numpy() # pour ne pas modifier df
     # recherche des indices des pics (second pic pas toujours présent)
     if spikes[0] != None:
@@ -491,11 +581,15 @@ def alignSpikes(df : pd.DataFrame, spikes : list) -> pd.DataFrame:
     return df
 
 def shiftValues(t : np.ndarray, start : int, end : int) -> None:
-    """Décale les valeurs pour que t ai des valeurs de temps entre start et end"""
-    #print('start : ', start, '  end : ', end)
+    """Décale les valeurs de temps linéairement dans le but de recaler les extrémités sur les références.
+
+    Args:
+        t (np.ndarray): vecteur contenant les temps de rétention.
+        start (int): temps de référence pour le début de l'intervalle.
+        end (int): temps de référence pour la fin de l'intervalle.
+    """
     oldStart = t[0]
     oldEnd = t[-1]
-    #print('old start : ', oldStart, '  old end : ', oldEnd)
     t -= (t[0] - start)
     for i in range(len(t)):
         t[i] = start + (end-start) * (t[i] - start)/(oldEnd-oldStart)
@@ -506,20 +600,45 @@ def shiftValues(t : np.ndarray, start : int, end : int) -> None:
 #######################################
 
 def butter_lowpass(cutoff : float, fs : float, order=5):
-    """Création du filtre."""
+    """Création d'un filtre passe bas.
+
+    Args:
+        cutoff (float): fréquence de coupure du filtre.
+        fs (float): fréquence du signal.
+        order (int, optional): ordre du filtre. Defaults to 5.
+
+    Returns:
+        Tuple de np.ndarray : filtre passe bas.
+    """
     b, a = butter(order, cutoff, btype='lowpass', analog=False, fs=fs)
     return b, a
 
 def butter_lowpass_filter(data : pd.DataFrame, cutoff : float, fs : float, order=5) -> pd.DataFrame:
-    """Application du filtre."""
+    """Application d'un filtre passe bas sur le signal
+
+    Args:
+        data (pd.DataFrame): valeurs du signal avec en indice le temps.
+        cutoff (float): fréquence de coupure du filtre.
+        fs (float): fréquence du signal.
+        order (int, optional): ordre du filtre. Defaults to 5.
+
+    Returns:
+        pd.DataFrame: signal après filtrage.
+    """
     b, a = butter_lowpass(cutoff, fs, order=order)
     y = filtfilt(b, a, data) # n'introduit de déphasage
     return y
 
 def substractBias(df : pd.DataFrame)->pd.DataFrame:
-    """Filtrage et suppression du bias."""
+    """Calcul et retire le bias du chromatogramme.
+
+    Args:
+        df (pd.DataFrame): chromatogramme dont les valeurs contienent un bias.
+
+    Returns:
+        pd.DataFrame: chromatogramme sans bias
+    """
     # filtrage
-    #bias = computeBiasByPart(bias)
     bias = computeBiasWithResample(df)
 
     if (NOISE_FREQ is None):
@@ -532,7 +651,14 @@ def substractBias(df : pd.DataFrame)->pd.DataFrame:
     return df
 
 def computeBiasWithResample(values : pd.DataFrame) -> pd.DataFrame:
-    """calcul du bias avec un resample pour ne pas avoir de fréquences differentes par zones"""
+    """Calcul du bias dans un chromatogramme, ce calcul prend en compte les zones de fréquences d'échantillonnage différentes en faisant un ré-échantillonnage, permettant d'éviter des discontinuités dans le calcul du bias entre les zones d'échantillonnage.
+
+    Args:
+        values (pd.DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention.
+
+    Returns:
+        pd.DataFrame: les valeurs du bias avec en indice le temps de rétention
+    """
     # attention parfois une petite baisse sans explication sur les derniers points
     bias = values.copy()
     # resample
@@ -554,17 +680,16 @@ def computeBiasWithResample(values : pd.DataFrame) -> pd.DataFrame:
     bias['values'] = butter_lowpass_filter(bias['values'].to_numpy(), BIAS_FREQ, 1 / PERIOD[0])
     return bias
 
-def resizeBias(df : DataFrame, bias: DataFrame) -> np.ndarray:
-    """Permet de donner au bias le même échantillonnage que df"""
-    values = [[]] * len(df)
-    for i in range(len(df)):
-        biasValue = bias['values'].iloc[getTimeIndex(bias.index, df.index[i])]
-        values[i] = biasValue
-    values[-1] = bias['values'].iloc[len(bias) - PADDING] # compenser le cas ou l'on cherche plus grand que 45 (qui n'existe pas)
-    return values
-
 def substractBiasResampled(df : DataFrame, bias : pd.DataFrame) -> pd.DataFrame:
-    """Soustraction du bias au DataFrame quand les échelles de temps sont différentes"""
+    """Soustraction du bias au chromatogramme quand les échelles de temps sont différentes
+
+    Args:
+        df (DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention.
+        bias (pd.DataFrame): les valeurs du bias avec en indice le temps de rétention.
+
+    Returns:
+        pd.DataFrame: le chromatogramme sans bias
+    """
     values = df['values'].to_numpy()
     for i in range(len(df)-1):
         dfValue = df['values'].iloc[i]
@@ -574,8 +699,34 @@ def substractBiasResampled(df : DataFrame, bias : pd.DataFrame) -> pd.DataFrame:
     df['values'] = values
     return df
 
+def resizeBias(df : DataFrame, bias: DataFrame) -> np.ndarray:
+    """Fait correspondre les temps de rétention du bias et du chromatogramme. Utile pour soustraire les valeurs du bias à celle du chromatogramme.
+    Remarque : cette fonction n'est plus utilisée, car l'échantillonage par zone empêche le bon calcul du bias par cette méthode. 
+
+    Args:
+        df (DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention.
+        bias (DataFrame): les valeurs du bias avec en indice le temps de rétention.
+
+    Returns:
+        np.ndarray: les temps de rétention corrigés.
+    """
+    values = [[]] * len(df)
+    for i in range(len(df)):
+        biasValue = bias['values'].iloc[getTimeIndex(bias.index, df.index[i])]
+        values[i] = biasValue
+    values[-1] = bias['values'].iloc[len(bias) - PADDING] # compenser le cas ou l'on cherche plus grand que 45 (qui n'existe pas)
+    return values
+
 def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
-    """calcul du bias pour chaque intervalle, peut induire des problèmes de continuité"""
+    """Calcul du bias dans un chromatogramme, ce calcul prend en compte les zones de fréquences d'échantillonnage différentes en calculant le bias sur chaque zone indépendement.
+    Remarque : cette fonction n'est plus utilisée, car l'échantillonage par zone empêche le bon calcul du bias par cette méthode. 
+
+    Args:
+        values (pd.DataFrame): les valeurs du chromatogramme avec en indice le temps de rétention.
+
+    Returns:
+        np.ndarray: les valeurs du bias pour chaque temps de rétention du chromatogramme
+    """
     # ajout de valeurs à gauche et à droite pour ne pas avoir d'effet de bord sur le filtrage
     padding = pd.DataFrame([np.NaN] * PADDING)
     padding.index = pd.timedelta_range('1s', '5s', periods=PADDING)
@@ -613,7 +764,15 @@ def computeBiasByPart(values : pd.DataFrame) -> np.ndarray:
 #######################################
 
 def getTimeIndex(t : np.ndarray, timeValue) -> int:
-    """Donne l'indice de la première valeur dans t qui est supérieur ou égale à timeValue"""
+    """Donne l'indice de la première valeur dans t qui est supérieur ou égale à timeValue
+
+    Args:
+        t (np.ndarray): vecteur correspondant au temps
+        timeValue ([type]): valeur recherchée
+
+    Returns:
+        int: indice de la valeur la plus proche (et inférieur) à la valeur recherchée.
+    """
     return np.argmax(t>=timeValue)
 
 

@@ -1,7 +1,8 @@
 import tools
+import sys
 # gestion de fichiers
 import os
-from os.path import split, join
+from os.path import split, join, exists
 # gestion de fenetres
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
@@ -9,7 +10,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # creation des pdf
 from fpdf import FPDF
 
-#pyinstaller --noconfirm --onefile --console --icon "C:/Users/jleva/Downloads/chromato_final.ico" --name "IA-GCMS" --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/model.sav;." --add-data "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/reduction.sav;."  "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/src/main.py"
+#pyinstaller --noconfirm --onefile --console --icon "C:/Users/jleva/Downloads/chromato_final.ico" --name "IA-GCMS" --debug "all"  "C:/Users/jleva/Documents/Telecom/2A/stage/GCMS/src/main.py"
 
 def draw_figure(canvas, figure):
     """Integration de matplotlib dans la fenetre de PySimpleGUI"""
@@ -35,7 +36,7 @@ def read(path, name):
     try:
         data = tools.readAndAdaptDataFromCSV(path, name)
     except tools.ReadDataException as e:
-        sg.popup('Erreur', 'Problème de lecture' + e)
+        sg.popup('Erreur', 'Problème de lecture' + str(e))
         return None,None
     return df,data
 
@@ -116,27 +117,68 @@ class PDF(FPDF):
         self.set_xy(30.0, 20.0 + 90.0 * number)
         self.image(plot,  link='', type='', w=150, h=160)
 
-# chemins utiles
-cwd = os.getcwd()
-print('Chemin courant : ',cwd)
-DATABASE_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\data_final\\database.csv' #C:/Users/x007jle/Desktop/data/example.csv' # 'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\data_final\\database.csv'
-DATA_PATH ='C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\data_final\\' #'C:/Users/x007jle/Desktop/data/' #'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\data_final\\'
-TEMP_PATH = 'C:\\Users\\jleva\\Documents\\Telecom\\2A\\stage\\GCMS\\data\\temp\\' #'C:/Users/x007jle/Desktop/data/temp/' # 'C:\\Users\\u807330\\Desktop\\Ne_pas_modifier\\temp\\'
-ia = tools.MachineLearningTechnique()
-ia.load(DATA_PATH)
+# fenetre pour la première ouverture de l'appli
+layout_first_time = [
+    [sg.Text("Mise en place de l'application")],
+    [sg.Text("Base de donnée"),sg.Input(), sg.FileBrowse(key="database", file_types=(("Base de donnée", "database.csv"),))],
+    [sg.Text("Dossier contenant les chromatogrammes"),sg.Input(), sg.FolderBrowse(key="data_path")],
+    [sg.Text("Dossier de fichiers temporaires"),sg.Input(), sg.FolderBrowse(key="temp_path")],
+    [sg.Button('Ok'), sg.Button('Quitter')]
+]
 
 # structure de la fenetre
 layout = [
     [sg.Text("Interpretation des chromatogrammes")],
     [sg.Text("Chromatogramme"),sg.Input(), sg.FileBrowse(key="chromatogram", file_types=(("Fichiers chromatogram", "*chromatogram.csv"),))],
-    [sg.Button('Ok'), sg.Button('Cancel')],
+    [sg.Button('Ok'), sg.Button('Quitter')],
     [sg.Canvas(key='figCanvas', size=(500,500))],
     [sg.Text("Commentaire"), sg.Input(key='label'), sg.Text('Categorie'), sg.Input(key='label_num'), sg.Button('Valider')]
 ]
 
+keys_to_clear = ["label", "label_num"]
+
 # integration de matplotlib tirée de : https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Matplotlib.py
 
 if __name__ == '__main__':
+
+    cwd = os.getcwd()
+    print('Chemin courant : ',cwd)
+
+    # Vérifiaction si on déjà configuré l'app pour l'initialisation
+    if exists("./initialisation"):
+        f = open("./initialisation", 'r')
+        DATABASE_PATH = f.readline()[:-1]  # on retire le \n
+        DATA_PATH = f.readline()[:-1]
+        TEMP_PATH = f.readline()[:-1]
+        f.close()
+
+    else :
+        # dans le cas de la première ouverture de l'appli on stock tous les chemins utiles
+        window = sg.Window('Mise en place', layout_first_time, element_justification='center', font='16', resizable=True)
+        # boucle de la fenetre d'initialisation
+        while True:
+            event, values = window.read()
+            # quitter l'application
+            if event in (sg.WIN_CLOSED, 'Quitter'):
+                window.close()
+                sys.exit()
+            # affichage des courbes
+            if event == 'Ok':
+                DATABASE_PATH = values['database']
+                DATA_PATH = values['data_path'] + '/'
+                TEMP_PATH = values['temp_path'] + '/' 
+                print(DATABASE_PATH)
+                break
+        f = open("./initialisation", 'w')
+        f.writelines([DATABASE_PATH + '\n',DATA_PATH + '\n',TEMP_PATH + '\n'])
+        f.close()
+        window.close()
+
+    # mise en place de la fenetre principale
+    ia = tools.MachineLearningTechnique()
+    print(DATA_PATH)
+    ia.load(DATA_PATH)
+
     window = sg.Window('Application d\'IA', layout, element_justification='center', font='16', resizable=True)
     fig_canvas_agg = None
     name = None
@@ -145,7 +187,7 @@ if __name__ == '__main__':
     while True:
         event, values = window.read()
         # quitter l'application
-        if event in (sg.WIN_CLOSED, 'Cancel'):
+        if event in (sg.WIN_CLOSED, 'Quitter'):
             break
         # affichage des courbes
         if event == 'Ok':
@@ -170,17 +212,14 @@ if __name__ == '__main__':
             line = checkEntries(values)
             if line is None:
                 continue
+            # trouver le numéro du nouveau fichier
             # ajout à la base de donnée et enregistrement des fichier traitées
             file.write(line)
-            data.df['values'].to_csv(DATA_PATH)
-
-    # fermeture du programme
-
-    # on libere le descripteur de fichier de la base de sonnée
+            data.df['values'].to_csv(DATA_PATH + name + '.csv')
+            # on vide tous les champs pour montrer que le changement est pris en compte
+            for key in keys_to_clear:
+                window[key]('')
+    # on libère le descripteur de fichier de la base de sonnée
     file.close()
-    """# suppression des fichiers temporaires
-    files = os.listdir('./temp')
-    for file in files:
-        os.remove(join('./temp/', file))"""
     # fermeture de la fenetre
     window.close()

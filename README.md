@@ -19,6 +19,11 @@ Pour faciliter la mise en place du machine learning, les dossiers [test](data/te
 Pour installer les dépendances de ce projet, il faut executer la commmande `pip install requirement.txt` ou `conda install requirement.txt` pour un environnment anaconda. <br>
 Pour la génération de graphiques et leur insertion dans les pdf préalablement il faut utiliser la commande suivante `conda install -c plotly plotly-orca`. Cela est utile pour lancer le fichier main mais ce n'est pas obligatoire pour utiliser les autre fichiers python ou les notebooks.
 
+Au premier lancement du programme `main`, il sera demander d'indiquer plusieurs chemins. Pour utiliser la base de donnée présente sur ici les chemins seront les suivants :
+- Base de donnée : [data/all_data_transformed/database.csv](data/all_data_transformed/database.csv)
+- Dossier contenant les chromatogrammes : [data/all_data_transformed](data/all_data_transformed)
+- Dossier de fichier temporaires : un nouveau dossier vide (par exemple appelé temp).
+
 ## Fonctionnement
 
 La classification des données de GCMS en deux classes (normaux/ non normaux) se fait en plusieurs étapes, détaillées dans le [rapport](report/rapport_de_stage_levarlet).

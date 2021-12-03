@@ -382,12 +382,13 @@ def getData(file_path : str, db_path : str, binary : bool = True):
     lostFiles = 0
     for i in range(n):
         # chaque ligne correspond aux valeurs au cours du temps du chromatogramme
+        file_name = str(files[i])
         try:
-            result = readAndAdaptDataFromCSV(db_path, files[i]).df['values'].to_numpy()
+            result = readAndAdaptDataFromCSV(db_path, file_name).df['values'].to_numpy()
             X[i, :] = result[:ENTRY_SIZE]
         except ReadDataException as e:
             if verbose :
-                print("Erreur sur le fichier : ", files[i], "message : ", e)
+                print("Erreur sur le fichier : ", file_name, "message : ", e)
             lostFiles += 1
     if verbose :
         print('Nombre de fichiers perdus : ', lostFiles)
@@ -422,12 +423,13 @@ def getDataTransformed(file_path : str, db_path : str, binary : bool = True):
     lostFiles = 0
     for i in range(n):
         # chaque ligne correspond aux valeurs au cours du temps du chromatogramme
+        file_name = str(files[i])
         try:
-            result = pd.read_csv(join(db_path,files[i] + '.csv'))['values'].to_numpy()
+            result = pd.read_csv(join(db_path,file_name + '.csv'))['values'].to_numpy()
             X[i, :] = result[:ENTRY_SIZE]
         except FileNotFoundError as e:
             if verbose :
-                print("Erreur sur le fichier : ", files[i], "message : ", e)
+                print("Erreur sur le fichier : ", file_name, "message : ", e)
             lostFiles += 1
     if verbose :
         print('Nombre de fichiers perdus : ', lostFiles)

@@ -1,5 +1,7 @@
 scipy
-sklearn
+scikit-learn
+seaborn
+matplotlib
 pysimplegui
 plotly
 pandas
@@ -8,3 +10,4 @@ auto-py-to-exe
 fpdf
 psutil
 requests
+jupyter notebook

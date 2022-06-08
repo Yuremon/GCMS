@@ -18,7 +18,7 @@ Pour faciliter la mise en place du machine learning, les dossiers [test](data/te
 
 ## Installation
 
-Pour installer les dépendances de ce projet, il faut exécuter la commande `pip install requirement.txt` ou `conda install requirement.txt` pour un environnement anaconda. <br>
+Pour installer les dépendances de ce projet, il faut exécuter la commande `pip install requirements.txt` ou `conda env create -f environment.yml` pour un environnement anaconda. <br>
 Pour la génération de graphiques et leur insertion dans les PDF préalablement il faut utiliser la commande suivante `conda install -c plotly plotly-orca`. Cela est utile pour lancer le fichier main, mais ce n'est pas obligatoire pour utiliser les autres fichiers python ou les notebooks.
 
 Au premier lancement du programme `main`, il sera demander d'indiquer plusieurs chemins. Pour utiliser la base de donnée présente sur ici les chemins seront les suivants :

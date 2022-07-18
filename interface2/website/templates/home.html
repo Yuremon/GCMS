@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Accueil{% endblock %} {% block content
+%}
+<h1 class="mt-4 d-flex justify-content-center" style="color: darkblue;">Page d'accueil</h1>
+
+
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-light mx-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Analyse</h5>
+                <p class="card-text">Ici, vous allez pouvoir exécuter le programme d'Intelligence Artificielle.
+                    Sélectionnez le fichier csv que vous souhaitez analyser et appuyer sur le bouton process afin de lancer l'algorithme de 
+                    détection. Les résultats apparaïtront sur une autre page que se chargera automatiquement.</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small stretched-link" href="/analyse">S'y rendre</a>
+                <div class="small"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-light mx-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Données</h5>
+                <p class="card-text">La page de données permet simplement de visualiser les fichiers csv des patients, ceci peut être fait directement depuis le 
+                    logiciel mais on cherche ici à concentrer les fonctionnalités.</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small stretched-link" href="/datas">S'y rendre</a>
+                <div class="small"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-light mx-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Guide</h5>
+                <p class="card-text">Consultez le guide utilisateur pour obtenir des renseignements supplémentaires sur les méthodes d'utilisation de 
+                    chacune des pages de l'application.</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small stretched-link" href="/guide">S'y rendre</a>
+                <div class="small"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-light mx-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Ajout</h5>
+                <p class="card-text">Cette page permet d'ajouter les données d'un patient à la base d'entrainement du modèle, ce qui va permettre à l'intelligence
+                    artificielle de gagner en précision si nous sommes sûrs du résultat donné sur le patient.</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small stretched-link" href="/ajout">S'y rendre</a>
+                <div class="small"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-light mx-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Statistiques</h5>
+                <p class="card-text">Cet onglet permet d'obtenir des détails concernant la fiabilité de l'algorithme constituant l'intelligence artificielle. 
+                    On peut y retrouver la précision/degrés de confiance accordée selon la base d'entrainement et de test.</p>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small stretched-link" href="/stat">S'y rendre</a>
+                <div class="small"><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg><!-- <i class="fas fa-angle-right"></i> Font Awesome fontawesome.com --></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -314,7 +314,7 @@ def readAndAdaptDataFromCSV(path, name) -> Data:
         raise ReadDataException("Problème de taille sur le chromatogramme : ", len(dt.df))
     return dt
 
-def readAllData(path : str)->list[Data]:
+def readAllData(path : str):#->list[Data]
     """Lecture et traitement de l'ensemble des chromatogrammes presents dans un dossier.
 
     Args:
@@ -330,7 +330,7 @@ def readAllData(path : str)->list[Data]:
         dataList.append(dt)
     return dataList
 
-def readListOfData(files : np.ndarray, path : str)->list[Data]:
+def readListOfData(files : np.ndarray, path : str):#->list[Data]
     """Lecture et traitement de l'ensemble des chromatogrammes presents dans une liste de noms.
     Remarque : les fichiers doivent se trouver dans un même dossier
 
@@ -445,7 +445,7 @@ TIMES = [INTERVAL[0], 8.3, 9.6, 21, 21.4, 24.5, 25.5, 28, 29.6, 30, 31.5, 32, 38
 SECTORS = [[3, 9], [1,5,7], [0,2,4, 8,10, 12], [11, 6]] # indice des zones à échantillonage [[très élévé], [élevé], [moyen], [faible]]
 
 
-def detectSpikes(path : str, molecules : list)->list[float]:
+def detectSpikes(path : str, molecules : list):#->list[float]
     """Détecte les temps de rétention pour chaque molécules.
 
     Args:

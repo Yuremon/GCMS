@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Ajout{% endblock %} 
+{% block css_add%}  <link href="static/css/styles.css" rel="stylesheet" />  {% endblock%}   
+{% block content%}
+
+<h1 class="mt-4 d-flex justify-content-center" style="color: darkblue;">Ajout de données</h1>
+
+    <div class="content" align="center">
+        <h3>Run the AI to see the prediction</h1>
+        <h5>We have a bank of data which was used to train the AI, now select the patient's test you want to analyze, it needs to be selected below before running the algorithms.</h3>
+        Select a file: <input type="file" id="myFile">
+        <a class="button" onclick='processFile()'>Process</a>
+    </div>
+
+{% endblock %}

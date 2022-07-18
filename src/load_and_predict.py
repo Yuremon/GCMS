@@ -22,5 +22,10 @@ dropout_rate2 = 0.15
 
 net = nn.Sequential(nn.Linear(504,256),nn.BatchNorm1d(256),nn.ReLU(), nn.Dropout(dropout_rate1), nn.Linear(256, 256),nn.ReLU(), nn.BatchNorm1d(256), nn.Dropout(dropout_rate2),nn.Linear(256,2), nn.Softmax(dim=1))
 clone = net
-clone.load_state_dict(torch.load('mlp.params'))
+clone.load_state_dict(torch.load('dnp.params'))
 clone.eval()
+
+if __name__ == '__main__':
+    x = torch.normal(0,0.1,size=(1,504))
+    y = predict(net,x)
+    print(y)

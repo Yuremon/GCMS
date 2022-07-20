@@ -7,14 +7,18 @@ import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 from torch.utils.data import DataLoader
 
+test= tools.readAndAdaptDataFromCSV("./data/all-data/","0").df['values'].to_numpy()
+xc = test[:504]
 def predict(net, X):
-    y = net(X)
+    xc = torch.tensor(X, dtype=torch.float32)
+    y = net(xc.view((1,len(X))))
     return y
 
 def result_dict(y):
+    yr = y.view(-1)
     res = {"Normal": 0, "Non normal" : 0}
-    res["Normal"] = y[0]
-    res["Non normal"] = y[1]
+    res["Normal"] = yr[1].item()
+    res["Non normal"] = yr[0].item()
     return res
 
 dropout_rate1 = 0.3
@@ -27,5 +31,5 @@ clone.eval()
 
 if __name__ == '__main__':
     x = torch.normal(0,0.1,size=(1,504))
-    y = predict(net,x)
-    print(y)
+    y = predict(net,xc)
+    print(result_dict(y))

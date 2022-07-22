@@ -50,12 +50,8 @@ if __name__ == '__main__':
     train_iter_6label = DataLoader(d_6label,batch_size=32, shuffle=True,)
     test_iter_6label = DataLoader(test_dataset_6label,batch_size = 128, shuffle=False)
     
-    #tg.train_6label(net_6label,train_iter_6label, test_iter_6label, F.cross_entropy, num_epochs,trainer)
-    i = 0
-    for y in y_train_6label:
-        print("num : "+str(i)+" label: "+y)
-        i += 1
-    
+    tg.train_6label(net_6label,train_iter_6label, test_iter_6label, F.cross_entropy, num_epochs,trainer)
+   
     #tg.train(net,train_iter, test_iter, tg.cross_entropy, num_epochs,trainer)
     #torch.save(net.state_dict(),'dnp.params')
     

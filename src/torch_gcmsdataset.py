@@ -15,17 +15,26 @@ class Accumulator:
     def __getitem__(self,idx):
         return self.data[idx]
 class GCMS_Data(Dataset):
-    def __init__(self, x_train, y_train) -> None:
+    def __init__(self, x_train, y_train, binary = True) -> None:
         super().__init__()
         self.train = x_train
         self.type = y_train
+        self.binary = binary
     def __len__(self):
         return len(self.train)
     def __getitem__(self, index):
-        trainset = (torch.tensor(self.train[index],dtype=torch.float32),torch.tensor(self.type[index]))
-        return trainset
-
-
+        if self.binary:
+            trainset = (torch.tensor(self.train[index],dtype=torch.float32),torch.tensor(self.type[index]))
+            return trainset
+        else:
+            type = torch.zeros(6)
+            if ";" in self.type[index]:
+                for i in self.type[index].split(";") : 
+                    type[int(i)] = 1.
+            else:
+                type[int(self.type[index])] = 1.
+            trainset = (torch.tensor(self.train[index],dtype=torch.float32),type)
+            return trainset
 
 #####fonction
 def dropout_layer(X, rate_dropout):
@@ -170,28 +179,14 @@ def initial_weight(module):
 if __name__ == '__main__':
     path_train = "../data/train/"
     path_test = "../data/test/"
-    X_train_origin, y_train = tools.getDataTransformed(path_train + 'database.csv', path_train)
-    X_test_origin, y_test = tools.getDataTransformed(path_test + 'database.csv', path_test)
-    d = GCMS_Data(X_train_origin, y_train)
+    X_train_origin, y_train = tools.getDataTransformed(path_train + 'database.csv', path_train,binary = False)
+    X_test_origin, y_test = tools.getDataTransformed(path_test + 'database.csv', path_test,binary = False)
+    d = GCMS_Data(X_train_origin, y_train, binary=False)
+    test_dataset = GCMS_Data(X_test_origin,y_test, binary=False)
     train_iter = DataLoader(d,batch_size=32, shuffle=True,)
-    v = 0
-    num_input = 504
-    num_output = 2
-    lr = 0.1
-    w = torch.normal(0,0.01,size=(num_input,num_output),requires_grad=True)
-
-    b = torch.zeros(num_output,requires_grad=True)
-    for x,y in train_iter:
-        '''for i in range(len(x)):
-            print(x[i])
-            print("\n")
-            print(y[i])
-            print("\n")
-            smx = F.softmax(x[i])
-            print(smx)
-            print("\n")
-            print("\n")'''
-        temp = torch.matmul(x,w)+b
+    test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
+    for X,y in test_iter:
+        print("type = ", y)
         
          
         

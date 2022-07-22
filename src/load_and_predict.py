@@ -21,6 +21,19 @@ def result_dict(y):
     res["Non normal"] = yr[0].item()
     return res
 
+def MatrixConfusion_dict():
+    '''
+        true_non_normal : patient non normal qui est prédit non normal
+        false_normal : patient non normal qui est prédit normal
+        false_non_normal : patient normal qui est prédit non normal
+        true_normal : patient normal qui est prédit normal
+    '''
+    res = { "true_non_normal": 0.4744525547445255, 
+            "false_normal":0.0,
+            "false_non_normal": 0.22627737226277372,  
+            "true_normal":0.29927007299270075 }
+    return res
+
 dropout_rate1 = 0.3
 dropout_rate2 = 0.15
 

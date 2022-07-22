@@ -137,7 +137,9 @@ def train(net, train_iter, test_iter, loss, num_epochs, updater):
     print(test_acc)
     print("\n")
     
-
+def train_6label(net, train_iter, test_iter, loss, num_epochs, updater):
+    for epoch in range(num_epochs): 
+        train_epoch(net, train_iter, loss, updater)
 
 
 def K_fold_data(k, i, x, y):

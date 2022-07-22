@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 from torch.utils.data import DataLoader
 
-test= tools.readAndAdaptDataFromCSV("./data/all-data/","0").df['values'].to_numpy()
+test= tools.readAndAdaptDataFromCSV("./data/all-data/","10").df['values'].to_numpy()
 xc = test[:504]
 def predict(net, X):
     xc = torch.tensor(X, dtype=torch.float32)
@@ -33,3 +33,9 @@ if __name__ == '__main__':
     x = torch.normal(0,0.1,size=(1,504))
     y = predict(net,xc)
     print(result_dict(y))
+    print("matrix test\n")
+    path_test = "./data/test/"
+    X_test_origin, y_test = tools.getDataTransformed(path_test + 'database.csv', path_test)
+    test_dataset = tg.GCMS_Data(X_test_origin,y_test)
+    test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
+    print(tg.Evaluate_Matrix_Confusion(clone, test_iter))

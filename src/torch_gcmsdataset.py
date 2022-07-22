@@ -70,7 +70,36 @@ def evaluate_accuracy(net, data_iter):
     for X,y in data_iter:
         metric.add(accuracy(net(X),y),y.numel())
     return metric[0]/metric[1]
- 
+
+def Precision_Recall(y_hat, y):
+    '''
+                            Prédiction
+    actu-     true_non_normal   |  false_normal
+    al        false_non_normal      |  true_normal
+    '''
+    if len(y_hat.shape)>1 and y_hat.shape[1]>1:
+        actual_normal = (y > 0).nonzero().numel()
+        actaul_non_normal = y.numel()-actual_normal
+        y_hat = y_hat.argmax(axis=1) 
+        cmp = y_hat.type(y.dtype) == y # accuracy 
+        cmpn = y_hat.type(y.dtype) == torch.zeros_like(y) # nombre non normal de prédiction
+        res_non_normal = cmp == cmpn #prédit vraiement non normal  
+        
+        true_non_normal = float(res_non_normal.type(y.dtype).sum())
+        false_normal = actaul_non_normal - true_non_normal
+        true_normal = float(cmp.type(y.dtype).sum())-true_non_normal
+        false_non_normal = actual_normal - true_normal
+        
+    return true_non_normal, false_normal, false_non_normal, true_normal
+
+def Evaluate_Matrix_Confusion(net, data_iter):
+    if isinstance(net, torch.nn.Module):
+        net.eval()
+    metric = Accumulator(5)
+    for X,y in data_iter:
+        true_non_normal, false_normal, true_normal, false_non_normal = Precision_Recall(net(X),y)
+        metric.add(true_non_normal, false_normal, true_normal, false_non_normal, y.numel())
+    return metric[0]/metric[4], metric[1]/metric[4], metric[2]/metric[4], metric[3]/metric[4]
  
 def train_epoch(net, train_iter, loss, updater):
     if isinstance(net, torch.nn.Module):

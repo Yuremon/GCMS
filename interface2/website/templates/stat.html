@@ -1,9 +1,65 @@
 {% extends "base.html" %} {% block title %}Statistiques{% endblock %} 
 {% block css_add%}  <link href="static/css/styles.css" rel="stylesheet" />  {% endblock%}   
 {% block content%}
+<style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 80%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customers tr:nth-child(even){background-color: #ffffff;}
+    
+    #customers tr:hover {background-color: rgb(255, 255, 255);}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #c2c2c2;
+      color: rgb(0, 0, 0);
+    }
+    </style>
 
 <h1 class="mt-4 d-flex justify-content-center" style="color: darkblue;">Statistiques</h1>
+<div class="content" align="center">
+    <h3><i>Degrés de précision de l'entrainement</i></h3>
+    <br>
+    Cette matrice nous donne des résultats sur la précision du modèle d'entrainement.<br>
+    Ces données sont initialement connues on peut donc comparer les résultats réels avec les prédictions établies par l'intelligence artificielle.<br>
+    L'échantillon de test se compose de 137 données.<br>
+    <br>
+    <table id="customers">
+        <tr>
+        <th></th>
+        <td>Patient avec métabolisme non-normal</td>
+        <td>Patient avec métabolisme normal</td>
+        <td>Total</td>
+        </tr>
+        <tr>
+        <td>Prédiction de l'IA non-normale</td>
+        <td bgcolor="#77D354">47,44%</td>
+        <td bgcolor="#FF8774">22,63%</td>
+        <td>67,70%</td>
+        </tr>
+        <tr>
+        <td>Prédiction de l'IA normale</td>
+        <td bgcolor="#FF8774">0%</td>
+        <td bgcolor="#77D354">29,93</td>
+        <td>100%</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>100%</td>
+            <td>56,94%</td>
+            <td>77,37%</td>
+        </tr>
 
-    
-
+    </table>
+</div>
 {% endblock %}

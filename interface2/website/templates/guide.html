@@ -5,25 +5,41 @@
 <h1 class="mt-4 d-flex justify-content-center" style="color: darkblue;">Guide d'utilisation du site</h1>
 <br>
 <div class="content" align="center">
-    <h3><i>Guide de la page de données</i></h3>
-    Cette page n'est pour l'instant qu'une page d'affichage des données voici les explications qui permettent de l'utiliser correctement.<br>
-    Premièrement, il est impératif de disposer d'un fichier csv pour pouvoir le visualiser, pour se faire, ouvrez le logiciel de traitement puis 
-    allez dans vos fichiers locaux en suivant le chemin suivant   D:\METABO\Data<br>
-    Allez ensuite dans le dossier correspondant au patient recherché puis sélectionnez un fichier xms.<br>
-    Une fois ce fichier ouvert cliquez en haut gauche sur File --> Export --> Active chromatogram --> ASCII File<br>
-    Vous venez de créer un fichier csv qui sera utilisable sur ce site/logiciel.<br>
-    Retournez à présent sur le page de données, sélectionnez le bouton "Choisir le fichier" puis transférer le fichier csv que vous venez de créer.<br>
-    Appuyez finalement sur le bouton "Process" vous pouvez faire que le tableau s'affiche proprement au dessous de la page.<br>
-    Si vous désirez visualisez un nouveau fichier il faudra néanmoins rechargez la page avant de répétez les actions précédentes.<br>
-    <br>
-    <h3><i>Guide de la page d'analyse</i></h3>
+    <h3><i>Ce guide est destiné à l'utilisation de la page d'analyse</i></h3>
     Ici vous allez pouvoir analyser le résultat que l'intelligence articielle a établi sur votre fichier patient.<br>
-    L'utililisation de cette page est relativement similaire à celle de la page de données, il suffit de sélectionner le fichier csv correspondant 
-    puis de cliquez sur le bouton "Process".<br>
-    Se référer au guide de la page de données si vous ne trouvez pas le fichier csv recherché.<br>
     <br>
-    <h3><i>Guide de la page d'ajout</i></h3>
-    Cette page permet l'ajout d'une donnée à un dossier particulier, le dossier d'entrainement du système de l'intelligence artificielle.
+    La page Analyse se décompose en plusieurs parties intéressantes :<br>
+    1) Un premier bouton "Choisir le fichier" pour importer le fichier du type nom-chromatogram.csv<br>
+    2) Un second bouton "Choisir le fichier" pour importer le fichier du type nom-ms.csv<br>
+    3) Un bouton "Analyser" qui permet l'exécution de l'algorithme et l'affichage des résultats<br>
+    <br>
+    <h3><i>Étape 1 : Créer le fichier nom-chromatogram.csv</i></h3>
+    Premièrement, il est impératif de disposer d'un fichier csv pour pouvoir le visualiser, pour se faire, ouvrez le logiciel de traitement Brucker MSWS puis 
+    sélectionnez le bouton "Data Process"<br>
+    <img src="../static/assets/img/Pic4.png" alt="Pic4" width="40%"><br>
+    Allez ensuite dans le dossier correspondant au patient recherché puis suivez cette étape :<br>
+    Cliquez en haut à gauche sur File --> Export --> Active chromatogram --> ASCII File<br>
+    <img src="../static/assets/img/Pic5.png" alt="Pic4" width="40%"><br>
+    Vous venez de créer un fichier csv qui sera utilisable sur ce site.<br>
+    Conservez le bien à un endroit dont vous vous rappelerez.<br>
+    <h3><i>Étape 2 : Créer le fichier nom-ms.csv</i></h3>
+    Pour effectuer les analyses, nous avons besoin d'un second document concernant le même patient, voici le tuto pour l'obtenir :<br>
+    Ouvrez le logiciel Brucker MSWS puis sélectionnez le bouton "Report".<br>
+    <img src="../static/assets/img/Pic1.png" alt="Pic1" width="40%"><br>
+    Puis le bouton "MS Report".<br>
+    <img src="../static/assets/img/Pic2.png" alt="Pic2" width="40%"><br>
+    Une nouvelle fenêtre va s’ouvrir, sélectionnez le fichier du patient que vous désirez convertir puis appuyez sur le bouton Open File en bas de la fenêtre.<br>
+    Un nouveau fichier se génère mais il n’est toujours pas au bon format.<br>
+    Il faut donc le convertir, en suivant les étapes de la photo suivante.<br>
+    <img src="../static/assets/img/Pic3.png" alt="Pic3" width="40%"><br>
+    Il ne vous reste plus qu’à enregistrer le fichier à l’endroit souhaité, il est préférable de le mettre au même endroit que le fichier créer lors de l'étape 1.
+    <h3><i>Étape 3 : L'analyse</i></h3>
+    Vous allez maintenant pouvoir vous rendre sur la page "Analyse du site".<br>
+    Sur le premier bouton, allez sélectionner le fichier nom-chromatogram créé lors de l'étape 1.<br>
+    Sur le second bouton, allez sélectionner le fichier nom-ms créé lors de l'étape 2.<br>   
+    Votre page devrait à présent ressembler à ça : <br>
+    <img src="../static/assets/img/anal.png" alt="Pic3" width="40%" border="5px"><br>
+    Il ne reste plus qu'à appuyer sur le bouton "Analyser" et l'algorithme va faire le reste.
 </div>
 
 {% endblock %}

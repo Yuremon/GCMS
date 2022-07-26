@@ -460,7 +460,7 @@ def detectSpikes(path : str, molecules : list):#->list[float]
     """
     # mise en place du DataFrame
     try:
-        df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2])
+        df = pd.read_csv(path, header=None, skiprows=range(17), usecols=[1,2], encoding="ISO-8859-1")
     except FileNotFoundError:
         raise ReadDataException("Impossible de lire le fichier : " + path)
     

@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 from torch.utils.data import DataLoader
 
-class regression(nn.Module):
+class NormalMeanVar(nn.Module):
     def __init__(self, num_input) -> None:
         super().__init__()
         self.mean = Parameter(torch.normal(0,0.1,size=(1,num_input)))
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     train_iter = DataLoader(d,batch_size=32, shuffle=True,)
     test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
     
-    net = regression(504)
+    net = NormalMeanVar(504)
     trainer = torch.optim.Adagrad(net.parameters(), lr = 0.1)
     train(net, train_iter,square_loss,20, trainer)
     print(net.state_dict())

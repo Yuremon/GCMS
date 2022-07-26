@@ -6,23 +6,6 @@ import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 from torch.utils.data import DataLoader
 
-class DNP(nn.Module):
-    def __init__(self, num_input, hide_num) -> None:
-        super().__init__()
-        self.weights = Parameter(torch.zeros((num_input, hide_num), requires_grad=True))
-        self.mask = Parameter(torch.zeros(num_input))
-    def forward(self, X):
-        return X*self.weights
-    def add_feature(self, index):
-        self.mask[index] = 1.
-        self.weights = self.weights*self.mask
-    def maxgradindex(self):
-        grads = self.weights.grad
-#net.state_dict()
-#torch.save(net.state_dict(),'mlp.params')
-#clone = net2 
-#clone.load_state_dict(torch.load('mlp.params'))
-#clone.eval
 dropout_rate1 = 0.3
 dropout_rate2 = 0.15
 num_epochs = 15
@@ -51,10 +34,8 @@ if __name__ == '__main__':
     test_iter_6label = DataLoader(test_dataset_6label,batch_size = 128, shuffle=False)
     
     tg.train_6label(net_6label,train_iter_6label, test_iter_6label, F.cross_entropy, num_epochs,trainer)
-   
+    
     #tg.train(net,train_iter, test_iter, tg.cross_entropy, num_epochs,trainer)
     #torch.save(net.state_dict(),'dnp.params')
+
     
-    #使用注意力机制去拟合函数504的散点函数 三维 index -> 均值方差
-    #网络504 -> 6 
-    #网络 6-> 2

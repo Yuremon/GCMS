@@ -14,10 +14,10 @@ type = torch.tensor([[1.,0.,0.,0.,0.,0.],[0.,1.,1.,0.,0.,1.]])
 
 F.cross_entropy(y_pre, type)
 
-prenet = tpt.regression(504)
-prenet.load_state_dict(torch.load("regression.params"))
-print(prenet.state_dict())
-prenet.eval()
+#prenet = tpt.regression(504)
+#prenet.load_state_dict(torch.load("regression.params"))
+#print(prenet.state_dict())
+#prenet.eval()
 dropout_rate1 = 0.3
 dropout_rate2 = 0.15
 num_epochs = 20
@@ -49,15 +49,34 @@ def test_train(prenet, net, train_iter, test_iter, loss, num_epochs, updater):
     print("\n")
     
     
+n_train = 50
+x_train, _ = torch.sort(torch.rand(n_train)*5)
+
+class NWRegression(nn.Module):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+    
+def f(x):
+    return 2*torch.sin(x)+x**0.8
+
+y_train = f(x_train) + torch.normal(0.0, 0.5, (n_train,))
+x_test = torch.arange(0, 5, 0.1)
+y_truth = f(x_test)
+n_test = len(x_test)
 if __name__ == '__main__': 
-    path_train = "./data/train/"
-    path_test = "./data/test/"
-    X_train_origin, y_train = tools.getDataTransformed(path_train + 'database.csv', path_train)
-    X_test_origin, y_test = tools.getDataTransformed(path_test + 'database.csv', path_test)
-    d = tg.GCMS_Data(X_train_origin, y_train)
-    test_dataset = tg.GCMS_Data(X_test_origin,y_test)
-    train_iter = DataLoader(d,batch_size=32, shuffle=True,)
-    test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
-    trainer = torch.optim.Adagrad(net.parameters(), lr = 0.1)
-    test_train(prenet, net,train_iter, test_iter, tg.cross_entropy, num_epochs,trainer)
+    y_hat = torch.repeat_interleave(y_train.mean(), n_test)
+    
+    X_repeat = x_test.repeat_interleave(n_train).reshape((-1, n_train))
+    
+    
+    #path_train = "./data/train/"
+    #path_test = "./data/test/"
+    #X_train_origin, y_train = tools.getDataTransformed(path_train + 'database.csv', path_train)
+    #X_test_origin, y_test = tools.getDataTransformed(path_test + 'database.csv', path_test)
+    #d = tg.GCMS_Data(X_train_origin, y_train)
+    #test_dataset = tg.GCMS_Data(X_test_origin,y_test)
+    #train_iter = DataLoader(d,batch_size=32, shuffle=True,)
+    #test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
+    #trainer = torch.optim.Adagrad(net.parameters(), lr = 0.1)
+    #test_train(prenet, net,train_iter, test_iter, tg.cross_entropy, num_epochs,trainer)
     

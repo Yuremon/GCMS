@@ -1,14 +1,14 @@
 
-import tools
-import torch_gcmsdataset as tg
+import src.tools
+import src.torch_gcmsdataset as tg
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 from torch.utils.data import DataLoader
 
-test= tools.readAndAdaptDataFromCSV("./data/all-data/","10").df['values'].to_numpy()
-xc = test[:504]
+#test= src.tools.readAndAdaptDataFromCSV("../data/all-data/","10").df['values'].to_numpy()
+#xc = test[:504]
 def predict(net, X):
     xc = torch.tensor(X, dtype=torch.float32)
     y = net(xc.view((1,len(X))))
@@ -59,9 +59,9 @@ net_mv = nn.Sequential(tg.NormalMeanVar(504),nn.Tanh())
 net_label = nn.Sequential(nn.Linear(504,256),nn.BatchNorm1d(256),nn.ReLU(), nn.Dropout(dropout_rate1), nn.Linear(256, 128),nn.BatchNorm1d(128),nn.ReLU(),  nn.Dropout(dropout_rate2),nn.Linear(128,6),nn.Sigmoid())
 net_type = nn.Sequential(net_label, nn.Linear(6,2), nn.Softmax(dim=1))  
 
-net_mv.load_state_dict(torch.load('Parametre_net/netvm.params'))
-net_label.load_state_dict(torch.load('Parametre_net/netlabel.params'))
-net_type.load_state_dict(torch.load('Parametre_net/nettype.params'))
+net_mv.load_state_dict(torch.load('../Parametre_net/netvm.params'))
+net_label.load_state_dict(torch.load('../Parametre_net/netlabel.params'))
+net_type.load_state_dict(torch.load('../Parametre_net/nettype.params'))
 netforlabel = nn.Sequential(net_mv, net_label)
 netfortype = nn.Sequential(net_mv, net_type)
 netforlabel.eval()
@@ -69,8 +69,18 @@ netfortype.eval()
 #clone = net
 #clone.load_state_dict(torch.load('dnp.params'))
 #clone.eval()
+def calcul(path, name):
+    x = src.tools.readAndAdaptDataFromCSV(path, name).df['values'].to_numpy()
+    xc = x[:504]
+    y = predict(netfortype,xc)
+    y2 = predict(netforlabel,xc)
 
+    labels6 = Label_dict(y2)
+    type_patient = result_dict(y)
 
+    return type_patient, labels6
+
+    
 if __name__ == '__main__':
     x = torch.normal(0,0.1,size=(1,504))
     y = predict(netfortype,xc)

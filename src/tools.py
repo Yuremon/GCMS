@@ -5,7 +5,7 @@ from scipy.signal import butter, filtfilt
 from os import listdir
 from os.path import join
 from sklearn.metrics import plot_roc_curve, classification_report
-from confusion_matrix.confusion_matrix import plot_confusion_matrix_from_data
+from src.confusion_matrix.confusion_matrix import plot_confusion_matrix_from_data
 import joblib
 
 verbose = False

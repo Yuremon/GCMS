@@ -1,30 +1,6 @@
 {% extends "base.html" %} {% block title %}Analyse{% endblock %} 
 {% block css_add%}  <link href="static/css/styles.css" rel="stylesheet" />  {% endblock%}   
 {% block content%}
-<style>
-    .button {
-      display: inline-block;
-      padding: 15px 25px;
-      font-size: 24px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      outline: none;
-      color: #fff;
-      background-color: #0e00d3;
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 9px #999;
-    }
-    
-    .button:hover {background-color: #0011ac}
-    
-    .button:active {
-      background-color: #00127a;
-      box-shadow: 0 5px #666;
-      transform: translateY(4px);
-    }
-    </style>
 
 <h1 class="mt-4 d-flex justify-content-center" style="color: darkblue;">Analyse Chromatographique</h1>
 
@@ -46,9 +22,12 @@
           <input type=submit value=Analyser>
         </form>
         <br>
-        <h5>{{rep}}</h5>
+        <h5>{{text1}}</h5>
+        <h5 style="color: rgba(141, 0, 0, 0.795);">{{rep}}</h5><br>
         <br>
-        <img src="../static/assets/img/plotdf.png" alt="plot" width="60%">
+        <h5>{{text2}}</h5>
+        <h5 style="color: rgba(141, 0, 0, 0.795);">{{label}}</h5>
+        <br>
         <script src="static/js/analyse.js"></script>
     </div>
 

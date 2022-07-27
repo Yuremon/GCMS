@@ -9,12 +9,14 @@ import matplotlib.pyplot as plt
 import PySimpleGUI as sg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-import sys
+import subprocess, sys
 sys.path.append(os.path.normpath(os.getcwd() + os.sep + os.pardir))
 from src import load_and_predict as lp
 from src import tools
 
 ALLOWED_EXTENSIONS = {'csv'}
+
+
 
 layout = [
     [sg.Text("Interpretation des chromatogrammes")],
@@ -122,10 +124,14 @@ def home():
 
 @views.route('/analyse', methods=['GET','POST'])
 def analyse():
+    path2 = "../static/assets/img/plotdf.png"
     fig_canvas_agg = None
     res2=0
     rep="Exemple de ce que vous devriez voir après avoir effectuer l'analyse"
     res1=0
+    label=""
+    text1=""
+    text2=""
     if request.method == 'POST':
         
         #Récupération du fichier -chromatogram.csv
@@ -170,9 +176,9 @@ def analyse():
             #Maintenant on cherche à connecter le script load_and_predict
             res1 = file1.filename  
             
+        #A cet instant les fichiers -chromatogram et -ms sont enregistrer dans savings
             
-            
-        rep = lp.calcul(upload_path, str(nowtime))
+        rep, label = lp.calcul(upload_path, str(nowtime))
 
 
         #Boucle pour les graphiques + pdf
@@ -183,13 +189,16 @@ def analyse():
             if df is not None and data is not None:
                 fig_canvas_agg = plot(df,data)
                 pdf_name = join(path,name)+'.pdf'
-                createPdf(pdf_name,name,df,data, data.problemsDescription() if data.problemsDescription() != '' else "aucun problème détecté", str(rep))
+                createPdf(pdf_name,name,df,data, data.problemsDescription() if data.problemsDescription() != '' else "pas de problème connu détecté", str(rep))
                 # ouverture du pdf
+                opener = "open" if sys.platform == "darwin" else "xdg-open"
+                subprocess.call([opener, pdf_name])
                 #os.startfile(pdf_name)
-                return render_template("analyse.html", rep=rep)
-            window.close()    
+                text1 = "Voici les probabilités trouvées par l'IA concernant la normalité du chromatogramme :"
+                text2 = "Une classification plus générale selon les types de maldies possible a également été calculé :"
 
-    return render_template("analyse.html", rep=rep)
+        
+    return render_template("analyse.html", rep=rep, label=label, path=path2, text1=text1, text2=text2)
 
 @views.route('/guide')
 def guide():

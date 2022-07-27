@@ -1,4 +1,5 @@
 from random import shuffle as r_shuffle
+from turtle import forward
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
@@ -11,12 +12,19 @@ import numpy as np
 class NormalMeanVar(nn.Module):
     def __init__(self, num_input) -> None:
         super().__init__()
-        self.mean = Parameter(torch.normal(0,0.1,size=(1,num_input)))
-        self.var = Parameter(torch.ones((1,num_input)))
+        self.mean = Parameter(torch.normal(0,0.1,size=(1,num_input),requires_grad=True))
+        self.var = Parameter(torch.ones((1,num_input),requires_grad=True))
     def forward(self, X):
+        self.mean = Parameter(F.relu(self.mean))
         res = (X-self.mean)/(self.var + 1e-5)
         return res
-  
+class MinusOneRelu(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.rl = F.relu
+    def forward(self, X):
+        return self.rl(X-1)
+        
 class Accumulator:
     def __init__(self,n) -> None:
         self.data = [0.0]*n
@@ -26,6 +34,8 @@ class Accumulator:
         self.data = [0.0]*len(self.data)
     def __getitem__(self,idx):
         return self.data[idx]
+    
+    
 class GCMS_Data(Dataset):
     def __init__(self, x_train, y_train, binary = True) -> None:
         super().__init__()
@@ -74,7 +84,10 @@ def cross_entropy(y_hat,y):
     return -torch.log(y_hat[range(len(y_hat)),y])#-torch.log(y_hat[y])#
  
 def square_loss(X, y):
-    return 0.5*torch.square(X)/X.shape[1]
+    return F.mse_loss(X, torch.zeros_like(X))
+def cross_entropy504(x,y):
+    y_pics = torch.zeros_like(x)
+    return F.cross_entropy(x, y_pics)
 
 def accuracy(y_hat,y):
     '''
@@ -180,6 +193,7 @@ def train(net, train_iter, test_iter, loss, num_epochs, updater):
 def train_6label(net, train_iter, test_iter, loss, num_epochs, updater):
     for epoch in range(num_epochs): 
         train_epoch(net, train_iter, loss, updater)
+        #print(net.state_dict())
 
 
 def K_fold_data(k, i, x, y):
@@ -251,13 +265,14 @@ if __name__ == '__main__':
     xmv = X_train[index2]
     ymv = y_train[index2]
     netmv = NormalMeanVar(504)
-    trainer1 = torch.optim.SGD(netmv.parameters(), lr = 0.1, momentum=momentum)
-    k_fold_train(netmv, k, xmv, ymv, square_loss, epochs, trainer1, train_6label)
+    trainer1 = torch.optim.SGD([{"params":netmv.mean},{"params": netmv.var, 'weight_decay': 1e-4}], lr = 0.01, momentum=momentum)
+    k_fold_train(netmv, k, xmv, ymv, square_loss, 2*epochs, trainer1, train_6label)
+    print(netmv.state_dict())
     #test_dataset = GCMS_Data(X_test_origin,y_test, binary=False)
     #d = GCMS_Data(X_train, y_train, binary=False)
     #train_iter = DataLoader(d,batch_size=32, shuffle=True,)
     #test_iter = DataLoader(test_dataset,batch_size = 128, shuffle=False)
-    prenet1 = nn.Sequential(netmv,nn.Tanh())
+    prenet1 = netmv
     
     dropout_rate1 = 0.5
     dropout_rate2 = 0.3
@@ -266,15 +281,15 @@ if __name__ == '__main__':
     trainer2 = torch.optim.SGD(net_label.parameters(),weight_decay=wd, lr = lr, momentum=momentum)
     k_fold_trainstep(prenet1, net_label, k, X_train_label, y_train_label, F.cross_entropy, epochs, trainer2, False)
     
-    #prenet2 = nn.Sequential(prenet1, net_label)
-    net_type = nn.Sequential(net_label, nn.Linear(6,2), nn.Softmax(dim=1))
+    prenet2 = nn.Sequential(prenet1, net_label)
+    net_type = nn.Sequential(nn.Linear(6,2), nn.Softmax(dim=1))
     net_type.apply(initial_weight)
-    trainer3 = torch.optim.SGD(net_type.parameters(),weight_decay=wd, lr = 0.0006, momentum=momentum)
-    k_fold_trainstep(prenet1, net_type, k, X_train, y_train, F.cross_entropy, epochs, trainer3, True, evaluate=True)
-    #torch.save(prenet1.state_dict(),'Parametre_net/netvm.params')
-    #torch.save(net_label.state_dict(),'Parametre_net/netlabel.params')
-    #torch.save(net_type.state_dict(),'Parametre_net/nettype.params')
-
+    trainer3 = torch.optim.SGD(net_type.parameters(),weight_decay=wd, lr = 0.001, momentum=momentum)
+    k_fold_trainstep(prenet2, net_type, k, X_train, y_train, F.cross_entropy, epochs, trainer3, True, evaluate=True)
+    torch.save(prenet1.state_dict(),'Parametre_net/netvm.params')
+    torch.save(net_label.state_dict(),'Parametre_net/netlabel.params')
+    torch.save(net_type.state_dict(),'Parametre_net/nettype.params')
+    
          
         
         

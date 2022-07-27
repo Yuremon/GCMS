@@ -53,17 +53,21 @@ def MatrixConfusion_dict():
             "true_normal":0.43795620437956206 }
     return res
 
+path_net_mv = '../Parametre_net/netvm.params'
+path_net_label = '../Parametre_net/netlabel.params'
+path_net_type = '../Parametre_net/nettype.params'
+
 dropout_rate1 = 0.5
 dropout_rate2 = 0.3
-net_mv = nn.Sequential(tg.NormalMeanVar(504),nn.Tanh())
+net_mv = tg.NormalMeanVar(504)
 net_label = nn.Sequential(nn.Linear(504,256),nn.BatchNorm1d(256),nn.ReLU(), nn.Dropout(dropout_rate1), nn.Linear(256, 128),nn.BatchNorm1d(128),nn.ReLU(),  nn.Dropout(dropout_rate2),nn.Linear(128,6),nn.Sigmoid())
-net_type = nn.Sequential(net_label, nn.Linear(6,2), nn.Softmax(dim=1))  
+net_type = nn.Sequential(nn.Linear(6,2), nn.Softmax(dim=1))  
 
-net_mv.load_state_dict(torch.load('../Parametre_net/netvm.params'))
-net_label.load_state_dict(torch.load('../Parametre_net/netlabel.params'))
-net_type.load_state_dict(torch.load('../Parametre_net/nettype.params'))
+net_mv.load_state_dict(torch.load(path_net_mv))
+net_label.load_state_dict(torch.load(path_net_label))
+net_type.load_state_dict(torch.load(path_net_type))
 netforlabel = nn.Sequential(net_mv, net_label)
-netfortype = nn.Sequential(net_mv, net_type)
+netfortype = nn.Sequential(net_mv, net_label, net_type)
 netforlabel.eval()
 netfortype.eval()
 #clone = net

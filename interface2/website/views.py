@@ -47,7 +47,7 @@ class PDF(FPDF):
         self.set_xy(30.0, 20.0 + 90.0 * number)
         self.image(plot,  link='', type='', w=150, h=160)
 
-def createPdf(pdf_name,name, df, data, ruleBasedText, IaText):
+def createPdf(pdf_name,name, df, data, ruleBasedText, IaText, IaText2):
     """Creation du pdf"""
     basePath = os.path.dirname(__file__)
     upload_path = os.path.join(basePath, 'static/assets/img')
@@ -58,7 +58,8 @@ def createPdf(pdf_name,name, df, data, ruleBasedText, IaText):
     pdf.insert_title(name)
     pdf.insert_charts(TEMP_PATH+'/plotdf.png',0)
     pdf.insert_text("Résultat de l'intelligence artificielle : \n" + IaText,0)
-    pdf.insert_text("Détection de pics : \n" + ruleBasedText,1)
+    pdf.insert_text("\nPlus de précision sur les résultats : \n"+ IaText2,1)
+    pdf.insert_text("\n \n \n \nDétection de pics : \n" + ruleBasedText,2)
     # export du pdf
     pdf.output(pdf_name,'F').encode('latin-1')
 
@@ -127,10 +128,10 @@ def analyse():
     path2 = "../static/assets/img/plotdf.png"
     fig_canvas_agg = None
     res2=0
-    rep="Exemple de ce que vous devriez voir après avoir effectuer l'analyse"
+    text1=""
     res1=0
     label=""
-    text1=""
+    rep=""
     text2=""
     if request.method == 'POST':
         
@@ -189,13 +190,13 @@ def analyse():
             if df is not None and data is not None:
                 fig_canvas_agg = plot(df,data)
                 pdf_name = join(path,name)+'.pdf'
-                createPdf(pdf_name,name,df,data, data.problemsDescription() if data.problemsDescription() != '' else "pas de problème connu détecté", str(rep))
+                createPdf(pdf_name,file.filename,df,data, data.problemsDescription() if data.problemsDescription() != '' else "pas de problème connu détecté", str(rep), str(label))
                 # ouverture du pdf
                 opener = "open" if sys.platform == "darwin" else "xdg-open"
                 subprocess.call([opener, pdf_name])
                 #os.startfile(pdf_name)
                 text1 = "Voici les probabilités trouvées par l'IA concernant la normalité du chromatogramme :"
-                text2 = "Une classification plus générale selon les types de maldies possible a également été calculé :"
+                text2 = "Une classification plus générale selon les types de maldies possible a également été calculée :"
 
         
     return render_template("analyse.html", rep=rep, label=label, path=path2, text1=text1, text2=text2)
